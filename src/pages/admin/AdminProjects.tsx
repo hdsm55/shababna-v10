@@ -1,64 +1,126 @@
-import ProtectedRoute from '../../components/ProtectedRoute'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import {
   useProjects,
   useAddProject,
   useDeleteProject,
 } from '../../hooks/useProjects'
+import { Plus, Trash2 } from 'lucide-react'
+import ProtectedRoute from '../../components/ProtectedRoute'
 
-export default function AdminProjects() {
+const AdminProjects = () => {
+  const { t } = useTranslation()
   const { data: projects, isLoading, error } = useProjects()
   const addProject = useAddProject()
   const deleteProject = useDeleteProject()
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const handleAdd = () => {
-    addProject.mutate({
-      title: 'مشروع جديد',
-      description: 'وصف المشروع',
-    })
+  const filteredProjects = projects?.filter(
+    (project) =>
+      project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.description.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+  const handleAddProject = async () => {
+    try {
+      await addProject.mutateAsync({
+        title: 'New Project',
+        description: 'Project description',
+        category: 'education',
+        status: 'draft',
+      })
+    } catch (error) {
+      console.error('Error adding project:', error)
+    }
+  }
+
+  const handleDeleteProject = async (id: string) => {
+    if (
+      !window.confirm(
+        t(
+          'projects.confirmDelete',
+          'Are you sure you want to delete this project?'
+        )
+      )
+    ) {
+      return
+    }
+
+    try {
+      await deleteProject.mutateAsync(id)
+    } catch (error) {
+      console.error('Error deleting project:', error)
+    }
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (error instanceof Error) {
+    return <div className="text-red-500">{error.message}</div>
   }
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 py-10">
-        <div className="max-w-2xl mx-auto">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-primary">إدارة المشاريع</h1>
-            <button
-              className="btn-primary"
-              onClick={handleAdd}
-              disabled={addProject.isPending}
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold">
+            {t('projects.management', 'إدارة المشاريع')}
+          </h1>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="btn-primary flex items-center gap-2"
+            onClick={handleAddProject}
+            disabled={addProject.isPending}
+          >
+            <Plus className="w-5 h-5" />
+            {t('projects.addNew', 'إضافة مشروع')}
+          </motion.button>
+        </div>
+
+        <div className="mb-6">
+          <input
+            type="text"
+            placeholder={t('projects.search', 'بحث...')}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProjects?.map((project) => (
+            <motion.div
+              key={project.id}
+              className="card-base"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
             >
-              إضافة مشروع
-            </button>
-          </div>
-          {isLoading && <div>جاري التحميل...</div>}
-          {error && <div className="text-red-500">{error.message}</div>}
-          <div className="space-y-4">
-            {projects && projects.length === 0 && <div>لا توجد مشاريع.</div>}
-            {projects &&
-              projects.map((project) => (
-                <div
-                  key={project.id}
-                  className="card-base flex justify-between items-center"
+              <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+              <p className="text-gray-600 mb-4">{project.description}</p>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-500">
+                  {project.category}
+                </span>
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="text-red-500 hover:text-red-600"
+                  onClick={() => handleDeleteProject(project.id)}
+                  disabled={deleteProject.isPending}
                 >
-                  <div>
-                    <div className="font-bold text-lg">{project.title}</div>
-                    <div className="text-gray-600 text-sm">
-                      {project.description}
-                    </div>
-                  </div>
-                  <button
-                    className="btn-primary bg-red-600 hover:bg-red-700 ml-4"
-                    onClick={() => deleteProject.mutate(project.id)}
-                    disabled={deleteProject.isPending}
-                  >
-                    حذف
-                  </button>
-                </div>
-              ))}
-          </div>
+                  <Trash2 className="w-5 h-5" />
+                </motion.button>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </ProtectedRoute>
   )
 }
+
+export default AdminProjects

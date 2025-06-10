@@ -131,6 +131,10 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         </Card>
+
+        <motion.button className="btn-primary">
+          {t('cta.buttons.projects')}
+        </motion.button>
       </div>
     </div>
   )

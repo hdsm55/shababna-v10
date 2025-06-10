@@ -11,7 +11,6 @@ import {
   Mail,
   Phone,
   MapPin,
-  ArrowUp,
   Heart,
   ExternalLink,
 } from 'lucide-react'
@@ -306,17 +305,8 @@ export default function Footer() {
       </div>
 
       {/* Scroll to Top Button */}
-      <motion.button
-        onClick={scrollToTop}
-        className="fixed bottom-8 right-8 bg-primary hover:bg-primary/90 text-white w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center z-50 backdrop-blur-sm"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1 }}
-        aria-label="العودة للأعلى"
-      >
-        <ArrowUp className="w-6 h-6" />
+      <motion.button onClick={scrollToTop} className="btn-primary">
+        {t('cta.buttons.contact')}
       </motion.button>
     </footer>
   )

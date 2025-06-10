@@ -294,6 +294,10 @@ const Users: React.FC = () => {
             </table>
           </div>
         </motion.div>
+
+        <motion.button className="btn-primary">
+          {t('cta.buttons.contact')}
+        </motion.button>
       </div>
     </div>
   )

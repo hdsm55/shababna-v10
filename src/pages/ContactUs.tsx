@@ -277,15 +277,15 @@ const ContactUs: React.FC = () => {
                     {error}
                   </div>
                 )}
-                <button
+                <motion.button
                   type="submit"
-                  className="btn-primary w-full"
+                  className="btn-primary"
                   disabled={status === 'loading'}
                 >
                   {status === 'loading'
-                    ? t('contact.form.sending', 'جاري الإرسال...')
-                    : t('contact.form.submit', 'إرسال')}
-                </button>
+                    ? t('contact.form.sending')
+                    : t('contact.form.submit')}
+                </motion.button>
               </form>
             </motion.div>
           </div>

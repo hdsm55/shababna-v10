@@ -1,0 +1,43 @@
+{
+  "projects": {
+    "learnMore": "اعرف المزيد",
+    "heading": "مشاريعنا",
+    "subheading": "اكتشف مشاريعنا المتنوعة التي تهدف إلى تطوير المجتمع",
+    "title": "عنوان المشروع",
+    "description": "وصف المشروع",
+    "category": "الفئة",
+    "status": "الحالة",
+    "image": "صورة المشروع",
+    "addNew": "إضافة مشروع جديد",
+    "addDescription": "أضف مشروعاً جديداً إلى المنصة",
+    "titleAr": "العنوان بالعربية",
+    "titleEn": "العنوان بالإنجليزية",
+    "titleTr": "العنوان بالتركية",
+    "descriptionAr": "الوصف بالعربية",
+    "descriptionEn": "الوصف بالإنجليزية",
+    "descriptionTr": "الوصف بالتركية",
+    "selectCategory": "اختر الفئة",
+    "categories": {
+      "education": "التعليم",
+      "health": "الصحة",
+      "environment": "البيئة",
+      "technology": "التكنولوجيا"
+    },
+    "statuses": {
+      "draft": "مسودة",
+      "published": "منشور"
+    },
+    "addSuccess": "تم إضافة المشروع بنجاح"
+  },
+  "cta": {
+    "buttons": {
+      "contact": "تواصل معنا",
+      "projects": "مشاريعنا"
+    }
+  },
+  "common": {
+    "error": "حدث خطأ",
+    "saving": "جاري الحفظ...",
+    "save": "حفظ"
+  }
+}

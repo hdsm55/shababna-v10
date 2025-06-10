@@ -3,21 +3,23 @@ import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Lock, Mail, LogIn } from 'lucide-react'
 import { supabase } from '../lib/supabase'
+import { useTranslation } from 'react-i18next'
 
 interface LoginForm {
   email: string
   password: string
 }
 
-export default function Login() {
+const Login = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [formData, setFormData] = useState<LoginForm>({
     email: '',
     password: '',
   })
   const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -25,13 +27,13 @@ export default function Login() {
       ...prev,
       [name]: value,
     }))
-    if (error) setError('')
+    if (error) setError(null)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
-    setError('')
+    setError(null)
+    setIsLoading(true)
 
     try {
       const { data, error: supaError } = await supabase.auth.signInWithPassword(
@@ -40,17 +42,18 @@ export default function Login() {
           password: formData.password,
         }
       )
+
       if (supaError || !data.session) {
-        throw new Error(supaError?.message || 'بيانات تسجيل الدخول غير صحيحة')
+        throw new Error(supaError?.message || 'Authentication failed')
       }
-      // Save session if needed (supabase handles this by default)
+
       navigate('/admin')
-    } catch (err: Error | unknown) {
+    } catch (err) {
       setError(
         err instanceof Error ? err.message : 'حدث خطأ أثناء تسجيل الدخول'
       )
     } finally {
-      setLoading(false)
+      setIsLoading(false)
     }
   }
 
@@ -101,9 +104,11 @@ export default function Login() {
             <LogIn className="w-8 h-8 text-white" />
           </motion.div>
           <h1 className="text-2xl font-tajawal font-bold text-white mb-2">
-            تسجيل الدخول
+            {t('login.title', 'تسجيل الدخول')}
           </h1>
-          <p className="text-white/80 font-almarai">الوصول إلى لوحة التحكم</p>
+          <p className="text-white/80 font-almarai">
+            {t('login.description', 'الوصول إلى لوحة التحكم')}
+          </p>
         </div>
 
         {/* Error Message */}
@@ -124,7 +129,7 @@ export default function Login() {
           {/* Email Field */}
           <div>
             <label className="block text-white/90 font-almarai font-medium mb-2">
-              البريد الإلكتروني
+              {t('login.email', 'البريد الإلكتروني')}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -136,7 +141,7 @@ export default function Login() {
                 value={formData.email}
                 onChange={handleInputChange}
                 className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 pl-10 text-white placeholder-white/50 font-almarai focus:outline-none focus:ring-2 focus:ring-secondary-400 focus:border-transparent"
-                placeholder="admin@shababna.org"
+                placeholder={t('login.email', 'البريد الإلكتروني')}
                 required
               />
             </div>
@@ -145,7 +150,7 @@ export default function Login() {
           {/* Password Field */}
           <div>
             <label className="block text-white/90 font-almarai font-medium mb-2">
-              كلمة المرور
+              {t('login.password', 'كلمة المرور')}
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -157,7 +162,7 @@ export default function Login() {
                 value={formData.password}
                 onChange={handleInputChange}
                 className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 pl-10 pr-10 text-white placeholder-white/50 font-almarai focus:outline-none focus:ring-2 focus:ring-secondary-400 focus:border-transparent"
-                placeholder="••••••••"
+                placeholder={t('login.password', 'كلمة المرور')}
                 required
               />
               <button
@@ -177,12 +182,12 @@ export default function Login() {
           {/* Submit Button */}
           <motion.button
             type="submit"
-            disabled={loading}
+            disabled={isLoading}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="w-full bg-secondary-400 hover:bg-secondary-500 text-black font-tajawal font-bold py-3 px-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? (
+            {isLoading ? (
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
@@ -191,7 +196,7 @@ export default function Login() {
             ) : (
               <>
                 <LogIn className="w-5 h-5" />
-                تسجيل الدخول
+                {t('login.submit', 'تسجيل الدخول')}
               </>
             )}
           </motion.button>
@@ -205,10 +210,10 @@ export default function Login() {
           className="mt-6 p-4 bg-white/5 border border-white/10 rounded-lg"
         >
           <p className="text-white/70 font-almarai text-sm mb-2">
-            بيانات التجربة:
+            {t('login.credentials', 'بيانات الدخول:')}
           </p>
           <p className="text-white/90 font-almarai text-xs">
-            البريد: admin@shababna.org
+            {t('login.email', 'البريد الإلكتروني')}: admin@shababna.org
             <br />
             كلمة المرور: admin123
           </p>
@@ -220,10 +225,12 @@ export default function Login() {
             onClick={() => navigate('/')}
             className="text-white/70 hover:text-white font-almarai text-sm transition-colors duration-300"
           >
-            العودة للصفحة الرئيسية
+            {t('login.back', 'العودة للصفحة الرئيسية')}
           </button>
         </div>
       </motion.div>
     </div>
   )
 }
+
+export default Login

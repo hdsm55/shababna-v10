@@ -1,66 +1,81 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
 
-export interface Project {
+interface Project {
   id: string;
   title: string;
   description: string;
-  created_at?: string;
+  category: string;
+  status: 'draft' | 'published';
+  image?: string;
+  created_at: string;
+  updated_at: string;
 }
 
 // List projects
-export function useProjects() {
-  return useQuery({
+export const useProjects = () =>
+  useQuery<Project[]>({
     queryKey: ['projects'],
     queryFn: async () => {
-      const { data, error } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .order('created_at', { ascending: false });
       if (error) throw error;
-      return data as Project[];
-    },
+      return data;
+    }
   });
-}
+
+const invalidate = (qc: ReturnType<typeof useQueryClient>) =>
+  qc.invalidateQueries({ queryKey: ['projects'] });
 
 // Add project
-export function useAddProject() {
-  const queryClient = useQueryClient();
+export const useAddProject = () => {
+  const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (input: Partial<Project>) => {
-      const { data, error } = await supabase.from('projects').insert([input]).select().single();
+    mutationFn: async (dto: Partial<Project>) => {
+      const { data, error } = await supabase
+        .from('projects')
+        .insert([dto])
+        .select()
+        .single();
       if (error) throw error;
-      return data as Project;
+      return data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
-    },
+    onSuccess: () => invalidate(qc)
   });
-}
+};
 
 // Update project
-export function useUpdateProject() {
-  const queryClient = useQueryClient();
+export const useUpdateProject = () => {
+  const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, ...input }: Partial<Project> & { id: string }) => {
-      const { data, error } = await supabase.from('projects').update(input).eq('id', id).select().single();
+    mutationFn: async ({ id, dto }: { id: string; dto: Partial<Project> }) => {
+      const { data, error } = await supabase
+        .from('projects')
+        .update(dto)
+        .eq('id', id)
+        .select()
+        .single();
       if (error) throw error;
-      return data as Project;
+      return data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
-    },
+    onSuccess: () => invalidate(qc)
   });
-}
+};
 
 // Delete project
-export function useDeleteProject() {
-  const queryClient = useQueryClient();
+export const useDeleteProject = () => {
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from('projects').delete().eq('id', id);
+      const { error } = await supabase
+        .from('projects')
+        .delete()
+        .eq('id', id);
       if (error) throw error;
       return id;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
-    },
+    onSuccess: () => invalidate(qc)
   });
-}
+};

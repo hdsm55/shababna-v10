@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Heart, Globe, Target, ArrowRight, Star, Shield } from 'lucide-react'
 import Meta from '../components/Meta'
 import ImageLoader from '../components/ImageLoader'
+import { useTranslation } from 'react-i18next'
 
 const milestones = [
   {
@@ -88,6 +89,8 @@ const leaders = [
 ]
 
 export default function WhoWeAre() {
+  const { t } = useTranslation()
+
   return (
     <>
       <Meta
