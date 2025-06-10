@@ -1,0 +1,355 @@
+{
+  "common": {
+    "loading": "Yükleniyor...",
+    "error": "Bir hata oluştu",
+    "retry": "Tekrar dene",
+    "readMore": "Devamını oku",
+    "learnMore": "Daha fazla bilgi",
+    "contactUs": "Bize ulaşın",
+    "joinUs": "Bize katılın",
+    "donate": "Bağış yap",
+    "volunteer": "Gönüllü ol",
+    "subscribe": "Abone ol",
+    "followUs": "Bizi takip edin",
+    "menu": "Menü",
+    "close": "Kapat",
+    "search": "Ara",
+    "language": "Dil"
+  },
+  "header": {
+    "home": "Ana Sayfa",
+    "about": "Hakkımızda",
+    "projects": "Projeler",
+    "news": "Haberler",
+    "contact": "İletişim",
+    "donate": "Bağış Yap",
+    "volunteer": "Gönüllü Ol",
+    "login": "Giriş Yap",
+    "register": "Kayıt Ol"
+  },
+  "hero": {
+    "title": "Gençlerimiz İçin Daha İyi Bir Gelecek",
+    "subtitle": "Gençlerin potansiyelini ortaya çıkarmak ve topluma katkıda bulunmalarını sağlamak için çalışıyoruz",
+    "stats": {
+      "projects": "Tamamlanan Projeler",
+      "volunteers": "Aktif Gönüllüler",
+      "beneficiaries": "Faydalananlar",
+      "partners": "İş Ortakları"
+    }
+  },
+  "values": {
+    "title": "Değerlerimiz",
+    "subtitle": "Çalışmalarımızı yönlendiren temel değerlerimiz",
+    "excellence": {
+      "title": "Mükemmellik",
+      "description": "Her işte en yüksek standartları hedefliyoruz"
+    },
+    "innovation": {
+      "title": "Yenilikçilik",
+      "description": "Sürekli gelişim ve yeni çözümler üretiyoruz"
+    },
+    "integrity": {
+      "title": "Dürüstlük",
+      "description": "Şeffaflık ve güvenilirlik temel prensibimizdir"
+    },
+    "impact": {
+      "title": "Etki",
+      "description": "Topluma olumlu ve kalıcı etki bırakmayı hedefliyoruz"
+    }
+  },
+  "projects": {
+    "title": "Projelerimiz",
+    "subtitle": "Gençlerin gelişimine katkıda bulunan projelerimiz",
+    "viewAll": "Tüm Projeleri Gör",
+    "categories": {
+      "education": "Eğitim",
+      "training": "Eğitim",
+      "development": "Gelişim",
+      "community": "Topluluk"
+    }
+  },
+  "news": {
+    "title": "Son Haberler",
+    "subtitle": "Güncel gelişmeler ve etkinliklerimiz",
+    "readMore": "Devamını Oku",
+    "viewAll": "Tüm Haberleri Gör"
+  },
+  "contact": {
+    "title": "İletişim",
+    "subtitle": "Sorularınızı yanıtlamak ve size yardımcı olmak için buradayız",
+    "info": {
+      "title": "İletişim Bilgileri",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "address": "Adres",
+      "address.details": "Ana Cadde, Şehir, Ülke",
+      "hours": "Çalışma Saatleri",
+      "hours.details": "Cumartesi - Perşembe: 09:00 - 17:00"
+    },
+    "form": {
+      "title": "Bize Mesaj Gönderin",
+      "name": "Ad",
+      "email": "E-posta",
+      "subject": "Konu",
+      "message": "Mesaj",
+      "submit": "Gönder"
+    },
+    "map": {
+      "title": "Konumumuz"
+    }
+  },
+  "footer": {
+    "about": "Hakkımızda",
+    "projects": "Projeler",
+    "news": "Haberler",
+    "contact": "İletişim",
+    "privacy": "Gizlilik Politikası",
+    "terms": "Kullanım Koşulları",
+    "rights": "Tüm hakları saklıdır"
+  },
+  "navbar": {
+    "logoAlt": "Shababna Logosu",
+    "home": "Anasayfa",
+    "projects": "Projeler",
+    "events": "Etkinlikler",
+    "about": "Hakkımızda",
+    "lang_ar": "العربية",
+    "lang_en": "English",
+    "lang_tr": "Türkçe"
+  },
+  "values": {
+    "heading": "Değerlerimiz",
+    "leadership": {
+      "title": "Liderlik",
+      "description": "Değişimi yaratacak liderleri güçlendiriyoruz."
+    },
+    "leadershipAlt": "Liderlik Resmi",
+    "diversity": {
+      "title": "Çeşitlilik",
+      "description": "Çeşitliliği ve kapsayıcılığı benimsiyoruz."
+    },
+    "diversityAlt": "Çeşitlilik Resmi",
+    "impact": {
+      "title": "Etkileyici",
+      "description": "Dünya çapında gerçek etki oluşturuyoruz."
+    },
+    "impactAlt": "Etkileyici Resmi",
+    "subheading": "Yaptığımız her şeyi yönlendiren temel değerlerimiz.",
+    "cta": "Daha fazla bilgi için bize ulaşın",
+    "title": "Shababna Değerleri",
+    "subtitle": "Tüm çalışmalarımızı yönlendiren güçlü değerlere inanıyoruz."
+  },
+  "partners": {
+    "heading": "Ortaklarımız",
+    "UNICEFAlt": "UNICEF Logosu",
+    "UNDPAlt": "UNDP Logosu",
+    "WorldBankAlt": "Dünya Bankası Logosu",
+    "title": "Öne Çıkan Ortaklarımız"
+  },
+  "stats": {
+    "heading": "Etkimiz",
+    "volunteers": "Gönüllüler",
+    "countries": "Ülkeler",
+    "projects": "Projeler",
+    "subheading": "Etkimizi rakamlarla görün."
+  },
+  "events": {
+    "heading": "Yaklaşan Etkinlikler",
+    "learnMore": "Daha Fazla",
+    "evt1": {
+      "title": "Etkinlik Bir",
+      "date": "10 Haziran 2025",
+      "description": "Bize katılın …",
+      "alt": "Etkinlik Bir Resmi"
+    },
+    "evt2": {
+      "title": "Etkinlik İki",
+      "date": "5 Temmuz 2025",
+      "description": "Keşfedin …",
+      "alt": "Etkinlik İki Resmi"
+    },
+    "upcoming_subtitle": "Yaklaşan etkinliklerimizi keşfedin.",
+    "view_all": "Tüm Etkinlikleri Gör"
+  },
+  "testimonials": {
+    "heading": "Gönüllülerimiz Neler Söylüyor",
+    "testimonial1": {
+      "text": "Burada gönüllü olmak harika!",
+      "avatarAlt": "John Doe'nun fotoğrafı",
+      "name": "John Doe",
+      "role": "Gönüllü"
+    },
+    "testimonial2": {
+      "text": "Muhteşem deneyim!",
+      "avatarAlt": "Jane Smith'in fotoğrafı",
+      "name": "Jane Smith",
+      "role": "Gönüllü Lider"
+    },
+    "subheading": "Gönüllülerimizin Shababna hakkındaki görüşleri."
+  },
+  "join": {
+    "heading": "Görevimize Katılın",
+    "subheading": "Daha büyük bir şeyin parçası olun",
+    "button": "Katıl"
+  },
+  "faq": {
+    "heading": "SSS",
+    "faq1": {
+      "question": "Shababna nedir?",
+      "answer": "Shababna, gençleri güçlendiren bir platformdur …"
+    },
+    "faq2": {
+      "question": "Nasıl gönüllü olabilirim?",
+      "answer": "Web sitemizde formu doldurarak kaydolun …"
+    },
+    "subheading": "Shababna ve hizmetlerimizle ilgili en sık sorulan sorular."
+  },
+  "newsletter": {
+    "heading": "Bültenimize Abone Olun",
+    "subheading": "En son güncellemeleri ve kaynakları alın",
+    "placeholder": "E-posta adresinizi girin",
+    "button": "Abone Ol",
+    "errorInvalid": "Lütfen geçerli bir e-posta girin.",
+    "success": "Aboneliğiniz için teşekkür ederiz!"
+  },
+  "footer": {
+    "copy": "© 2025 Shababna. Tüm hakları saklıdır.",
+    "lang_ar": "العربية",
+    "lang_en": "English",
+    "lang_tr": "Türkçe",
+    "selectLanguage": "Dil Seçin",
+    "about_us": "Hakkımızda",
+    "mission": "Misyonumuz",
+    "team": "Ekip",
+    "impact": "Etkimiz",
+    "partners": "Ortaklar",
+    "get_involved": "Katılın",
+    "volunteer": "Gönüllü Ol",
+    "donate": "Bağış Yap",
+    "events": "Etkinlikler",
+    "projects": "Projeler",
+    "resources": "Kaynaklar",
+    "blog": "Blog",
+    "press": "Basın",
+    "reports": "Raporlar",
+    "faq": "SSS",
+    "privacy": "Gizlilik Politikası",
+    "terms": "Şartlar ve Koşullar"
+  },
+  "why_us": {
+    "title": "Neden Biz?",
+    "subtitle": "Dünyanın dört bir yanındaki gençler neden bizi seçiyor, keşfedin.",
+    "experience": {
+      "title": "Deneyim",
+      "description": "Gençleri güçlendirme ve geliştirme konusunda yılların tecrübesi."
+    },
+    "community": {
+      "title": "Topluluk",
+      "description": "Her yerden gençleri bir araya getiren çeşitli ve destekleyici bir topluluk."
+    },
+    "impact": {
+      "title": "Etkili",
+      "description": "Gençlerin ve toplumların hayatında gerçek bir fark yaratıyoruz."
+    },
+    "learn_more": "Daha Fazla Bilgi"
+  },
+  "about": {
+    "title": "Hakkımızda",
+    "subtitle": "Gençleri güçlendiren ve daha iyi bir gelecek inşa eden öncü bir gençlik organizasyonuyuz",
+    "mission": {
+      "title": "Misyonumuz",
+      "description": "Gençleri güçlendirmeyi, becerilerini geliştirmeyi ve geleceğin liderleri ve toplumlarında olumlu değişim yaratıcıları olmalarını sağlamayı hedefliyoruz."
+    },
+    "vision": {
+      "title": "Vizyonumuz",
+      "description": "Zorluklarla yüzleşebilen ve herkes için daha iyi bir geleceğe doğru değişime öncülük edebilen güçlü ve uyumlu bir gençlik topluluğu inşa etmeyi hedefliyoruz."
+    },
+    "values": {
+      "title": "Değerlerimiz",
+      "subtitle": "Değerlerimiz, çalışmalarımızı ve ilişkilerimizi yönlendiren temeldir",
+      "leadership": {
+        "title": "Liderlik",
+        "description": "Gençlik liderliğinin gücüne ve değişim yaratma yeteneğine inanıyoruz"
+      },
+      "integrity": {
+        "title": "Dürüstlük",
+        "description": "Yaptığımız her şeyde en yüksek dürüstlük ve şeffaflık standartlarına bağlıyız"
+      },
+      "global": {
+        "title": "Küresel Etki",
+        "description": "Dünya genelinde gençler arasında iletişim köprüleri kurmak için çalışıyoruz"
+      }
+    },
+    "impact": {
+      "title": "Etkimiz",
+      "subtitle": "Gençler ve topluluklar üzerindeki olumlu etkimizle gurur duyuyoruz",
+      "volunteers": "Gönüllüler",
+      "countries": "Ülkeler",
+      "projects": "Projeler",
+      "beneficiaries": "Faydalananlar"
+    }
+  },
+  "project": {
+    "not_found": "Proje bulunamadı",
+    "back_to_projects": "Projelere Dön",
+    "back": "Geri",
+    "about": "Proje Hakkında",
+    "volunteers": "Gönüllüler",
+    "countries": "Ülkeler",
+    "beneficiaries": "Faydalananlar",
+    "join": "Bize Katıl",
+    "learn_more": "Daha Fazla Bilgi"
+  },
+  "volunteer": {
+    "title": "Bizimle Gönüllü Olun",
+    "description": "Küresel gönüllü topluluğumuza katılın ve fark yaratın",
+    "subtitle": "Küresel olarak fark yaratan tutkulu gönüllüler topluluğumuza katılın",
+    "form": {
+      "name": "Ad Soyad",
+      "email": "E-posta",
+      "phone": "Telefon Numarası",
+      "interests": "İlgi Alanları",
+      "availability": "Müsaitlik",
+      "select_availability": "Müsaitlik seçin",
+      "weekdays": "Hafta içi",
+      "weekends": "Hafta sonu",
+      "flexible": "Esnek",
+      "experience": "İlgili Deneyim",
+      "message": "Neden gönüllü olmak istiyorsunuz?",
+      "submit": "Başvuruyu Gönder"
+    },
+    "opportunities": {
+      "title": "Gönüllülük Fırsatları"
+    },
+    "commitment": "Zaman Taahhüdü",
+    "requirements": {
+      "title": "Gereksinimler",
+      "age": "18 yaş veya üzeri olmalı",
+      "commitment": "En az 3 aylık taahhüt",
+      "language": "İngilizce yeterliliği",
+      "training": "Gerekli eğitim oturumlarına katılım"
+    },
+    "contact": {
+      "title": "İletişim Bilgileri"
+    }
+  },
+  "error": {
+    "title": "Üzgünüz, bir hata oluştu",
+    "errorId": "Hata ID",
+    "technicalDetails": "Teknik Detaylar",
+    "retry": "Tekrar Dene",
+    "goHome": "Ana Sayfaya Git",
+    "report": "Hatayı Bildir"
+  },
+  "stats": {
+    "members": "Üyeler",
+    "projects": "Projeler",
+    "years": "Yıllık Deneyim"
+  },
+  "cta": {
+    "title": "Topluluğumuza Katılın",
+    "subtitle": "Pozitif değişimin bir parçası olun",
+    "joinButton": "Bize Katılın",
+    "contactButton": "Bize Ulaşın"
+  }
+}

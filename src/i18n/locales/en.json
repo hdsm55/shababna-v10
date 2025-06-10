@@ -1,0 +1,325 @@
+{
+  "navbar": {
+    "logoAlt": "Shababna Logo",
+    "home": "Home",
+    "projects": "Projects",
+    "events": "Events",
+    "about": "About Us",
+    "lang_ar": "العربية",
+    "lang_en": "English",
+    "lang_tr": "Türkçe"
+  },
+  "hero": {
+    "alt": "Background of the Hero section",
+    "title": "Welcome to Shababna",
+    "subtitle": "Empowering Youth Worldwide",
+    "button": "Join Us"
+  },
+  "values": {
+    "heading": "Our Values",
+    "leadership": {
+      "title": "Leadership",
+      "description": "We empower leaders to create change."
+    },
+    "leadershipAlt": "Leadership Image",
+    "diversity": {
+      "title": "Diversity",
+      "description": "We embrace diversity and inclusivity."
+    },
+    "diversityAlt": "Diversity Image",
+    "impact": {
+      "title": "Impact",
+      "description": "We make a real impact globally."
+    },
+    "impactAlt": "Impact Image",
+    "subheading": "Our core values that guide everything we do.",
+    "cta": "Contact us for more",
+    "title": "Shababna Values",
+    "subtitle": "We believe in strong values that guide all our work.",
+    "description": "Our core values guide everything we do"
+  },
+  "partners": {
+    "heading": "Our Partners",
+    "UNICEFAlt": "UNICEF Logo",
+    "UNDPAlt": "UNDP Logo",
+    "WorldBankAlt": "World Bank Logo",
+    "title": "Our Featured Partners"
+  },
+  "stats": {
+    "heading": "Our Impact",
+    "volunteers": "Volunteers",
+    "countries": "Countries",
+    "projects": "Projects",
+    "subheading": "See our impact in numbers.",
+    "members": "Members",
+    "years": "Years of Experience",
+    "title": "Our Impact",
+    "description": "Numbers that tell our story"
+  },
+  "projects": {
+    "heading": "Featured Projects",
+    "learnMore": "Learn More",
+    "proj1": {
+      "title": "Project One",
+      "description": "Description for project one."
+    },
+    "proj2": {
+      "title": "Project Two",
+      "description": "Description for project two."
+    },
+    "subheading": "Discover our featured projects that made a real difference.",
+    "yla-2024": {"title": "Young Leaders Project 2024", "description": "A program to develop youth leadership skills."},
+    "chi-2024": {"title": "Community Health Initiative 2024", "description": "An initiative to promote community health."},
+    "gsp-2023": {"title": "Green Sustainability Project 2023", "description": "A project to promote environmental sustainability."},
+    "dtp-2024": {"title": "Digital Transformation Project 2024", "description": "An initiative to develop youth digital skills."},
+    "mhp-2024": {"title": "Mental Health Project 2024", "description": "A program to support youth mental health."},
+    "rec-2023": {"title": "Recycling Project 2023", "description": "An awareness campaign to encourage recycling in the community."}
+  },
+  "events": {
+    "heading": "Upcoming Events",
+    "learnMore": "Learn More",
+    "evt1": {
+      "title": "Event One",
+      "date": "June 10, 2025",
+      "description": "Join us for …",
+      "alt": "Event One Image"
+    },
+    "evt2": {
+      "title": "Event Two",
+      "date": "July 5, 2025",
+      "description": "Experience …",
+      "alt": "Event Two Image"
+    },
+    "upcoming_subtitle": "Discover our upcoming events.",
+    "view_all": "View All Events"
+  },
+  "testimonials": {
+    "heading": "What Our Volunteers Say",
+    "testimonial1": {
+      "text": "I love volunteering here!",
+      "avatarAlt": "Avatar of John Doe",
+      "name": "John Doe",
+      "role": "Volunteer"
+    },
+    "testimonial2": {
+      "text": "Amazing experience!",
+      "avatarAlt": "Avatar of Jane Smith",
+      "name": "Jane Smith",
+      "role": "Volunteer Leader"
+    },
+    "subheading": "What our volunteers say about Shababna."
+  },
+  "join": {
+    "heading": "Join Our Mission",
+    "subheading": "Be part of something bigger",
+    "button": "Get Involved"
+  },
+  "faq": {
+    "heading": "Frequently Asked Questions",
+    "faq1": {
+      "question": "What is Shababna?",
+      "answer": "Shababna is a youth empowerment platform..."
+    },
+    "faq2": {
+      "question": "How can I volunteer?",
+      "answer": "Sign up using the form on our website..."
+    },
+    "subheading": "Most common questions about Shababna and our services."
+  },
+  "newsletter": {
+    "heading": "Subscribe to Our Newsletter",
+    "subheading": "Get the latest updates and resources",
+    "placeholder": "Enter your email address",
+    "button": "Subscribe",
+    "errorInvalid": "Please enter a valid email address.",
+    "success": "Thank you for subscribing!"
+  },
+  "footer": {
+    "copy": "© 2025 Shababna. All rights reserved.",
+    "lang_ar": "العربية",
+    "lang_en": "English",
+    "lang_tr": "Türkçe",
+    "selectLanguage": "Select language",
+    "about_us": "About Us",
+    "mission": "Our Mission",
+    "team": "Team",
+    "impact": "Impact",
+    "partners": "Partners",
+    "get_involved": "Get Involved",
+    "volunteer": "Volunteer",
+    "donate": "Donate",
+    "events": "Events",
+    "projects": "Projects",
+    "resources": "Resources",
+    "blog": "Blog",
+    "press": "Press",
+    "reports": "Reports",
+    "faq": "FAQ",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions"
+  },
+  "why_us": {
+    "title": "Why Us?",
+    "subtitle": "Discover why youth around the world choose us.",
+    "experience": {
+      "title": "Experience",
+      "description": "Years of expertise in empowering and developing youth."
+    },
+    "community": {
+      "title": "Community",
+      "description": "A diverse and supportive community connecting youth everywhere."
+    },
+    "impact": {
+      "title": "Impact",
+      "description": "We make a real difference in the lives of youth and communities."
+    },
+    "learn_more": "Learn More"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "We are a leading youth organization working to empower youth and build a better future",
+    "description": "Learn about our mission, history, and impact in youth empowerment",
+    "hero": {
+      "title": "Empowering Youth Globally",
+      "subtitle": "Building bridges across cultures, fostering leadership, and creating positive change",
+      "cta_primary": "Join Our Mission",
+      "cta_secondary": "Learn More"
+    },
+    "cta": {
+      "title": "Join Our Mission",
+      "description": "Be part of something bigger. Together, we can create lasting change.",
+      "volunteer": "Volunteer With Us",
+      "donate": "Make a Donation"
+    },
+    "mission": {
+      "empower": {
+        "title": "Empower",
+        "description": "We provide youth with the tools and opportunities to become leaders and change-makers."
+      },
+      "connect": {
+        "title": "Connect",
+        "description": "We connect youth from diverse cultures to build a global collaborative community."
+      },
+      "innovate": {
+        "title": "Innovate",
+        "description": "We encourage creativity and innovation to find new solutions to challenges."
+      },
+      "title": "Our Mission",
+      "description": "We are dedicated to empowering youth through education, leadership development, and global connections"
+    },
+    "timeline": {
+      "title": "Our Journey",
+      "description": "Key milestones in our organization's history"
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "We aspire to build a strong and cohesive youth community, capable of facing challenges and leading change towards a better future for all."
+    },
+    "values": {
+      "title": "Our Values",
+      "subtitle": "Our values are the foundation that guides our work and relationships",
+      "leadership": {
+        "title": "Leadership",
+        "description": "We believe in the power of youth leadership and its ability to create change"
+      },
+      "integrity": {
+        "title": "Integrity",
+        "description": "We are committed to the highest standards of integrity and transparency in everything we do"
+      },
+      "global": {
+        "title": "Global Impact",
+        "description": "We work to build bridges of communication between youth around the world"
+      }
+    },
+    "impact": {
+      "title": "Our Impact",
+      "subtitle": "We are proud of our positive impact on youth and communities",
+      "volunteers": "Volunteers",
+      "countries": "Countries",
+      "projects": "Projects",
+      "beneficiaries": "Beneficiaries"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We are here to answer your inquiries and help you",
+    "info": {
+      "title": "Contact Information",
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address",
+      "address.details": "Main Street, City, Country",
+      "hours": "Working Hours",
+      "hours.details": "Saturday - Thursday: 9:00 AM - 5:00 PM"
+    },
+    "form": {
+      "title": "Send us a Message",
+      "name": "Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Send"
+    },
+    "map": {
+      "title": "Our Location"
+    }
+  },
+  "project": {
+    "not_found": "Project not found",
+    "back_to_projects": "Back to Projects",
+    "back": "Back",
+    "about": "About Project",
+    "volunteers": "Volunteers",
+    "countries": "Countries",
+    "beneficiaries": "Beneficiaries",
+    "join": "Join Us",
+    "learn_more": "Learn More"
+  },
+  "volunteer": {
+    "title": "Volunteer With Us",
+    "description": "Join our global community of volunteers and make a difference",
+    "subtitle": "Join our community of passionate volunteers making a difference globally",
+    "form": {
+      "name": "Full Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "interests": "Areas of Interest",
+      "availability": "Availability",
+      "select_availability": "Select availability",
+      "weekdays": "Weekdays",
+      "weekends": "Weekends",
+      "flexible": "Flexible",
+      "experience": "Relevant Experience",
+      "message": "Why do you want to volunteer?",
+      "submit": "Submit Application"
+    },
+    "opportunities": {
+      "title": "Volunteer Opportunities"
+    },
+    "commitment": "Time Commitment",
+    "requirements": {
+      "title": "Requirements",
+      "age": "Must be 18 years or older",
+      "commitment": "Minimum 3-month commitment",
+      "language": "Proficiency in English",
+      "training": "Attend required training sessions"
+    },
+    "contact": {
+      "title": "Contact Information"
+    }
+  },
+  "error": {
+    "title": "Sorry, an error occurred",
+    "errorId": "Error ID",
+    "technicalDetails": "Technical Details",
+    "retry": "Try Again",
+    "goHome": "Go to Homepage",
+    "report": "Report Error"
+  },
+  "cta": {
+    "title": "Join Our Community",
+    "subtitle": "Be part of positive change",
+    "joinButton": "Join Us",
+    "contactButton": "Contact Us"
+  }
+}
