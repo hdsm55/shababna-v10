@@ -39,10 +39,15 @@ export default function Projects() {
   const [searchQuery, setSearchQuery] = useState('')
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(
-    projectsData.projects as Project[],
+    projectsData.projects as Project[]
   )
 
   const currentLanguage = i18n.language as keyof Project['title']
+
+  // Diagnostic logging
+  filteredProjects.forEach((p) =>
+    console.log('🔍 id:', p.id, 'title:', p.title[currentLanguage])
+  )
 
   const uniqueCategories = [
     'all',
@@ -115,7 +120,7 @@ export default function Projects() {
         title={t('projects.title', 'Our Projects')}
         description={t(
           'projects.description',
-          'Explore our various youth empowerment projects and initiatives',
+          'Explore our various youth empowerment projects and initiatives'
         )}
       />
       <section className="min-h-screen py-24 bg-gradient-to-tr from-midnight via-cetacean to-black relative overflow-hidden">
@@ -180,7 +185,7 @@ export default function Projects() {
             >
               {t(
                 'projects.subtitle',
-                'Discover our initiatives making a difference in communities worldwide',
+                'Discover our initiatives making a difference in communities worldwide'
               )}
             </motion.p>
           </motion.div>
@@ -195,7 +200,7 @@ export default function Projects() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t(
                   'projects.search_placeholder',
-                  'Search projects...',
+                  'Search projects...'
                 )}
                 className="input input-bordered w-full pl-10 bg-cetacean/80 text-white border-white/20 placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary/50 rounded-full font-almarai"
               />
@@ -277,9 +282,11 @@ export default function Projects() {
             viewport={{ once: true }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
           >
-            {filteredProjects.map((project) => (
+            {filteredProjects.map((project, index) => (
               <motion.div
-                key={project.id}
+                key={
+                  project.id ?? project.title[currentLanguage] ?? String(index)
+                }
                 variants={cardVariants}
                 whileHover={{
                   y: -10,
@@ -289,7 +296,10 @@ export default function Projects() {
                 className="group relative cursor-pointer"
                 style={{ height: '100%' }}
               >
-                <Link to={`/projects/${project.id}`} className="block h-full">
+                <Link
+                  to={project.id ? `/projects/${project.id}` : '#'}
+                  className="block h-full"
+                >
                   <div className="relative bg-white/5 backdrop-blur-md rounded-2xl shadow-lg overflow-hidden transition-all duration-500 border border-white/10 hover:border-white/20 hover:shadow-xl group-hover:ring-4 group-hover:ring-secondary-400/20 h-full">
                     {/* Project Image */}
                     <div className="relative h-48 overflow-hidden">
@@ -310,7 +320,7 @@ export default function Projects() {
                           <span className="text-xs text-white font-almarai font-bold">
                             {t(
                               `projects.statuses.${project.status}`,
-                              project.status,
+                              project.status
                             )}
                           </span>
                         </div>
@@ -320,7 +330,7 @@ export default function Projects() {
                         <div className="px-3 py-2 rounded-full text-xs font-medium bg-white/20 text-white border border-white/30 backdrop-blur-md font-almarai">
                           {t(
                             `projects.categories.${project.category}`,
-                            project.category,
+                            project.category
                           )}
                         </div>
                       </div>
@@ -382,7 +392,7 @@ export default function Projects() {
               <p className="text-lg text-white/60 font-almarai">
                 {t(
                   'projects.no_results',
-                  'No projects found matching your criteria.',
+                  'No projects found matching your criteria.'
                 )}
               </p>
             </div>

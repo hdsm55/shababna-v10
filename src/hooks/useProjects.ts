@@ -12,6 +12,8 @@ interface Project {
   updated_at: string;
 }
 
+const invalidate = (qc:any)=>qc.invalidateQueries(['projects']);
+
 // List projects
 export const useProjects = () =>
   useQuery<Project[]>({
@@ -22,27 +24,20 @@ export const useProjects = () =>
         .select('*')
         .order('created_at', { ascending: false });
       if (error) throw error;
-      return data;
-    }
+      return data ?? [];
+    },
   });
-
-const invalidate = (qc: ReturnType<typeof useQueryClient>) =>
-  qc.invalidateQueries({ queryKey: ['projects'] });
 
 // Add project
 export const useAddProject = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (dto: Partial<Project>) => {
-      const { data, error } = await supabase
-        .from('projects')
-        .insert([dto])
-        .select()
-        .single();
+      const { data, error } = await supabase.from('projects').insert([dto]);
       if (error) throw error;
       return data;
     },
-    onSuccess: () => invalidate(qc)
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['projects'] }),
   });
 };
 
@@ -69,13 +64,10 @@ export const useDeleteProject = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('projects')
-        .delete()
-        .eq('id', id);
+      const { error } = await supabase.from('projects').delete().eq('id', id);
       if (error) throw error;
       return id;
     },
-    onSuccess: () => invalidate(qc)
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['projects'] }),
   });
 };

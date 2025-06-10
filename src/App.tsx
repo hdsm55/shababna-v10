@@ -8,6 +8,9 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Loader from './components/Loader'
 import About from './pages/About'
+import Login from './pages/Login'
+import AdminProjects from './pages/admin/AdminProjects'
+import ProtectedRoute from './components/ProtectedRoute'
 
 // Lazy load pages for better performance
 const Home = lazy(() => import('./pages/Home'))
@@ -16,7 +19,6 @@ const Events = lazy(() => import('./pages/Events'))
 const Join = lazy(() => import('./pages/Join'))
 const Contact = lazy(() => import('./pages/Contact'))
 const ProjectDetails = lazy(() => import('./pages/ProjectDetails'))
-const Login = lazy(() => import('./pages/Login'))
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'))
 const Donate = lazy(() => import('./pages/Donate'))
 const Blog = lazy(() => import('./pages/Blog'))
@@ -29,19 +31,6 @@ const Reports = lazy(() => import('./pages/Reports'))
 const Volunteer = lazy(() => import('./pages/Volunteer'))
 const AddProject = lazy(() => import('./pages/admin/AddProject'))
 const Users = lazy(() => import('./pages/admin/Users'))
-
-// Protected Route Component
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const token = localStorage.getItem('token')
-  const user = localStorage.getItem('user')
-
-  if (!token || !user) {
-    window.location.href = '/login'
-    return null
-  }
-
-  return <>{children}</>
-}
 
 // Layout Components
 const PublicLayout = ({ children }: { children: React.ReactNode }) => (
@@ -112,23 +101,14 @@ export default function App() {
             >
               <Routes>
                 {/* Login Route - No Header/Footer */}
-                <Route
-                  path="/login"
-                  element={
-                    <Suspense fallback={<Loader size="lg" />}>
-                      <Login />
-                    </Suspense>
-                  }
-                />
+                <Route path="/login" element={<Login />} />
 
                 {/* Admin Routes - No Header/Footer */}
                 <Route
                   path="/admin"
                   element={
                     <ProtectedRoute>
-                      <Suspense fallback={<Loader size="lg" />}>
-                        <Dashboard />
-                      </Suspense>
+                      <AdminProjects />
                     </ProtectedRoute>
                   }
                 />
