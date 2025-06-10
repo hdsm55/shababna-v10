@@ -5,7 +5,9 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: '#003362',
+                primary: {
+                    DEFAULT: '#003362'
+                },
                 white: '#FFFFFF',
                 secondary: {
                     50: '#f5f3ff',
@@ -182,7 +184,16 @@ export default {
             },
         },
     },
-    plugins: [],
+    plugins: [
+        function ({ addComponents }) {
+            addComponents({
+                '.btn-primary': '@apply bg-primary text-white font-semibold rounded-lg px-6 py-3 hover:bg-primary/90',
+                '.btn-secondary': '@apply bg-white text-primary font-semibold rounded-lg px-6 py-3 hover:bg-primary/10',
+                '.section-wrapper': '@apply px-4 sm:px-6 lg:px-8 py-16',
+                '.card-base': '@apply rounded-lg shadow-md p-6 bg-surface text-primary'
+            })
+        }
+    ],
     future: {
         hoverOnlyWhenSupported: true,
         respectDefaultRingColorOpacity: true,

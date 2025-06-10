@@ -45,16 +45,16 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       disabled,
       ...props
     },
-    ref,
+    ref
   ) => {
     const getVariantClasses = () => {
       switch (variant) {
         case 'primary':
-          return 'bg-primary-500 hover:bg-primary-600 text-white border-primary-500 hover:border-primary-600 shadow-lg hover:shadow-xl hover:shadow-primary-500/25'
+          return 'btn-primary'
         case 'secondary':
-          return 'bg-white/10 hover:bg-white/20 text-white border-white/20 hover:border-white/40 backdrop-blur-sm'
+          return 'btn-secondary'
         case 'outline':
-          return 'bg-transparent hover:bg-primary-500/10 text-primary-500 border-primary-500 hover:border-primary-600 hover:text-primary-600'
+          return 'bg-transparent hover:bg-primary/10 text-primary border-primary hover:border-primary/90'
         case 'ghost':
           return 'bg-transparent hover:bg-white/10 text-white border-transparent hover:border-white/20'
         case 'danger':
@@ -62,9 +62,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         case 'success':
           return 'bg-green-500 hover:bg-green-600 text-white border-green-500 hover:border-green-600 shadow-lg hover:shadow-xl hover:shadow-green-500/25'
         case 'gradient':
-          return 'bg-gradient-to-r from-primary-500 to-accent-500 hover:from-primary-600 hover:to-accent-600 text-white border-transparent shadow-lg hover:shadow-xl hover:shadow-primary-500/25'
+          return 'bg-gradient-to-r from-primary to-accent-500 hover:from-primary/90 hover:to-accent-600 text-white border-transparent shadow-lg hover:shadow-xl hover:shadow-primary/25'
         default:
-          return 'bg-primary-500 hover:bg-primary-600 text-white border-primary-500 hover:border-primary-600'
+          return 'btn-primary'
       }
     }
 
@@ -187,7 +187,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {content}
       </button>
     )
-  },
+  }
 )
 
 Button.displayName = 'Button'

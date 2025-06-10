@@ -1,6 +1,7 @@
 // FILE: src/components/ProjectsSection.tsx
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
+import { useProjects } from '../hooks/useProjects'
 import {
   Monitor,
   Heart,
@@ -14,75 +15,91 @@ import {
 
 export default function ProjectsSection() {
   const { t } = useTranslation()
+  const { data: dbProjects } = useProjects()
 
-  const projects = [
-    {
-      id: 'dtp-2024',
-      icon: Monitor,
-      image:
-        'https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg',
-      color: 'from-cyan-400 to-blue-500',
-      bgColor: 'bg-cyan-500/10',
-      year: '2024',
-      status: 'جاري التنفيذ',
-      category: 'تكنولوجيا',
-    },
-    {
-      id: 'mhp-2024',
-      icon: Heart,
-      image:
-        'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg',
-      color: 'from-pink-400 to-rose-500',
-      bgColor: 'bg-pink-500/10',
-      year: '2024',
-      status: 'نشط',
-      category: 'صحة',
-    },
-    {
-      id: 'rec-2023',
-      icon: Recycle,
-      image:
-        'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg',
-      color: 'from-emerald-400 to-green-500',
-      bgColor: 'bg-emerald-500/10',
-      year: '2023',
-      status: 'مكتمل',
-      category: 'بيئة',
-    },
-    {
-      id: 'yla-2024',
-      icon: Users,
-      image:
-        'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg',
-      color: 'from-violet-400 to-purple-500',
-      bgColor: 'bg-violet-500/10',
-      year: '2024',
-      status: 'جاري التسجيل',
-      category: 'قيادة',
-    },
-    {
-      id: 'chi-2024',
-      icon: Brain,
-      image:
-        'https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg',
-      color: 'from-teal-400 to-cyan-500',
-      bgColor: 'bg-teal-500/10',
-      year: '2024',
-      status: 'قادم قريباً',
-      category: 'صحة نفسية',
-    },
-    {
-      id: 'gsp-2023',
-      icon: Leaf,
-      image:
-        'https://images.pexels.com/photos/3184394/pexels-photo-3184394.jpeg',
-      color: 'from-secondary-400 to-yellow-500',
-      bgColor: 'bg-secondary-500/10',
-      year: '2023',
-      status: 'مكتمل',
-      category: 'استدامة',
-    },
-  ]
+  const projects =
+    dbProjects && dbProjects.length > 0
+      ? dbProjects.map((p) => ({
+          id: p.id,
+          icon: Monitor, // You can map icons by category if you want
+          image:
+            'https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg', // Placeholder
+          color: 'from-cyan-400 to-blue-500',
+          bgColor: 'bg-cyan-500/10',
+          year: p.created_at ? new Date(p.created_at).getFullYear() : '',
+          status: '',
+          category: '',
+          title: p.title,
+          description: p.description,
+        }))
+      : [
+          {
+            id: 'dtp-2024',
+            icon: Monitor,
+            image:
+              'https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg',
+            color: 'from-cyan-400 to-blue-500',
+            bgColor: 'bg-cyan-500/10',
+            year: '2024',
+            status: 'جاري التنفيذ',
+            category: 'تكنولوجيا',
+          },
+          {
+            id: 'mhp-2024',
+            icon: Heart,
+            image:
+              'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg',
+            color: 'from-pink-400 to-rose-500',
+            bgColor: 'bg-pink-500/10',
+            year: '2024',
+            status: 'نشط',
+            category: 'صحة',
+          },
+          {
+            id: 'rec-2023',
+            icon: Recycle,
+            image:
+              'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg',
+            color: 'from-emerald-400 to-green-500',
+            bgColor: 'bg-emerald-500/10',
+            year: '2023',
+            status: 'مكتمل',
+            category: 'بيئة',
+          },
+          {
+            id: 'yla-2024',
+            icon: Users,
+            image:
+              'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg',
+            color: 'from-violet-400 to-purple-500',
+            bgColor: 'bg-violet-500/10',
+            year: '2024',
+            status: 'جاري التسجيل',
+            category: 'قيادة',
+          },
+          {
+            id: 'chi-2024',
+            icon: Brain,
+            image:
+              'https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg',
+            color: 'from-teal-400 to-cyan-500',
+            bgColor: 'bg-teal-500/10',
+            year: '2024',
+            status: 'قادم قريباً',
+            category: 'صحة نفسية',
+          },
+          {
+            id: 'gsp-2023',
+            icon: Leaf,
+            image:
+              'https://images.pexels.com/photos/3184394/pexels-photo-3184394.jpeg',
+            color: 'from-secondary-400 to-yellow-500',
+            bgColor: 'bg-secondary-500/10',
+            year: '2023',
+            status: 'مكتمل',
+            category: 'استدامة',
+          },
+        ]
 
   const containerVariants = {
     hidden: { opacity: 0 },

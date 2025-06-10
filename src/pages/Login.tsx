@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Lock, Mail, LogIn } from 'lucide-react'
+import { supabase } from '../lib/supabase'
 
 interface LoginForm {
   email: string
@@ -33,29 +34,17 @@ export default function Login() {
     setError('')
 
     try {
-      // محاكاة تسجيل الدخول - سيتم ربطها بـ API حقيقي
-      if (
-        formData.email === 'admin@shababna.org' &&
-        formData.password === 'admin123'
-      ) {
-        // حفظ بيانات المستخدم في localStorage
-        const userData = {
-          id: 1,
+      const { data, error: supaError } = await supabase.auth.signInWithPassword(
+        {
           email: formData.email,
-          firstName: 'المشرف',
-          lastName: 'الرئيسي',
-          role: 'admin',
-          token: 'mock_jwt_token_12345',
+          password: formData.password,
         }
-
-        localStorage.setItem('user', JSON.stringify(userData))
-        localStorage.setItem('token', userData.token)
-
-        // إعادة توجيه للوحة التحكم
-        navigate('/admin')
-      } else {
-        throw new Error('بيانات تسجيل الدخول غير صحيحة')
+      )
+      if (supaError || !data.session) {
+        throw new Error(supaError?.message || 'بيانات تسجيل الدخول غير صحيحة')
       }
+      // Save session if needed (supabase handles this by default)
+      navigate('/admin')
     } catch (err: Error | unknown) {
       setError(
         err instanceof Error ? err.message : 'حدث خطأ أثناء تسجيل الدخول'

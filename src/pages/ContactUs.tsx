@@ -53,8 +53,8 @@ const ContactUs: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="relative py-20 bg-primary-500 text-white">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-400 opacity-90"></div>
+      <section className="relative py-20 bg-primary text-white">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70 opacity-90"></div>
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -92,7 +92,7 @@ const ContactUs: React.FC = () => {
 
               <div className="space-y-6">
                 <div className="flex items-start">
-                  <FaPhone className="text-2xl text-primary-500 mt-1 ml-4" />
+                  <FaPhone className="text-2xl text-primary mt-1 ml-4" />
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">
                       {t('contact.info.phone', 'الهاتف')}
@@ -102,7 +102,7 @@ const ContactUs: React.FC = () => {
                 </div>
 
                 <div className="flex items-start">
-                  <FaEnvelope className="text-2xl text-primary-500 mt-1 ml-4" />
+                  <FaEnvelope className="text-2xl text-primary mt-1 ml-4" />
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">
                       {t('contact.info.email', 'البريد الإلكتروني')}
@@ -112,7 +112,7 @@ const ContactUs: React.FC = () => {
                 </div>
 
                 <div className="flex items-start">
-                  <FaMapMarkerAlt className="text-2xl text-primary-500 mt-1 ml-4" />
+                  <FaMapMarkerAlt className="text-2xl text-primary mt-1 ml-4" />
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">
                       {t('contact.info.address', 'العنوان')}
@@ -127,7 +127,7 @@ const ContactUs: React.FC = () => {
                 </div>
 
                 <div className="flex items-start">
-                  <FaClock className="text-2xl text-primary-500 mt-1 ml-4" />
+                  <FaClock className="text-2xl text-primary mt-1 ml-4" />
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900">
                       {t('contact.info.hours', 'ساعات العمل')}
@@ -148,7 +148,7 @@ const ContactUs: React.FC = () => {
                     target="_blank"
                     rel="noopener"
                     aria-label="Facebook"
-                    className="text-primary-500 hover:text-primary-700 text-2xl"
+                    className="text-primary hover:text-primary/80 text-2xl"
                   >
                     <FaFacebook />
                   </a>
@@ -157,7 +157,7 @@ const ContactUs: React.FC = () => {
                     target="_blank"
                     rel="noopener"
                     aria-label="Twitter"
-                    className="text-primary-500 hover:text-primary-700 text-2xl"
+                    className="text-primary hover:text-primary/80 text-2xl"
                   >
                     <FaTwitter />
                   </a>
@@ -166,7 +166,7 @@ const ContactUs: React.FC = () => {
                     target="_blank"
                     rel="noopener"
                     aria-label="Instagram"
-                    className="text-primary-500 hover:text-primary-700 text-2xl"
+                    className="text-primary hover:text-primary/80 text-2xl"
                   >
                     <FaInstagram />
                   </a>
@@ -175,7 +175,7 @@ const ContactUs: React.FC = () => {
                     target="_blank"
                     rel="noopener"
                     aria-label="WhatsApp"
-                    className="text-primary-500 hover:text-primary-700 text-2xl"
+                    className="text-primary hover:text-primary/80 text-2xl"
                   >
                     <FaWhatsapp />
                   </a>
@@ -208,7 +208,7 @@ const ContactUs: React.FC = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     required
                   />
                 </div>
@@ -226,7 +226,7 @@ const ContactUs: React.FC = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     required
                   />
                 </div>
@@ -244,7 +244,7 @@ const ContactUs: React.FC = () => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     required
                   />
                 </div>
@@ -262,7 +262,7 @@ const ContactUs: React.FC = () => {
                     value={formData.message}
                     onChange={handleChange}
                     rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     required
                   ></textarea>
                 </div>
@@ -279,7 +279,7 @@ const ContactUs: React.FC = () => {
                 )}
                 <button
                   type="submit"
-                  className="w-full bg-primary-500 hover:bg-primary-600 text-white font-bold py-3 rounded-lg transition-all duration-300 disabled:opacity-60"
+                  className="btn-primary w-full"
                   disabled={status === 'loading'}
                 >
                   {status === 'loading'

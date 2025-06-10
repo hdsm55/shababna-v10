@@ -119,7 +119,7 @@ export default function Footer() {
               {/* Contact Info */}
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-white/70">
-                  <Mail className="w-5 h-5 text-primary-400" />
+                  <Mail className="w-5 h-5 text-primary" />
                   <a
                     href="mailto:info@shababuna.org"
                     className="hover:text-white transition-colors"
@@ -128,7 +128,7 @@ export default function Footer() {
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-white/70">
-                  <Phone className="w-5 h-5 text-primary-400" />
+                  <Phone className="w-5 h-5 text-primary" />
                   <a
                     href="tel:+1234567890"
                     className="hover:text-white transition-colors"
@@ -137,7 +137,7 @@ export default function Footer() {
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-white/70">
-                  <MapPin className="w-5 h-5 text-primary-400" />
+                  <MapPin className="w-5 h-5 text-primary" />
                   <span>اسطنبول، تركيا</span>
                 </div>
               </div>
@@ -210,9 +210,9 @@ export default function Footer() {
                   <input
                     type="email"
                     placeholder="بريدك الإلكتروني"
-                    className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent backdrop-blur-sm"
+                    className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm"
                   />
-                  <button className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg transition-colors duration-300 flex-shrink-0">
+                  <button className="btn-primary flex-shrink-0">
                     <Mail className="w-4 h-4" />
                   </button>
                 </div>
@@ -286,7 +286,7 @@ export default function Footer() {
                 <select
                   onChange={(e) => changeLang(e.target.value)}
                   value={i18n.language}
-                  className="font-almarai bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent text-sm"
+                  className="font-almarai bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
                   aria-label="اختر اللغة"
                 >
                   <option value="ar" className="bg-midnight text-white">
