@@ -8,6 +8,7 @@ export default {
                 primary: {
                     DEFAULT: '#003362'
                 },
+                surface: '#FFFFFF',
                 white: '#FFFFFF',
                 secondary: {
                     50: '#f5f3ff',

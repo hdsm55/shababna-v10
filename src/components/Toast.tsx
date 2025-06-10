@@ -74,7 +74,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const updateToast = useCallback((id: string, updates: Partial<Toast>) => {
     setToasts((prev) =>
-      prev.map((toast) => (toast.id === id ? { ...toast, ...updates } : toast)),
+      prev.map((toast) => (toast.id === id ? { ...toast, ...updates } : toast))
     )
   }, [])
 
@@ -122,7 +122,7 @@ const ToastItem: React.FC<{ toast: Toast }> = ({ toast }) => {
       case 'warning':
         return 'bg-yellow-500/10 border-yellow-500/20 text-yellow-100'
       case 'info':
-        return 'bg-blue-500/10 border-blue-500/20 text-blue-100'
+        return 'bg-primary/10 border-primary/20 text-primary'
       case 'loading':
         return 'bg-blue-500/10 border-blue-500/20 text-blue-100'
       default:

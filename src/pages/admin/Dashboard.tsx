@@ -259,7 +259,7 @@ const Dashboard: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <button
               onClick={() => navigate('/admin/projects/add')}
-              className="p-4 text-left rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors"
+              className="p-4 text-left rounded-lg border border-gray-200 hover:border-primary hover:bg-primary/5 transition-colors"
             >
               <FolderOpen className="w-6 h-6 text-blue-500 mb-2" />
               <h4 className="font-medium text-gray-900">إضافة مشروع جديد</h4>

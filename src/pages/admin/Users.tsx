@@ -282,7 +282,7 @@ const Users: React.FC = () => {
                           onClick={() => {
                             /* handle edit */
                           }}
-                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                          className="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors duration-200"
                         >
                           <Edit className="w-5 h-5" />
                         </button>
