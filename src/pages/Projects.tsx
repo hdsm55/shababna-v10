@@ -46,7 +46,12 @@ export default function Projects() {
 
   // Diagnostic logging
   filteredProjects.forEach((p) =>
-    console.log('🔍 id:', p.id, 'title:', p.title[currentLanguage])
+    console.log('💡 project item', {
+      id: p.id,
+      title: p.title[currentLanguage],
+      category: p.category,
+      status: p.status,
+    })
   )
 
   const uniqueCategories = [
@@ -246,7 +251,7 @@ export default function Projects() {
                     className="select select-bordered w-full bg-cetacean/80 text-white border-white/20 rounded-full font-almarai"
                   >
                     {uniqueCategories.map((category) => (
-                      <option key={category} value={category}>
+                      <option key={category ?? 'all'} value={category}>
                         {t(`projects.categories.${category}`, category)}
                       </option>
                     ))}
@@ -264,7 +269,7 @@ export default function Projects() {
                     className="select select-bordered w-full bg-cetacean/80 text-white border-white/20 rounded-full font-almarai"
                   >
                     {uniqueStatuses.map((status) => (
-                      <option key={status} value={status}>
+                      <option key={status ?? 'all'} value={status}>
                         {t(`projects.statuses.${status}`, status)}
                       </option>
                     ))}
@@ -278,9 +283,8 @@ export default function Projects() {
           <motion.div
             variants={containerVariants}
             initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+            animate="visible"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {filteredProjects.map((project, index) => (
               <motion.div
@@ -288,17 +292,11 @@ export default function Projects() {
                   project.id ?? project.title[currentLanguage] ?? String(index)
                 }
                 variants={cardVariants}
-                whileHover={{
-                  y: -10,
-                  scale: 1.03,
-                  boxShadow: '0 8px 32px 0 rgba(0,0,0,0.18)',
-                }}
-                className="group relative cursor-pointer"
-                style={{ height: '100%' }}
+                className="card-base group"
               >
                 <Link
                   to={project.id ? `/projects/${project.id}` : '#'}
-                  className="block h-full"
+                  className="block"
                 >
                   <div className="relative bg-white/5 backdrop-blur-md rounded-2xl shadow-lg overflow-hidden transition-all duration-500 border border-white/10 hover:border-white/20 hover:shadow-xl group-hover:ring-4 group-hover:ring-secondary-400/20 h-full">
                     {/* Project Image */}
