@@ -25,29 +25,35 @@ export default function CTASection() {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 font-tajawal">
             {t('cta.headline')}
           </h2>
-          <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8">
+          <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8 font-almarai">
             {t('cta.subheadline')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/join"
-              className="group bg-secondary hover:bg-secondary-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-xl hover:shadow-secondary/20"
-            >
-              {t('cta.buttons.join')}
-              <ArrowRight
-                className={`w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 ${
-                  isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''
-                }`}
-              />
+            <Link to="/join">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="btn-primary group bg-secondary hover:bg-secondary-600 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-xl hover:shadow-secondary/20 font-tajawal"
+              >
+                {t('cta.buttons.join')}
+                <ArrowRight
+                  className={`w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 ${
+                    isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''
+                  }`}
+                />
+              </motion.button>
             </Link>
-            <Link
-              to="/contact"
-              className="border-2 border-white/30 text-white font-bold px-6 py-3 rounded-xl hover:border-white/50 hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2"
-            >
-              {t('cta.buttons.contact')}
+            <Link to="/contact">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="border-2 border-white/30 text-white font-bold px-6 py-3 rounded-xl hover:border-white/50 hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2 font-tajawal"
+              >
+                {t('cta.buttons.contact')}
+              </motion.button>
             </Link>
           </div>
         </motion.div>

@@ -37,15 +37,15 @@ const Loader: React.FC<LoaderProps> = ({
   const getColorClasses = () => {
     switch (color) {
       case 'primary':
-        return 'text-primary-500'
+        return 'text-primary'
       case 'white':
         return 'text-white'
       case 'accent':
-        return 'text-accent-500'
+        return 'text-accent'
       case 'gradient':
-        return 'text-transparent bg-gradient-to-r from-primary-500 to-accent-500 bg-clip-text'
+        return 'text-transparent bg-gradient-to-r from-primary to-accent bg-clip-text'
       default:
-        return 'text-primary-500'
+        return 'text-primary'
     }
   }
 
@@ -75,7 +75,7 @@ const Loader: React.FC<LoaderProps> = ({
       {[0, 1, 2].map((index) => (
         <motion.div
           key={index}
-          className={`w-2 h-2 rounded-full ${color === 'white' ? 'bg-white' : 'bg-primary-500'}`}
+          className={`w-2 h-2 rounded-full ${color === 'white' ? 'bg-white' : 'bg-primary'}`}
           animate={{
             scale: [1, 1.5, 1],
             opacity: [0.5, 1, 0.5],
@@ -93,7 +93,7 @@ const Loader: React.FC<LoaderProps> = ({
 
   const renderPulse = () => (
     <motion.div
-      className={`${getSizeClasses()} rounded-full ${color === 'white' ? 'bg-white' : 'bg-primary-500'}`}
+      className={`${getSizeClasses()} rounded-full ${color === 'white' ? 'bg-white' : 'bg-primary'}`}
       animate={{
         scale: [1, 1.2, 1],
         opacity: [0.5, 1, 0.5],
@@ -111,7 +111,7 @@ const Loader: React.FC<LoaderProps> = ({
       {[0, 1, 2, 3, 4].map((index) => (
         <motion.div
           key={index}
-          className={`w-1 ${color === 'white' ? 'bg-white' : 'bg-primary-500'} rounded-full`}
+          className={`w-1 ${color === 'white' ? 'bg-white' : 'bg-primary'} rounded-full`}
           animate={{
             height: ['8px', '24px', '8px'],
           }}
@@ -140,7 +140,7 @@ const Loader: React.FC<LoaderProps> = ({
     >
       <div className={`${getSizeClasses()} relative`}>
         <motion.div
-          className="absolute inset-0 rounded-full border-4 border-primary-500/20"
+          className="absolute inset-0 rounded-full border-4 border-primary/20"
           animate={{
             scale: [1, 1.1, 1],
           }}
@@ -151,7 +151,7 @@ const Loader: React.FC<LoaderProps> = ({
           }}
         />
         <motion.div
-          className="absolute inset-2 rounded-full border-2 border-primary-500"
+          className="absolute inset-2 rounded-full border-2 border-primary"
           animate={{
             rotate: [0, -360],
           }}
@@ -162,7 +162,7 @@ const Loader: React.FC<LoaderProps> = ({
           }}
         />
         <div className="absolute inset-0 flex items-center justify-center">
-          <Star className="w-4 h-4 text-primary-500" />
+          <Star className="w-4 h-4 text-primary" />
         </div>
       </div>
     </motion.div>

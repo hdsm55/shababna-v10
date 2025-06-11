@@ -106,7 +106,7 @@ export default function HeroSection() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group bg-secondary hover:bg-secondary-600 text-white font-tajawal font-bold px-8 py-4 rounded-xl shadow-lg transition-all duration-300 flex items-center gap-3 hover:shadow-xl hover:shadow-secondary/20"
+                className="btn-primary group bg-secondary hover:bg-secondary-600 text-white font-tajawal font-bold px-8 py-4 rounded-xl shadow-lg transition-all duration-300 flex items-center gap-3 hover:shadow-xl hover:shadow-secondary/20"
               >
                 {t('hero.button')}
                 <ArrowLeft

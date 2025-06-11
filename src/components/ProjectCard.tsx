@@ -58,14 +58,14 @@ export default function ProjectCard({
             </div>
           )}
           
-          <h3 className="text-xl font-semibold text-primary mb-2 line-clamp-2">{title}</h3>
+          <h3 className="text-xl font-semibold text-primary mb-2 line-clamp-2 font-tajawal">{title}</h3>
           
-          <p className="text-gray-600 mb-4 line-clamp-3 text-sm">{description}</p>
+          <p className="text-gray-600 mb-4 line-clamp-3 text-sm font-almarai">{description}</p>
         </div>
         
         <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-100">
           {year && (
-            <div className="flex items-center text-gray-500 text-sm">
+            <div className="flex items-center text-gray-500 text-sm font-almarai">
               <Calendar className="w-4 h-4 mr-1" aria-hidden="true" />
               <span>{year}</span>
             </div>
@@ -73,7 +73,7 @@ export default function ProjectCard({
           
           <Link
             to={`/projects/${id}`}
-            className="inline-flex items-center text-accent hover:text-accent-hover font-medium transition-colors"
+            className="inline-flex items-center text-accent hover:text-accent-hover font-medium transition-colors font-almarai"
           >
             <span className="mr-1">اعرف المزيد</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />

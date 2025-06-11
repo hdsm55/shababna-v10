@@ -18,17 +18,17 @@ export default function JoinSection() {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 font-tajawal">
             {t('join.heading')}
           </h2>
-          <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8">
+          <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8 font-almarai">
             {t('join.subheading')}
           </p>
           <Link to="/join">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="group bg-white hover:bg-white/90 text-accent font-bold px-8 py-4 rounded-xl shadow-lg transition-all duration-300 flex items-center gap-3 hover:shadow-xl hover:shadow-white/20"
+              className="btn-primary group bg-white hover:bg-white/90 text-accent font-bold px-8 py-4 rounded-xl shadow-lg transition-all duration-300 flex items-center gap-3 hover:shadow-xl hover:shadow-white/20 font-tajawal"
             >
               {t('join.button')}
               <ArrowRight

@@ -24,7 +24,7 @@ export default function ProjectsSection() {
   if (error) return (
     <section className="section bg-white">
       <div className="container mx-auto text-center py-12">
-        <p className="text-red-600">{String(error)}</p>
+        <p className="text-red-600 font-almarai">{String(error)}</p>
       </div>
     </section>
   )
@@ -39,11 +39,11 @@ export default function ProjectsSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            {t('sections.projects.title')}
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-tajawal">
+            {t('projects.heading')}
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {t('sections.projects.subtitle')}
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto font-almarai">
+            {t('projects.subheading')}
           </p>
         </motion.div>
 
@@ -74,7 +74,7 @@ export default function ProjectsSection() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-primary text-primary rounded-xl font-medium hover:bg-primary/5 transition-all duration-300"
+              className="btn-primary inline-flex items-center gap-2 px-6 py-3 bg-accent text-white hover:bg-accent-hover rounded-xl font-medium transition-all duration-300 shadow-md hover:shadow-lg"
             >
               {t('projects.viewAll', 'View All Projects')}
               <ArrowRight className={`w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 ${isRTL ? 'rotate-180' : ''}`} />

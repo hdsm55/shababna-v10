@@ -32,10 +32,10 @@ export default function TestimonialsSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-tajawal">
             {t('testimonials.heading')}
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto font-almarai">
             {t('testimonials.subheading')}
           </p>
         </motion.div>
@@ -53,18 +53,18 @@ export default function TestimonialsSection() {
               <div className="mb-4 text-accent opacity-30">
                 <Quote size={32} />
               </div>
-              <p className="text-gray-600 mb-6 italic">"{testimonial.content}"</p>
+              <p className="text-gray-600 mb-6 italic font-almarai">"{testimonial.content}"</p>
               <div className="flex items-center mt-auto">
                 <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                  <span className="text-primary font-semibold">
+                  <span className="text-primary font-semibold font-tajawal">
                     {testimonial.name.charAt(0)}
                   </span>
                 </div>
                 <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold text-gray-900 font-tajawal">
                     {testimonial.name}
                   </h3>
-                  <p className="text-sm text-gray-600">{testimonial.role}</p>
+                  <p className="text-sm text-gray-600 font-almarai">{testimonial.role}</p>
                 </div>
               </div>
             </motion.div>

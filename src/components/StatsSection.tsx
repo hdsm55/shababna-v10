@@ -24,10 +24,10 @@ export default function StatsSection() {
               className="text-center"
             >
               <div className="card card-hover border border-gray-100 hover:border-gray-200 transition-colors">
-                <h3 className="text-4xl font-bold text-primary mb-2">
+                <h3 className="text-4xl font-bold text-primary mb-2 font-tajawal">
                   {stat.value}
                 </h3>
-                <p className="text-gray-600">{stat.label}</p>
+                <p className="text-gray-600 font-almarai">{stat.label}</p>
               </div>
             </motion.div>
           ))}

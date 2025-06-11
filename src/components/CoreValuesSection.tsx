@@ -46,10 +46,10 @@ export default function CoreValuesSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-tajawal">
             {t('values.heading')}
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto font-almarai">
             {t('values.subheading')}
           </p>
         </motion.div>
@@ -69,10 +69,10 @@ export default function CoreValuesSection() {
                 <div className={`w-12 h-12 ${value.bgColor} rounded-lg flex items-center justify-center mb-4`}>
                   <Icon className={`w-6 h-6 ${value.color}`} aria-hidden="true" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2 font-tajawal">
                   {value.title}
                 </h3>
-                <p className="text-gray-600">{value.description}</p>
+                <p className="text-gray-600 font-almarai">{value.description}</p>
               </motion.div>
             )
           })}
