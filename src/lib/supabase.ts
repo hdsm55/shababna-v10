@@ -3,12 +3,14 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '').trim().replace(/\/$/, '');
 const supabaseKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '').trim();
 
+let supabase: any;
+
 // Create a mock client if Supabase is not configured
 if (!supabaseUrl || !supabaseKey) {
   console.warn('⚠️ Supabase not configured. Using mock client for development.');
   
   // Create a mock Supabase client that won't break the app
-  export const supabase = {
+  supabase = {
     auth: {
       signUp: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
       signIn: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
@@ -22,9 +24,9 @@ if (!supabaseUrl || !supabaseKey) {
       update: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
       delete: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } })
     })
-  } as any;
+  };
 } else {
-  export const supabase = createClient(supabaseUrl, supabaseKey);
+  supabase = createClient(supabaseUrl, supabaseKey);
   
   // Debug info in development
   if (import.meta.env.DEV) {
@@ -32,3 +34,5 @@ if (!supabaseUrl || !supabaseKey) {
     console.log('✅ Supabase KEY (first 12):', supabaseKey.slice(0, 12) + '…');
   }
 }
+
+export { supabase };
