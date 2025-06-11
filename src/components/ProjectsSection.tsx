@@ -30,14 +30,14 @@ export default function ProjectsSection() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((p, index) => (
+          {projects.map((p, idx) => (
             <motion.div
-              key={p.id ?? String(index)}
+              key={p.id ?? idx}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white rounded-lg shadow-md overflow-hidden"
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="card"
             >
               {p.img_url && (
                 <div className="h-48 overflow-hidden">
@@ -59,7 +59,7 @@ export default function ProjectsSection() {
                   </div>
                 )}
                 <Link
-                  to={`/projects/${p.id}`}
+                  to={p.link ?? '#'}
                   className="inline-flex items-center text-primary-600 hover:text-primary-700"
                 >
                   {t('projects.learnMore')}

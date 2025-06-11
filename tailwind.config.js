@@ -188,7 +188,9 @@ export default {
     plugins: [
         function ({ addComponents }) {
             addComponents({
-                '.btn-primary': '@apply bg-primary text-white font-semibold rounded-lg px-6 py-3 hover:bg-primary/90',
+                '.btn-primary': '@apply bg-[#8b5cf6] text-white px-6 py-2 rounded-lg hover:bg-[#7c4aec]',
+                '.section': '@apply px-4 sm:px-6 lg:px-8 py-16',
+                '.card': '@apply bg-white rounded-lg shadow-md p-6',
                 '.btn-secondary': '@apply bg-white text-primary font-semibold rounded-lg px-6 py-3 hover:bg-primary/10',
                 '.section-wrapper': '@apply px-4 sm:px-6 lg:px-8 py-16',
                 '.card-base': '@apply rounded-lg shadow-md p-6 bg-surface text-primary'
