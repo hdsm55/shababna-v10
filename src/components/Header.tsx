@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -9,6 +9,16 @@ const Header: React.FC = () => {
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLangOpen, setIsLangOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const navItems = [
     { path: '/', label: 'الرئيسية', id: 'home' },
@@ -35,7 +45,11 @@ const Header: React.FC = () => {
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-midnight/95 backdrop-blur-md border-b border-white/10">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-midnight/95 backdrop-blur-md shadow-lg' 
+        : 'bg-transparent'
+    }`}>
       <nav className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -43,11 +57,11 @@ const Header: React.FC = () => {
             <motion.div
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.5 }}
-              className="w-10 h-10 bg-gradient-to-r from-secondary-400 to-secondary-500 rounded-full flex items-center justify-center"
+              className="w-10 h-10 bg-gradient-to-r from-secondary to-secondary-500 rounded-full flex items-center justify-center"
             >
-              <span className="text-black font-bold text-lg">ش</span>
+              <span className="text-white font-bold text-lg">ش</span>
             </motion.div>
-            <span className="text-white font-bold text-xl font-tajawal group-hover:text-secondary-400 transition-colors duration-300">
+            <span className="text-white font-bold text-xl font-tajawal group-hover:text-secondary transition-colors duration-300">
               شبابنا
             </span>
           </Link>
@@ -60,15 +74,15 @@ const Header: React.FC = () => {
                 to={item.path}
                 className={`relative px-4 py-2 font-almarai font-medium transition-all duration-300 ${
                   isActive(item.path)
-                    ? 'text-secondary-400'
-                    : 'text-white hover:text-secondary-400'
+                    ? 'text-secondary'
+                    : 'text-white hover:text-secondary'
                 }`}
               >
                 {item.label}
                 {isActive(item.path) && (
                   <motion.div
                     layoutId="activeTab"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-secondary-400"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-secondary"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -102,7 +116,7 @@ const Header: React.FC = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full right-0 mt-2 bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 overflow-hidden min-w-[150px]"
+                    className="absolute top-full right-0 mt-2 glass rounded-xl overflow-hidden min-w-[150px] z-50"
                   >
                     {languages.map((lang) => (
                       <button
@@ -110,7 +124,7 @@ const Header: React.FC = () => {
                         onClick={() => toggleLanguage(lang.code)}
                         className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-white/10 transition-colors duration-300 ${
                           i18n.language === lang.code
-                            ? 'text-secondary-400'
+                            ? 'text-secondary'
                             : 'text-white'
                         }`}
                       >
@@ -126,7 +140,7 @@ const Header: React.FC = () => {
             {/* CTA Button */}
             <Link
               to="/join"
-              className="hidden sm:block bg-gradient-to-r from-secondary-400 to-secondary-500 hover:from-secondary-500 hover:to-secondary-600 text-black font-bold px-6 py-2 rounded-full transition-all duration-300 font-almarai"
+              className="hidden sm:block bg-gradient-to-r from-secondary to-secondary-500 hover:from-secondary-500 hover:to-secondary-600 text-white font-bold px-6 py-2 rounded-full transition-all duration-300 font-almarai shadow-lg hover:shadow-xl hover:shadow-secondary/20"
             >
               انضم الآن
             </Link>
@@ -134,7 +148,7 @@ const Header: React.FC = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 text-white hover:text-secondary-400 transition-colors duration-300"
+              className="lg:hidden p-2 text-white hover:text-secondary transition-colors duration-300"
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -164,8 +178,8 @@ const Header: React.FC = () => {
                     onClick={() => setIsMenuOpen(false)}
                     className={`block px-4 py-3 rounded-xl font-almarai font-medium transition-all duration-300 ${
                       isActive(item.path)
-                        ? 'bg-secondary-400/20 text-secondary-400'
-                        : 'text-white hover:bg-white/10 hover:text-secondary-400'
+                        ? 'bg-secondary/20 text-secondary'
+                        : 'text-white hover:bg-white/10 hover:text-secondary'
                     }`}
                   >
                     {item.label}
@@ -176,7 +190,7 @@ const Header: React.FC = () => {
                 <Link
                   to="/join"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block bg-gradient-to-r from-secondary-400 to-secondary-500 text-black font-bold px-6 py-3 rounded-xl text-center transition-all duration-300 font-almarai mt-6"
+                  className="block bg-gradient-to-r from-secondary to-secondary-500 text-white font-bold px-6 py-3 rounded-xl text-center transition-all duration-300 font-almarai mt-6 shadow-lg"
                 >
                   انضم الآن
                 </Link>

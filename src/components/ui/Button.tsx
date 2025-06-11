@@ -2,14 +2,14 @@ import React, { ButtonHTMLAttributes, ReactNode, forwardRef } from 'react';
 import { motion } from 'framer-motion';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'accent' | 'danger' | 'success';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'white' | 'danger' | 'success';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   fullWidth?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   isLoading?: boolean;
   animate?: boolean;
-  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full';
+  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -36,16 +36,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           return 'bg-primary text-white hover:bg-primary-600 focus:ring-primary/30';
         case 'secondary':
           return 'bg-secondary text-white hover:bg-secondary-600 focus:ring-secondary/30';
-        case 'accent':
-          return 'bg-accent text-white hover:bg-accent-600 focus:ring-accent/30';
         case 'outline':
-          return 'bg-transparent border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-300/30';
+          return 'bg-transparent border border-current text-current hover:bg-current/5 focus:ring-current/20';
         case 'ghost':
-          return 'bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-300/30';
+          return 'bg-transparent text-current hover:bg-current/5 focus:ring-current/20';
+        case 'white':
+          return 'bg-white text-gray-900 hover:bg-gray-100 focus:ring-gray-200';
         case 'danger':
-          return 'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500/30';
+          return 'bg-error-500 text-white hover:bg-error-600 focus:ring-error-500/30';
         case 'success':
-          return 'bg-green-500 text-white hover:bg-green-600 focus:ring-green-500/30';
+          return 'bg-success-500 text-white hover:bg-success-600 focus:ring-success-500/30';
         default:
           return 'bg-primary text-white hover:bg-primary-600 focus:ring-primary/30';
       }
@@ -78,6 +78,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           return 'rounded-md';
         case 'lg':
           return 'rounded-lg';
+        case 'xl':
+          return 'rounded-xl';
         case 'full':
           return 'rounded-full';
         default:
@@ -94,6 +96,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       font-medium transition-all duration-200
       focus:outline-none focus:ring-4
       disabled:opacity-60 disabled:cursor-not-allowed
+      shadow-sm hover:shadow
       ${className}
     `.trim();
 

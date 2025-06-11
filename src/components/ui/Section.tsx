@@ -4,8 +4,8 @@ export interface SectionProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode;
   containerClassName?: string;
   fullWidth?: boolean;
-  background?: 'light' | 'dark' | 'primary' | 'secondary' | 'accent' | 'transparent' | 'white';
-  spacing?: 'none' | 'sm' | 'md' | 'lg';
+  background?: 'light' | 'dark' | 'primary' | 'secondary' | 'accent' | 'transparent' | 'white' | 'gradient';
+  spacing?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
 export const Section: React.FC<SectionProps> = ({
@@ -33,6 +33,8 @@ export const Section: React.FC<SectionProps> = ({
         return 'bg-transparent';
       case 'white':
         return 'bg-white';
+      case 'gradient':
+        return 'bg-gradient-to-br from-primary to-primary-dark text-white';
       default:
         return 'bg-white';
     }
@@ -48,6 +50,8 @@ export const Section: React.FC<SectionProps> = ({
         return 'py-12 md:py-16';
       case 'lg':
         return 'py-16 md:py-24';
+      case 'xl':
+        return 'py-20 md:py-32';
       default:
         return 'py-12 md:py-16';
     }

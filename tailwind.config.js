@@ -74,7 +74,28 @@ export default {
           900: '#111827',
         },
         midnight: '#0F172A',
-        cetacean: '#1E293B'
+        cetacean: '#1E293B',
+        success: {
+          DEFAULT: '#10b981',
+          50: '#ecfdf5',
+          100: '#d1fae5',
+          500: '#10b981',
+          600: '#059669',
+        },
+        warning: {
+          DEFAULT: '#f59e0b',
+          50: '#fffbeb',
+          100: '#fef3c7',
+          500: '#f59e0b',
+          600: '#d97706',
+        },
+        error: {
+          DEFAULT: '#ef4444',
+          50: '#fef2f2',
+          100: '#fee2e2',
+          500: '#ef4444',
+          600: '#dc2626',
+        }
       },
       fontFamily: {
         tajawal: ['Tajawal', 'sans-serif'],
@@ -90,7 +111,17 @@ export default {
         'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
       },
       borderRadius: {
-        'card': '0.5rem'
+        'card': '0.75rem'
+      },
+      animation: {
+        'float': 'float 3s ease-in-out infinite',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        }
       }
     },
   },
@@ -117,20 +148,18 @@ export default {
           }
         },
         '.btn-secondary': {
-          backgroundColor: '#FFFFFF',
-          color: '#003362',
+          backgroundColor: '#4f46e5',
+          color: '#FFFFFF',
           fontWeight: '600',
           padding: '0.625rem 1.25rem',
           borderRadius: '0.5rem',
-          border: '1px solid #E2E8F0',
           transition: 'all 0.2s',
           '&:hover': {
-            backgroundColor: '#F8FAFC',
-            borderColor: '#CBD5E1'
+            backgroundColor: '#4338ca'
           },
           '&:focus': {
             outline: 'none',
-            boxShadow: '0 0 0 3px rgba(0, 51, 98, 0.2)'
+            boxShadow: '0 0 0 3px rgba(79, 70, 229, 0.4)'
           },
           '&:disabled': {
             opacity: '0.7',
@@ -151,9 +180,10 @@ export default {
           borderRadius: '0.75rem',
           boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
           padding: '1.5rem',
-          transition: 'box-shadow 0.2s',
+          transition: 'box-shadow 0.2s, transform 0.2s',
           '&:hover': {
-            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+            transform: 'translateY(-2px)'
           }
         }
       })

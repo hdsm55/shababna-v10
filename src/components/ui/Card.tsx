@@ -6,9 +6,9 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   hover?: boolean;
   bordered?: boolean;
   animate?: boolean;
-  padding?: 'none' | 'sm' | 'md' | 'lg';
-  shadow?: 'none' | 'sm' | 'md' | 'lg';
-  background?: 'white' | 'light' | 'dark' | 'primary' | 'accent';
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  shadow?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  background?: 'white' | 'light' | 'dark' | 'primary' | 'secondary' | 'accent' | 'transparent';
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -32,6 +32,8 @@ export const Card: React.FC<CardProps> = ({
         return 'p-6';
       case 'lg':
         return 'p-8';
+      case 'xl':
+        return 'p-10';
       default:
         return 'p-6';
     }
@@ -47,6 +49,8 @@ export const Card: React.FC<CardProps> = ({
         return 'shadow';
       case 'lg':
         return 'shadow-lg';
+      case 'xl':
+        return 'shadow-xl';
       default:
         return 'shadow';
     }
@@ -62,8 +66,12 @@ export const Card: React.FC<CardProps> = ({
         return 'bg-gray-800 text-white';
       case 'primary':
         return 'bg-primary-50';
+      case 'secondary':
+        return 'bg-secondary-50';
       case 'accent':
         return 'bg-accent-50';
+      case 'transparent':
+        return 'bg-transparent';
       default:
         return 'bg-white';
     }
@@ -73,7 +81,7 @@ export const Card: React.FC<CardProps> = ({
     rounded-xl
     ${getBackgroundClass()}
     ${getShadowClass()}
-    ${hover ? 'hover:shadow-lg transition-shadow duration-200' : ''}
+    ${hover ? 'hover:shadow-lg transition-all duration-200 hover:-translate-y-1' : ''}
     ${bordered ? 'border border-gray-200' : ''}
     ${getPaddingClass()}
     ${className}
@@ -86,7 +94,7 @@ export const Card: React.FC<CardProps> = ({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        whileHover={hover ? { y: -5 } : {}}
+        whileHover={hover ? { y: -5, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' } : {}}
         {...props}
       >
         {children}

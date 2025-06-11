@@ -6,7 +6,7 @@ export interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   weight?: 'normal' | 'medium' | 'semibold' | 'bold';
   align?: 'left' | 'center' | 'right';
-  color?: 'default' | 'white' | 'primary' | 'accent' | 'muted';
+  color?: 'default' | 'white' | 'primary' | 'secondary' | 'accent' | 'muted';
 }
 
 export const Heading: React.FC<HeadingProps> = ({
@@ -51,19 +51,19 @@ export const Heading: React.FC<HeadingProps> = ({
   const getSizeClass = () => {
     switch (level) {
       case 1:
-        return 'text-3xl md:text-4xl lg:text-5xl';
+        return 'text-4xl md:text-5xl lg:text-6xl';
       case 2:
-        return 'text-2xl md:text-3xl lg:text-4xl';
+        return 'text-3xl md:text-4xl';
       case 3:
-        return 'text-xl md:text-2xl';
-      case 4:
-        return 'text-lg md:text-xl';
-      case 5:
-        return 'text-base md:text-lg';
-      case 6:
-        return 'text-sm md:text-base';
-      default:
         return 'text-2xl md:text-3xl';
+      case 4:
+        return 'text-xl md:text-2xl';
+      case 5:
+        return 'text-lg md:text-xl';
+      case 6:
+        return 'text-base md:text-lg';
+      default:
+        return 'text-3xl md:text-4xl';
     }
   };
 
@@ -75,6 +75,8 @@ export const Heading: React.FC<HeadingProps> = ({
         return 'text-white';
       case 'primary':
         return 'text-primary';
+      case 'secondary':
+        return 'text-secondary';
       case 'accent':
         return 'text-accent';
       case 'muted':
@@ -86,7 +88,7 @@ export const Heading: React.FC<HeadingProps> = ({
 
   return (
     <Tag 
-      className={`${getSizeClass()} ${getWeightClass()} ${getAlignClass()} ${getColorClass()} ${className}`}
+      className={`${getSizeClass()} ${getWeightClass()} ${getAlignClass()} ${getColorClass()} font-tajawal leading-tight ${className}`}
       {...props}
     >
       {children}
@@ -100,8 +102,7 @@ export interface TextProps extends HTMLAttributes<HTMLParagraphElement> {
   size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl';
   weight?: 'normal' | 'medium' | 'semibold' | 'bold';
   align?: 'left' | 'center' | 'right';
-  color?: 'default' | 'muted' | 'primary' | 'accent' | 'white';
-  className?: string;
+  color?: 'default' | 'muted' | 'primary' | 'secondary' | 'accent' | 'white';
 }
 
 export const Text: React.FC<TextProps> = ({
@@ -168,6 +169,8 @@ export const Text: React.FC<TextProps> = ({
         return 'text-gray-600';
       case 'primary':
         return 'text-primary';
+      case 'secondary':
+        return 'text-secondary';
       case 'accent':
         return 'text-accent';
       case 'white':
@@ -179,7 +182,7 @@ export const Text: React.FC<TextProps> = ({
 
   return (
     <p 
-      className={`${getSizeClass()} ${getWeightClass()} ${getAlignClass()} ${getColorClass()} ${className}`}
+      className={`${getSizeClass()} ${getWeightClass()} ${getAlignClass()} ${getColorClass()} font-almarai leading-relaxed ${className}`}
       {...props}
     >
       {children}

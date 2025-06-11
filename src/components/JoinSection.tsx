@@ -2,19 +2,15 @@ import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { Section } from './ui/Section'
-import { Container } from './ui/Container'
-import { Heading, Text } from './ui/Typography'
-import { Button } from './ui/Button'
 
 export default function JoinSection() {
   const { t, i18n } = useTranslation()
   const isRTL = i18n.dir() === 'rtl'
 
   return (
-    <Section background="accent" className="relative overflow-hidden">
+    <section className="section bg-gradient-to-br from-accent to-accent-dark relative overflow-hidden">
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-10"></div>
-      <Container className="relative z-10">
+      <div className="container mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -22,28 +18,28 @@ export default function JoinSection() {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <Heading level={2} color="white" align="center" className="mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             {t('join.heading')}
-          </Heading>
-          <Text align="center" size="xl" color="white" className="opacity-90 max-w-2xl mx-auto mb-8">
+          </h2>
+          <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8">
             {t('join.subheading')}
-          </Text>
+          </p>
           <Link to="/join">
-            <Button
-              variant="secondary"
-              size="lg"
-              rightIcon={
-                <ArrowRight className={`transition-transform duration-300 group-hover:translate-x-1 ${
-                  isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''
-                }`} />
-              }
-              className="group bg-white text-accent hover:bg-white/90"
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="group bg-white hover:bg-white/90 text-accent font-bold px-8 py-4 rounded-xl shadow-lg transition-all duration-300 flex items-center gap-3 hover:shadow-xl hover:shadow-white/20"
             >
               {t('join.button')}
-            </Button>
+              <ArrowRight
+                className={`w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 ${
+                  isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''
+                }`}
+              />
+            </motion.button>
           </Link>
         </motion.div>
-      </Container>
-    </Section>
+      </div>
+    </section>
   )
 }

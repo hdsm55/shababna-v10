@@ -4,8 +4,6 @@ import { motion } from 'framer-motion'
 import { Send, CheckCircle } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { logger } from '../utils/logger'
-import { Button } from './ui/Button'
-import { Heading, Text } from './ui/Typography'
 
 interface ContactFormProps {
   className?: string
@@ -130,7 +128,7 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
   }
 
   return (
-    <div className={`bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20 ${className}`}>
+    <div className={`glass rounded-xl p-6 border border-white/20 ${className}`}>
       {isSuccess ? (
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -145,12 +143,12 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
           >
             <CheckCircle className="w-8 h-8 text-green-500" />
           </motion.div>
-          <Heading level={3} color="white" className="mb-2">
+          <h3 className="text-xl font-bold text-white mb-2">
             {t('contact.form.success.title', 'Message Sent!')}
-          </Heading>
-          <Text color="white" className="opacity-80">
+          </h3>
+          <p className="text-white/80">
             {t('contact.form.success.message', 'Thank you for your message. We will get back to you soon.')}
-          </Text>
+          </p>
         </motion.div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4" aria-label={t('contact.form.title', 'Contact form')}>
@@ -229,19 +227,26 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
             </div>
           )}
           
-          <Button
+          <motion.button
             type="submit"
-            variant="secondary"
-            fullWidth
-            isLoading={isSubmitting}
-            leftIcon={!isSubmitting ? <Send className="w-5 h-5" /> : undefined}
-            className="bg-secondary text-white hover:bg-secondary-600 font-bold"
+            disabled={isSubmitting}
+            whileHover={{ scale: isSubmitting ? 1 : 1.03 }}
+            whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+            className="w-full bg-secondary hover:bg-secondary-600 text-white font-bold py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:shadow-secondary/20"
+            aria-busy={isSubmitting}
           >
-            {isSubmitting 
-              ? t('contact.form.sending', 'Sending...') 
-              : t('contact.form.submit', 'Send Message')
-            }
-          </Button>
+            {isSubmitting ? (
+              <>
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                {t('contact.form.sending', 'Sending...')}
+              </>
+            ) : (
+              <>
+                <Send className="w-5 h-5" />
+                {t('contact.form.submit', 'Send Message')}
+              </>
+            )}
+          </motion.button>
         </form>
       )}
     </div>

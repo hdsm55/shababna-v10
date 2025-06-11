@@ -13,9 +13,6 @@ import {
   Heart,
   ExternalLink,
 } from 'lucide-react'
-import { Section } from './ui/Section'
-import { Container } from './ui/Container'
-import { Heading, Text } from './ui/Typography'
 
 export default function Footer() {
   const { t, i18n } = useTranslation()
@@ -85,17 +82,14 @@ export default function Footer() {
   ]
 
   return (
-    <Section 
-      className="bg-gradient-to-br from-midnight via-cetacean to-black text-white overflow-hidden"
-      background="transparent"
-      spacing="lg"
-    >
-      <Container>
+    <footer className="section bg-gradient-to-br from-midnight via-cetacean to-black text-white overflow-hidden">
+      <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="lg:col-span-2"
           >
@@ -108,13 +102,13 @@ export default function Footer() {
                 width="180"
                 height="48"
               />
-              <Heading level={3} color="white" className="mb-4 font-sans">
+              <h3 className="font-sans text-2xl font-bold mb-4 text-white">
                 شبابنا - منظمة الشباب العالمية
-              </Heading>
-              <Text color="white" className="opacity-70 leading-relaxed max-w-md">
+              </h3>
+              <p className="text-white/70 leading-relaxed max-w-md">
                 نعمل على تمكين الشباب وبناء مستقبل أفضل من خلال التعليم
                 والتطوير والمشاركة المجتمعية.
-              </Text>
+              </p>
             </div>
 
             {/* Contact Info */}
@@ -148,11 +142,12 @@ export default function Footer() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <Heading level={4} color="white" className="mb-6">
+            <h4 className="font-sans text-lg font-bold mb-6 text-white">
               الروابط الرئيسية
-            </Heading>
+            </h4>
             <ul className="space-y-3">
               {mainLinks.map((link) => (
                 <li key={link.to}>
@@ -172,11 +167,12 @@ export default function Footer() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Heading level={4} color="white" className="mb-6">
+            <h4 className="font-sans text-lg font-bold mb-6 text-white">
               الدعم والمساعدة
-            </Heading>
+            </h4>
             <ul className="space-y-3">
               {supportLinks.map((link) => (
                 <li key={link.to}>
@@ -196,17 +192,18 @@ export default function Footer() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <Heading level={4} color="white" className="mb-6">
+            <h4 className="font-sans text-lg font-bold mb-6 text-white">
               ابقى على تواصل
-            </Heading>
+            </h4>
 
             {/* Newsletter */}
             <div className="mb-6">
-              <Text size="sm" color="white" className="opacity-70 mb-4">
+              <p className="text-white/70 text-sm mb-4">
                 اشترك في نشرتنا الإخبارية
-              </Text>
+              </p>
               <div className="flex gap-2">
                 <input
                   type="email"
@@ -227,9 +224,9 @@ export default function Footer() {
 
             {/* Social Media */}
             <div>
-              <Text size="sm" color="white" className="opacity-70 mb-4">
+              <p className="text-white/70 text-sm mb-4">
                 تابعنا على وسائل التواصل
-              </Text>
+              </p>
               <div className="flex gap-3">
                 {socialLinks.map(({ icon: Icon, href, label, color }) => (
                   <motion.a
@@ -257,6 +254,7 @@ export default function Footer() {
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex items-center gap-2 text-white/60"
             >
@@ -270,6 +268,7 @@ export default function Footer() {
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.5 }}
               className="flex items-center gap-6"
             >
@@ -288,6 +287,7 @@ export default function Footer() {
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
               <select
@@ -311,7 +311,7 @@ export default function Footer() {
             </motion.div>
           </div>
         </div>
-      </Container>
+      </div>
 
       {/* Scroll to Top Button */}
       <motion.button 
@@ -336,6 +336,6 @@ export default function Footer() {
           <path d="m18 15-6-6-6 6"/>
         </svg>
       </motion.button>
-    </Section>
+    </footer>
   )
 }
