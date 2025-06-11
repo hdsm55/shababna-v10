@@ -33,7 +33,7 @@
   }
 
   .btn-secondary {
-    @apply bg-secondary-500 text-white hover:bg-secondary-600;
+    @apply bg-secondary text-white hover:bg-secondary-dark;
   }
 
   .input {
