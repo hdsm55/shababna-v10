@@ -88,11 +88,11 @@
   }
 
   .btn-outline {
-    @apply bg-transparent border border-current text-current hover:bg-current/5 focus:ring-current/20;
+    @apply bg-transparent border border-current text-current hover:bg-current hover:bg-opacity-5 focus:ring-current focus:ring-opacity-20;
   }
 
   .btn-ghost {
-    @apply bg-transparent text-current hover:bg-current/5 focus:ring-current/20;
+    @apply bg-transparent text-current hover:bg-current hover:bg-opacity-5 focus:ring-current focus:ring-opacity-20;
   }
 
   .input {
