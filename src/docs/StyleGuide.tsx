@@ -205,53 +205,8 @@ export default function StyleGuide() {
         </Container>
       </Section>
 
-      {/* Section Component */}
-      <Section background="accent">
-        <Container>
-          <Heading level={2} className="mb-8 text-white">
-            Section Component
-          </Heading>
-          
-          <Card>
-            <CardContent>
-              <Text>
-                The Section component applies responsive padding and can have different background colors.
-                It automatically handles container width and provides consistent spacing.
-              </Text>
-              
-              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-gray-100 p-4 rounded-md">
-                  <Text size="sm" weight="medium" className="mb-2">
-                    Responsive Padding:
-                  </Text>
-                  <ul className="list-disc list-inside text-sm space-y-1">
-                    <li>Mobile: 16px (px-4)</li>
-                    <li>Tablet: 24px (sm:px-6)</li>
-                    <li>Desktop: 32px (lg:px-8)</li>
-                    <li>Vertical: 64px (py-16)</li>
-                  </ul>
-                </div>
-                
-                <div className="bg-gray-100 p-4 rounded-md">
-                  <Text size="sm" weight="medium" className="mb-2">
-                    Background Options:
-                  </Text>
-                  <ul className="list-disc list-inside text-sm space-y-1">
-                    <li>light (default)</li>
-                    <li>dark</li>
-                    <li>primary</li>
-                    <li>accent</li>
-                    <li>transparent</li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </Container>
-      </Section>
-
       {/* Card Component */}
-      <Section>
+      <Section background="light">
         <Container>
           <Heading level={2} className="mb-8">
             Card Component
@@ -300,31 +255,58 @@ export default function StyleGuide() {
               </CardFooter>
             </Card>
           </div>
+        </Container>
+      </Section>
+
+      {/* Section Component */}
+      <Section background="accent">
+        <Container>
+          <Heading level={2} className="mb-8 text-white">
+            Section Component
+          </Heading>
           
-          <div className="mt-8">
-            <Card animate>
-              <CardHeader>
-                <CardTitle>Animated Card</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Text color="muted">
-                  This card animates in when it appears and has a hover animation. It's perfect for featured content.
-                </Text>
-              </CardContent>
-              <CardFooter>
-                <Button variant="primary" rightIcon={<ArrowRight size={16} />} fullWidth>
-                  Explore Now
-                </Button>
-              </CardFooter>
-            </Card>
-          </div>
+          <Card>
+            <CardContent>
+              <Text>
+                The Section component applies responsive padding and can have different background colors.
+                It automatically handles container width and provides consistent spacing.
+              </Text>
+              
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-gray-100 p-4 rounded-md">
+                  <Text size="sm" weight="medium" className="mb-2">
+                    Responsive Padding:
+                  </Text>
+                  <ul className="list-disc list-inside text-sm space-y-1">
+                    <li>Mobile: 16px (px-4)</li>
+                    <li>Tablet: 24px (sm:px-6)</li>
+                    <li>Desktop: 32px (lg:px-8)</li>
+                    <li>Vertical: 64px (py-16)</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-gray-100 p-4 rounded-md">
+                  <Text size="sm" weight="medium" className="mb-2">
+                    Background Options:
+                  </Text>
+                  <ul className="list-disc list-inside text-sm space-y-1">
+                    <li>light (default)</li>
+                    <li>dark</li>
+                    <li>primary</li>
+                    <li>accent</li>
+                    <li>transparent</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </Container>
       </Section>
 
       {/* Usage Examples */}
-      <Section background="primary">
+      <Section>
         <Container>
-          <Heading level={2} className="mb-8 text-white">
+          <Heading level={2} className="mb-8">
             Usage Examples
           </Heading>
           
@@ -394,112 +376,6 @@ export default function StyleGuide() {
               </div>
             </div>
           </div>
-        </Container>
-      </Section>
-
-      {/* Responsive Breakpoints */}
-      <Section>
-        <Container>
-          <Heading level={2} className="mb-8">
-            Responsive Breakpoints
-          </Heading>
-          
-          <Card>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead>
-                    <tr>
-                      <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Breakpoint
-                      </th>
-                      <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        CSS Prefix
-                      </th>
-                      <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Minimum Width
-                      </th>
-                      <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Usage
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    <tr>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        Mobile (Default)
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <code>none</code>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        0px
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <code>className="text-center"</code>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        Small (sm)
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <code>sm:</code>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        640px
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <code>className="sm:text-left"</code>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        Medium (md)
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <code>md:</code>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        768px
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <code>className="md:flex-row"</code>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        Large (lg)
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <code>lg:</code>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        1024px
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <code>className="lg:grid-cols-3"</code>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        Extra Large (xl)
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <code>xl:</code>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        1280px
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <code>className="xl:max-w-7xl"</code>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
         </Container>
       </Section>
     </div>
