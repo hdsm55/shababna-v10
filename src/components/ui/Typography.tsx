@@ -6,6 +6,7 @@ export interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   weight?: 'normal' | 'medium' | 'semibold' | 'bold';
   align?: 'left' | 'center' | 'right';
+  color?: 'default' | 'white' | 'primary' | 'accent' | 'muted';
 }
 
 export const Heading: React.FC<HeadingProps> = ({
@@ -13,6 +14,7 @@ export const Heading: React.FC<HeadingProps> = ({
   level = 2,
   weight = 'bold',
   align = 'left',
+  color = 'default',
   className = '',
   ...props
 }) => {
@@ -49,25 +51,42 @@ export const Heading: React.FC<HeadingProps> = ({
   const getSizeClass = () => {
     switch (level) {
       case 1:
-        return 'text-4xl md:text-5xl';
+        return 'text-3xl md:text-4xl lg:text-5xl';
       case 2:
-        return 'text-3xl md:text-4xl';
+        return 'text-2xl md:text-3xl lg:text-4xl';
       case 3:
-        return 'text-2xl md:text-3xl';
-      case 4:
         return 'text-xl md:text-2xl';
-      case 5:
+      case 4:
         return 'text-lg md:text-xl';
-      case 6:
+      case 5:
         return 'text-base md:text-lg';
+      case 6:
+        return 'text-sm md:text-base';
       default:
-        return 'text-3xl md:text-4xl';
+        return 'text-2xl md:text-3xl';
+    }
+  };
+
+  const getColorClass = () => {
+    switch (color) {
+      case 'default':
+        return 'text-gray-900';
+      case 'white':
+        return 'text-white';
+      case 'primary':
+        return 'text-primary';
+      case 'accent':
+        return 'text-accent';
+      case 'muted':
+        return 'text-gray-600';
+      default:
+        return 'text-gray-900';
     }
   };
 
   return (
     <Tag 
-      className={`${getSizeClass()} ${getWeightClass()} ${getAlignClass()} text-gray-900 ${className}`}
+      className={`${getSizeClass()} ${getWeightClass()} ${getAlignClass()} ${getColorClass()} ${className}`}
       {...props}
     >
       {children}
@@ -78,15 +97,16 @@ export const Heading: React.FC<HeadingProps> = ({
 // Text component
 export interface TextProps extends HTMLAttributes<HTMLParagraphElement> {
   children: ReactNode;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl';
   weight?: 'normal' | 'medium' | 'semibold' | 'bold';
   align?: 'left' | 'center' | 'right';
-  color?: 'default' | 'muted' | 'primary' | 'accent';
+  color?: 'default' | 'muted' | 'primary' | 'accent' | 'white';
+  className?: string;
 }
 
 export const Text: React.FC<TextProps> = ({
   children,
-  size = 'md',
+  size = 'base',
   weight = 'normal',
   align = 'left',
   color = 'default',
@@ -99,12 +119,14 @@ export const Text: React.FC<TextProps> = ({
         return 'text-xs';
       case 'sm':
         return 'text-sm';
-      case 'md':
+      case 'base':
         return 'text-base';
       case 'lg':
         return 'text-lg';
       case 'xl':
         return 'text-xl';
+      case '2xl':
+        return 'text-2xl';
       default:
         return 'text-base';
     }
@@ -148,6 +170,8 @@ export const Text: React.FC<TextProps> = ({
         return 'text-primary';
       case 'accent':
         return 'text-accent';
+      case 'white':
+        return 'text-white';
       default:
         return 'text-gray-900';
     }

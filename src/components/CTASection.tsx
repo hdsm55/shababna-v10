@@ -30,26 +30,37 @@ export default function CTASection() {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <Heading level={2} align="center" className="text-white mb-4">
+          <Heading level={2} color="white" align="center" className="mb-4">
             {t('cta.headline')}
           </Heading>
-          <Text align="center" size="xl" className="text-accent mb-8">
+          <Text align="center" size="xl" color="white" className="opacity-90 mb-8">
             {t('cta.subheadline')}
           </Text>
-          <Link to="/join">
-            <Button 
-              variant="secondary" 
-              size="lg"
-              rightIcon={
-                <ArrowRight className={`transition-transform duration-300 group-hover:translate-x-1 ${
-                  isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''
-                }`} />
-              }
-              className="group"
-            >
-              {t('cta.button')}
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/join">
+              <Button 
+                variant="secondary" 
+                size="lg"
+                rightIcon={
+                  <ArrowRight className={`transition-transform duration-300 group-hover:translate-x-1 ${
+                    isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''
+                  }`} />
+                }
+                className="group bg-secondary text-white hover:bg-secondary-600"
+              >
+                {t('cta.buttons.join')}
+              </Button>
+            </Link>
+            <Link to="/contact">
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="border-white text-white hover:bg-white/10"
+              >
+                {t('cta.buttons.contact')}
+              </Button>
+            </Link>
+          </div>
         </motion.div>
       </Container>
     </Section>

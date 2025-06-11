@@ -2,13 +2,14 @@ import React, { ButtonHTMLAttributes, ReactNode, forwardRef } from 'react';
 import { motion } from 'framer-motion';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'accent' | 'danger' | 'success';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   fullWidth?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   isLoading?: boolean;
   animate?: boolean;
+  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full';
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -21,6 +22,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       rightIcon,
       isLoading = false,
       animate = true,
+      rounded = 'lg',
       className = '',
       children,
       disabled,
@@ -31,37 +33,65 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const getVariantClasses = () => {
       switch (variant) {
         case 'primary':
-          return 'bg-accent text-white hover:bg-accent-hover focus:ring-accent/30';
+          return 'bg-primary text-white hover:bg-primary-600 focus:ring-primary/30';
         case 'secondary':
-          return 'bg-white text-primary border border-gray-200 hover:bg-gray-50 focus:ring-primary/20';
+          return 'bg-secondary text-white hover:bg-secondary-600 focus:ring-secondary/30';
+        case 'accent':
+          return 'bg-accent text-white hover:bg-accent-600 focus:ring-accent/30';
         case 'outline':
-          return 'bg-transparent border border-accent text-accent hover:bg-accent/5 focus:ring-accent/20';
+          return 'bg-transparent border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-300/30';
         case 'ghost':
-          return 'bg-transparent text-primary hover:bg-primary/5 focus:ring-primary/20';
+          return 'bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-300/30';
+        case 'danger':
+          return 'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500/30';
+        case 'success':
+          return 'bg-green-500 text-white hover:bg-green-600 focus:ring-green-500/30';
         default:
-          return 'bg-accent text-white hover:bg-accent-hover focus:ring-accent/30';
+          return 'bg-primary text-white hover:bg-primary-600 focus:ring-primary/30';
       }
     };
 
     const getSizeClasses = () => {
       switch (size) {
+        case 'xs':
+          return 'text-xs px-2.5 py-1.5';
         case 'sm':
-          return 'text-sm px-3 py-1.5 rounded-md';
+          return 'text-sm px-3 py-2';
         case 'md':
-          return 'text-base px-5 py-2.5 rounded-lg';
+          return 'text-base px-4 py-2.5';
         case 'lg':
-          return 'text-lg px-6 py-3 rounded-lg';
+          return 'text-lg px-5 py-3';
+        case 'xl':
+          return 'text-xl px-6 py-3.5';
         default:
-          return 'text-base px-5 py-2.5 rounded-lg';
+          return 'text-base px-4 py-2.5';
+      }
+    };
+
+    const getRoundedClasses = () => {
+      switch (rounded) {
+        case 'none':
+          return 'rounded-none';
+        case 'sm':
+          return 'rounded-sm';
+        case 'md':
+          return 'rounded-md';
+        case 'lg':
+          return 'rounded-lg';
+        case 'full':
+          return 'rounded-full';
+        default:
+          return 'rounded-lg';
       }
     };
 
     const classes = `
       ${getVariantClasses()}
       ${getSizeClasses()}
+      ${getRoundedClasses()}
       ${fullWidth ? 'w-full' : ''}
       inline-flex items-center justify-center gap-2
-      font-medium transition-colors duration-200
+      font-medium transition-all duration-200
       focus:outline-none focus:ring-4
       disabled:opacity-60 disabled:cursor-not-allowed
       ${className}

@@ -4,6 +4,7 @@ import { Section } from './ui/Section'
 import { Container } from './ui/Container'
 import { Heading, Text } from './ui/Typography'
 import { Card, CardContent } from './ui/Card'
+import { Quote } from 'lucide-react'
 
 export default function TestimonialsSection() {
   const { t } = useTranslation()
@@ -52,10 +53,16 @@ export default function TestimonialsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card>
+              <Card className="h-full border border-gray-100 hover:border-gray-200 transition-colors">
                 <CardContent>
-                  <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                  <div className="mb-4 text-accent opacity-30">
+                    <Quote size={32} />
+                  </div>
+                  <Text color="muted" className="mb-6 italic">
+                    "{testimonial.content}"
+                  </Text>
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
                       <span className="text-primary font-semibold">
                         {testimonial.name.charAt(0)}
                       </span>
@@ -69,9 +76,6 @@ export default function TestimonialsSection() {
                       </Text>
                     </div>
                   </div>
-                  <Text color="muted">
-                    {testimonial.content}
-                  </Text>
                 </CardContent>
               </Card>
             </motion.div>

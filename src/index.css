@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Almarai:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Almarai:wght@400;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +6,7 @@
 :root {
   --color-primary: #003362;
   --color-accent: #8b5cf6;
+  --color-secondary: #4f46e5;
   --color-white: #FFFFFF;
   --font-sans: 'Tajawal', sans-serif;
 }
@@ -17,6 +18,22 @@
   
   body {
     @apply font-sans text-gray-900 antialiased;
+  }
+
+  h1 {
+    @apply text-3xl font-bold text-gray-900;
+  }
+
+  h2 {
+    @apply text-2xl font-semibold text-gray-800;
+  }
+
+  h3 {
+    @apply text-xl font-medium text-gray-700;
+  }
+
+  p {
+    @apply text-base text-gray-600;
   }
 
   /* RTL Support */
@@ -34,9 +51,34 @@
     @apply bg-accent text-white hover:bg-accent-hover;
   }
 
-  .input {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+  .btn-secondary {
+    @apply bg-white text-primary border border-gray-200 hover:bg-gray-50;
   }
+
+  .input {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+  }
+
+  .section {
+    @apply space-y-8 md:space-y-12 py-12 md:py-16;
+  }
+
+  .card {
+    @apply rounded-xl shadow-sm bg-white p-6;
+  }
+}
+
+/* Spacing Utilities */
+.space-y-section {
+  @apply space-y-8 md:space-y-12;
+}
+
+.space-y-element {
+  @apply space-y-4 md:space-y-6;
+}
+
+.section-padding {
+  @apply p-4 md:p-6;
 }
 
 /* Animations */

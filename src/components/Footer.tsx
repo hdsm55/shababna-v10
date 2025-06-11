@@ -13,6 +13,9 @@ import {
   Heart,
   ExternalLink,
 } from 'lucide-react'
+import { Section } from './ui/Section'
+import { Container } from './ui/Container'
+import { Heading, Text } from './ui/Typography'
 
 export default function Footer() {
   const { t, i18n } = useTranslation()
@@ -82,8 +85,12 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="section bg-gradient-to-br from-midnight via-cetacean to-black text-white overflow-hidden">
-      <div className="container mx-auto">
+    <Section 
+      className="bg-gradient-to-br from-midnight via-cetacean to-black text-white overflow-hidden"
+      background="transparent"
+      spacing="lg"
+    >
+      <Container>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand Section */}
           <motion.div
@@ -101,13 +108,13 @@ export default function Footer() {
                 width="180"
                 height="48"
               />
-              <h3 className="font-sans text-2xl font-bold mb-4">
+              <Heading level={3} color="white" className="mb-4 font-sans">
                 شبابنا - منظمة الشباب العالمية
-              </h3>
-              <p className="text-white/70 leading-relaxed max-w-md">
+              </Heading>
+              <Text color="white" className="opacity-70 leading-relaxed max-w-md">
                 نعمل على تمكين الشباب وبناء مستقبل أفضل من خلال التعليم
                 والتطوير والمشاركة المجتمعية.
-              </p>
+              </Text>
             </div>
 
             {/* Contact Info */}
@@ -143,9 +150,9 @@ export default function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h4 className="font-sans text-lg font-bold mb-6 text-white">
+            <Heading level={4} color="white" className="mb-6">
               الروابط الرئيسية
-            </h4>
+            </Heading>
             <ul className="space-y-3">
               {mainLinks.map((link) => (
                 <li key={link.to}>
@@ -167,9 +174,9 @@ export default function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h4 className="font-sans text-lg font-bold mb-6 text-white">
+            <Heading level={4} color="white" className="mb-6">
               الدعم والمساعدة
-            </h4>
+            </Heading>
             <ul className="space-y-3">
               {supportLinks.map((link) => (
                 <li key={link.to}>
@@ -191,15 +198,15 @@ export default function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h4 className="font-sans text-lg font-bold mb-6 text-white">
+            <Heading level={4} color="white" className="mb-6">
               ابقى على تواصل
-            </h4>
+            </Heading>
 
             {/* Newsletter */}
             <div className="mb-6">
-              <p className="text-white/70 text-sm mb-4">
+              <Text size="sm" color="white" className="opacity-70 mb-4">
                 اشترك في نشرتنا الإخبارية
-              </p>
+              </Text>
               <div className="flex gap-2">
                 <input
                   type="email"
@@ -210,7 +217,7 @@ export default function Footer() {
                   aria-label="البريد الإلكتروني للاشتراك"
                 />
                 <button 
-                  className="btn-primary flex-shrink-0"
+                  className="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg transition-colors flex-shrink-0"
                   aria-label="اشتراك"
                 >
                   <Mail className="w-4 h-4" aria-hidden="true" />
@@ -220,9 +227,9 @@ export default function Footer() {
 
             {/* Social Media */}
             <div>
-              <p className="text-white/70 text-sm mb-4">
+              <Text size="sm" color="white" className="opacity-70 mb-4">
                 تابعنا على وسائل التواصل
-              </p>
+              </Text>
               <div className="flex gap-3">
                 {socialLinks.map(({ icon: Icon, href, label, color }) => (
                   <motion.a
@@ -304,7 +311,7 @@ export default function Footer() {
             </motion.div>
           </div>
         </div>
-      </div>
+      </Container>
 
       {/* Scroll to Top Button */}
       <motion.button 
@@ -329,6 +336,6 @@ export default function Footer() {
           <path d="m18 15-6-6-6 6"/>
         </svg>
       </motion.button>
-    </footer>
+    </Section>
   )
 }

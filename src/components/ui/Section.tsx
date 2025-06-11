@@ -4,7 +4,8 @@ export interface SectionProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode;
   containerClassName?: string;
   fullWidth?: boolean;
-  background?: 'light' | 'dark' | 'primary' | 'accent' | 'transparent';
+  background?: 'light' | 'dark' | 'primary' | 'secondary' | 'accent' | 'transparent' | 'white';
+  spacing?: 'none' | 'sm' | 'md' | 'lg';
 }
 
 export const Section: React.FC<SectionProps> = ({
@@ -12,29 +13,49 @@ export const Section: React.FC<SectionProps> = ({
   className = '',
   containerClassName = '',
   fullWidth = false,
-  background = 'light',
+  background = 'white',
+  spacing = 'md',
   ...props
 }) => {
   const getBgColor = () => {
     switch (background) {
       case 'light':
-        return 'bg-surface-100';
+        return 'bg-gray-50';
       case 'dark':
-        return 'bg-primary text-white';
+        return 'bg-gray-900 text-white';
       case 'primary':
         return 'bg-primary text-white';
+      case 'secondary':
+        return 'bg-secondary text-white';
       case 'accent':
         return 'bg-accent text-white';
       case 'transparent':
         return 'bg-transparent';
+      case 'white':
+        return 'bg-white';
       default:
-        return 'bg-surface-100';
+        return 'bg-white';
+    }
+  };
+
+  const getSpacingClass = () => {
+    switch (spacing) {
+      case 'none':
+        return 'py-0';
+      case 'sm':
+        return 'py-8 md:py-12';
+      case 'md':
+        return 'py-12 md:py-16';
+      case 'lg':
+        return 'py-16 md:py-24';
+      default:
+        return 'py-12 md:py-16';
     }
   };
 
   return (
     <section 
-      className={`py-16 ${getBgColor()} ${className}`} 
+      className={`${getBgColor()} ${getSpacingClass()} ${className}`} 
       dir="auto"
       {...props}
     >

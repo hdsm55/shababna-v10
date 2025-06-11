@@ -34,7 +34,7 @@ export default function ProjectsSection() {
   )
 
   return (
-    <Section>
+    <Section background="white">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -80,6 +80,7 @@ export default function ProjectsSection() {
               rightIcon={
                 <ArrowRight className={`${isRTL ? 'rotate-180' : ''}`} />
               }
+              className="border-primary text-primary hover:bg-primary-50"
             >
               {t('projects.viewAll', 'View All Projects')}
             </Button>

@@ -145,10 +145,10 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
           >
             <CheckCircle className="w-8 h-8 text-green-500" />
           </motion.div>
-          <Heading level={3} className="text-white mb-2">
+          <Heading level={3} color="white" className="mb-2">
             {t('contact.form.success.title', 'Message Sent!')}
           </Heading>
-          <Text className="text-white/80">
+          <Text color="white" className="opacity-80">
             {t('contact.form.success.message', 'Thank you for your message. We will get back to you soon.')}
           </Text>
         </motion.div>
@@ -231,11 +231,11 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
           
           <Button
             type="submit"
-            variant="primary"
+            variant="secondary"
             fullWidth
             isLoading={isSubmitting}
             leftIcon={!isSubmitting ? <Send className="w-5 h-5" /> : undefined}
-            className="bg-accent hover:bg-accent-hover text-white font-bold"
+            className="bg-secondary text-white hover:bg-secondary-600 font-bold"
           >
             {isSubmitting 
               ? t('contact.form.sending', 'Sending...') 

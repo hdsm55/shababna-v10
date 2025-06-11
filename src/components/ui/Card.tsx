@@ -7,6 +7,8 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   bordered?: boolean;
   animate?: boolean;
   padding?: 'none' | 'sm' | 'md' | 'lg';
+  shadow?: 'none' | 'sm' | 'md' | 'lg';
+  background?: 'white' | 'light' | 'dark' | 'primary' | 'accent';
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -16,6 +18,8 @@ export const Card: React.FC<CardProps> = ({
   bordered = false,
   animate = false,
   padding = 'md',
+  shadow = 'md',
+  background = 'white',
   ...props
 }) => {
   const getPaddingClass = () => {
@@ -33,10 +37,44 @@ export const Card: React.FC<CardProps> = ({
     }
   };
 
+  const getShadowClass = () => {
+    switch (shadow) {
+      case 'none':
+        return '';
+      case 'sm':
+        return 'shadow-sm';
+      case 'md':
+        return 'shadow';
+      case 'lg':
+        return 'shadow-lg';
+      default:
+        return 'shadow';
+    }
+  };
+
+  const getBackgroundClass = () => {
+    switch (background) {
+      case 'white':
+        return 'bg-white';
+      case 'light':
+        return 'bg-gray-50';
+      case 'dark':
+        return 'bg-gray-800 text-white';
+      case 'primary':
+        return 'bg-primary-50';
+      case 'accent':
+        return 'bg-accent-50';
+      default:
+        return 'bg-white';
+    }
+  };
+
   const cardClasses = `
-    bg-surface rounded-lg
+    rounded-xl
+    ${getBackgroundClass()}
+    ${getShadowClass()}
     ${hover ? 'hover:shadow-lg transition-shadow duration-200' : ''}
-    ${bordered ? 'border border-gray-200' : 'shadow-md'}
+    ${bordered ? 'border border-gray-200' : ''}
     ${getPaddingClass()}
     ${className}
   `.trim();

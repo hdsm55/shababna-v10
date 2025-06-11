@@ -14,26 +14,34 @@ export default function CoreValuesSection() {
       icon: Heart,
       title: t('values.compassion.title'),
       description: t('values.compassion.description'),
+      color: 'text-rose-500',
+      bgColor: 'bg-rose-50',
     },
     {
       icon: Users,
       title: t('values.community.title'),
       description: t('values.community.description'),
+      color: 'text-blue-500',
+      bgColor: 'bg-blue-50',
     },
     {
       icon: Globe,
       title: t('values.sustainability.title'),
       description: t('values.sustainability.description'),
+      color: 'text-emerald-500',
+      bgColor: 'bg-emerald-50',
     },
     {
       icon: Award,
       title: t('values.excellence.title'),
       description: t('values.excellence.description'),
+      color: 'text-amber-500',
+      bgColor: 'bg-amber-50',
     },
   ]
 
   return (
-    <Section>
+    <Section background="light">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -61,10 +69,10 @@ export default function CoreValuesSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card>
+                <Card className="h-full hover:border-gray-300 transition-colors">
                   <CardContent>
-                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                      <Icon className="w-6 h-6 text-primary" aria-hidden="true" />
+                    <div className={`w-12 h-12 ${value.bgColor} rounded-lg flex items-center justify-center mb-4`}>
+                      <Icon className={`w-6 h-6 ${value.color}`} aria-hidden="true" />
                     </div>
                     <Heading level={3} className="mb-2">
                       {value.title}
