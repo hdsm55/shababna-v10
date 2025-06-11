@@ -31,6 +31,7 @@ const Reports = lazy(() => import('./pages/Reports'))
 const Volunteer = lazy(() => import('./pages/Volunteer'))
 const AddProject = lazy(() => import('./pages/admin/AddProject'))
 const Users = lazy(() => import('./pages/admin/Users'))
+const AdminMembers = lazy(() => import('./pages/admin/AdminMembers'))
 
 // Layout Components
 const PublicLayout = ({ children }: { children: React.ReactNode }) => (
@@ -128,6 +129,16 @@ export default function App() {
                     <ProtectedRoute>
                       <Suspense fallback={<Loader size="lg" />}>
                         <Users />
+                      </Suspense>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/members"
+                  element={
+                    <ProtectedRoute>
+                      <Suspense fallback={<Loader size="lg" />}>
+                        <AdminMembers />
                       </Suspense>
                     </ProtectedRoute>
                   }

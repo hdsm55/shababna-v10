@@ -112,7 +112,44 @@
   "join": {
     "heading": "Join Our Mission",
     "subheading": "Be part of something bigger",
-    "button": "Get Involved"
+    "button": "Get Involved",
+    "badge": "Join our global community",
+    "title": "Join Us",
+    "description": "Join our global community of creative and impactful youth",
+    "form": {
+      "title": "Membership Form",
+      "subtitle": "Tell us about yourself so we can connect with you",
+      "name": "Full Name",
+      "namePlaceholder": "Enter your full name",
+      "email": "Email Address",
+      "emailPlaceholder": "your@email.com",
+      "phone": "Phone Number",
+      "phonePlaceholder": "+1 XXX XXX XXXX",
+      "motivation": "Why do you want to join Shababna?",
+      "motivationPlaceholder": "Share your story and motivation to join our global youth organization...",
+      "submit": "Join Now",
+      "submitting": "Submitting...",
+      "errors": {
+        "name": "Name is required",
+        "email": "Email is required",
+        "emailInvalid": "Email is invalid",
+        "emailExists": "This email is already registered",
+        "motivation": "Please tell us why you want to join",
+        "general": "An error occurred. Please try again later."
+      }
+    },
+    "benefits": {
+      "title": "What you'll get as a member:",
+      "item1": "Diverse and impactful volunteer opportunities",
+      "item2": "Free training courses and workshops",
+      "item3": "Global network of youth connections",
+      "item4": "Certified volunteer certificates"
+    },
+    "success": {
+      "title": "Welcome to Shababna!",
+      "message": "Your application has been submitted successfully. We'll contact you soon to complete the joining process.",
+      "redirect": "You will be redirected to the homepage in 3 seconds..."
+    }
   },
   "faq": {
     "heading": "Frequently Asked Questions",
@@ -321,5 +358,50 @@
     "subtitle": "Be part of positive change",
     "joinButton": "Join Us",
     "contactButton": "Contact Us"
+  },
+  "admin": {
+    "members": {
+      "title": "Member Management",
+      "description": "View and manage membership applications and current members",
+      "list": "Members List",
+      "searchPlaceholder": "Search by name or email...",
+      "allStatuses": "All Statuses",
+      "name": "Name",
+      "email": "Email",
+      "status": "Status",
+      "joinDate": "Join Date",
+      "actions": "Actions",
+      "view": "View",
+      "approve": "Approve Member",
+      "reject": "Reject Member",
+      "delete": "Delete Member",
+      "confirmDelete": "Are you sure you want to delete this member?",
+      "backToList": "Back to Members List",
+      "motivation": "Motivation for Joining",
+      "noMotivation": "No motivation provided",
+      "details": "Additional Details",
+      "joinedOn": "Joined on",
+      "totalCount": "Total: {{count}} members",
+      "noMembers": "No members",
+      "noResults": "No matching results",
+      "empty": "No members yet",
+      "previous": "Previous",
+      "next": "Next",
+      "pagination": "Page {{current}} of {{total}}",
+      "clearFilters": "Clear Filters",
+      "loadError": "Error loading members",
+      "retry": "Retry",
+      "approved": "Member approved successfully",
+      "rejected": "Member rejected successfully",
+      "deleted": "Member deleted successfully",
+      "updateError": "Failed to update member status",
+      "deleteError": "Failed to delete member",
+      "backToDashboard": "Back to Dashboard",
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      }
+    }
   }
 }

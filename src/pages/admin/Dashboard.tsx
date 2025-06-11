@@ -13,8 +13,9 @@ import {
   Pie,
   Cell,
 } from 'recharts'
-import { Users, FolderOpen, Calendar, Eye, TrendingUp } from 'lucide-react'
+import { Users, FolderOpen, Calendar, Eye, TrendingUp, UserPlus } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useMembers } from '../../hooks/useMembers'
 
 interface DashboardStats {
   totalUsers: number
@@ -49,6 +50,10 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true)
 
   const navigate = useNavigate()
+  
+  // Fetch members data to show pending count
+  const { data: membersData } = useMembers({ status: 'pending' })
+  const pendingMembersCount = membersData?.count || 0
 
   // Mock data - replace with real API calls
   useEffect(() => {
@@ -64,7 +69,7 @@ const Dashboard: React.FC = () => {
           totalViews: 45672,
           monthlyGrowth: 12.5,
           activeProjects: 8,
-          pendingRegistrations: 34,
+          pendingRegistrations: pendingMembersCount,
           totalDownloads: 2341,
         })
 
@@ -85,7 +90,7 @@ const Dashboard: React.FC = () => {
     }
 
     fetchDashboardData()
-  }, [])
+  }, [pendingMembersCount])
 
   const pieData = [
     { name: 'تعليم', value: 35, color: '#3B82F6' },
@@ -120,12 +125,12 @@ const Dashboard: React.FC = () => {
       color: 'from-purple-500 to-purple-600',
     },
     {
-      title: 'إجمالي المشاهدات',
-      value: stats.totalViews.toLocaleString(),
-      icon: Eye,
-      change: '+23%',
-      positive: true,
-      color: 'from-orange-500 to-orange-600',
+      title: 'طلبات الانضمام',
+      value: stats.pendingRegistrations,
+      icon: UserPlus,
+      change: pendingMembersCount > 0 ? `${pendingMembersCount} جديد` : '0 جديد',
+      positive: pendingMembersCount > 0,
+      color: 'from-amber-500 to-amber-600',
     },
   ]
 
@@ -276,12 +281,17 @@ const Dashboard: React.FC = () => {
               <p className="text-sm text-gray-600">تنظيم فعالية أو ورشة عمل</p>
             </button>
             <button
-              onClick={() => navigate('/admin/users')}
-              className="p-4 text-left rounded-lg border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-colors"
+              onClick={() => navigate('/admin/members')}
+              className="p-4 text-left rounded-lg border border-gray-200 hover:border-amber-300 hover:bg-amber-50 transition-colors relative"
             >
-              <Users className="w-6 h-6 text-purple-500 mb-2" />
-              <h4 className="font-medium text-gray-900">إدارة المستخدمين</h4>
-              <p className="text-sm text-gray-600">عرض وإدارة المستخدمين</p>
+              <UserPlus className="w-6 h-6 text-amber-500 mb-2" />
+              <h4 className="font-medium text-gray-900">إدارة الأعضاء</h4>
+              <p className="text-sm text-gray-600">عرض وإدارة طلبات الانضمام</p>
+              {pendingMembersCount > 0 && (
+                <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {pendingMembersCount}
+                </div>
+              )}
             </button>
           </div>
         </motion.div>
