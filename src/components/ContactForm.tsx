@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 import { Send, CheckCircle } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { logger } from '../utils/logger'
+import { Button } from './ui/Button'
+import { Heading, Text } from './ui/Typography'
 
 interface ContactFormProps {
   className?: string
@@ -143,12 +145,12 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
           >
             <CheckCircle className="w-8 h-8 text-green-500" />
           </motion.div>
-          <h3 className="text-xl font-bold text-white mb-2">
+          <Heading level={3} className="text-white mb-2">
             {t('contact.form.success.title', 'Message Sent!')}
-          </h3>
-          <p className="text-white/80">
+          </Heading>
+          <Text className="text-white/80">
             {t('contact.form.success.message', 'Thank you for your message. We will get back to you soon.')}
-          </p>
+          </Text>
         </motion.div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4" aria-label={t('contact.form.title', 'Contact form')}>
@@ -162,7 +164,7 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className={`w-full bg-white/10 border ${errors.name ? 'border-red-400' : 'border-white/20'} rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:border-secondary-400 transition-colors`}
+              className={`w-full bg-white/10 border ${errors.name ? 'border-red-400' : 'border-white/20'} rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:border-accent transition-colors`}
               placeholder={t('contact.form.namePlaceholder', 'Your name')}
               aria-required="true"
               aria-invalid={errors.name ? 'true' : 'false'}
@@ -185,7 +187,7 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full bg-white/10 border ${errors.email ? 'border-red-400' : 'border-white/20'} rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:border-secondary-400 transition-colors`}
+              className={`w-full bg-white/10 border ${errors.email ? 'border-red-400' : 'border-white/20'} rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:border-accent transition-colors`}
               placeholder={t('contact.form.emailPlaceholder', 'your@email.com')}
               aria-required="true"
               aria-invalid={errors.email ? 'true' : 'false'}
@@ -208,7 +210,7 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
               value={formData.content}
               onChange={handleChange}
               rows={5}
-              className={`w-full bg-white/10 border ${errors.content ? 'border-red-400' : 'border-white/20'} rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:border-secondary-400 transition-colors resize-none`}
+              className={`w-full bg-white/10 border ${errors.content ? 'border-red-400' : 'border-white/20'} rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:border-accent transition-colors resize-none`}
               placeholder={t('contact.form.messagePlaceholder', 'Your message...')}
               aria-required="true"
               aria-invalid={errors.content ? 'true' : 'false'}
@@ -227,26 +229,19 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
             </div>
           )}
           
-          <motion.button
+          <Button
             type="submit"
-            disabled={isSubmitting}
-            whileHover={{ scale: isSubmitting ? 1 : 1.03 }}
-            whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-            className="w-full bg-secondary-400 hover:bg-secondary-500 text-black font-bold py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-            aria-busy={isSubmitting}
+            variant="primary"
+            fullWidth
+            isLoading={isSubmitting}
+            leftIcon={!isSubmitting ? <Send className="w-5 h-5" /> : undefined}
+            className="bg-accent hover:bg-accent-hover text-white font-bold"
           >
-            {isSubmitting ? (
-              <>
-                <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" aria-hidden="true" />
-                {t('contact.form.sending', 'Sending...')}
-              </>
-            ) : (
-              <>
-                <Send className="w-5 h-5" aria-hidden="true" />
-                {t('contact.form.submit', 'Send Message')}
-              </>
-            )}
-          </motion.button>
+            {isSubmitting 
+              ? t('contact.form.sending', 'Sending...') 
+              : t('contact.form.submit', 'Send Message')
+            }
+          </Button>
         </form>
       )}
     </div>

@@ -2,6 +2,10 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { Heart, Users, Globe, Award } from 'lucide-react'
+import { Section } from './ui/Section'
+import { Container } from './ui/Container'
+import { Heading, Text } from './ui/Typography'
+import { Card, CardContent } from './ui/Card'
 
 export default function CoreValuesSection() {
   const { t } = useTranslation()
@@ -29,8 +33,8 @@ export default function CoreValuesSection() {
   ]
 
   return (
-    <section className="section bg-gray-50">
-      <div className="container mx-auto">
+    <Section>
+      <Container>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -38,12 +42,12 @@ export default function CoreValuesSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <Heading level={2} align="center" className="mb-4">
             {t('values.heading')}
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          </Heading>
+          <Text align="center" color="muted" className="max-w-2xl mx-auto">
             {t('values.subheading')}
-          </p>
+          </Text>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -56,20 +60,25 @@ export default function CoreValuesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="card-base"
               >
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                  <Icon className="w-6 h-6 text-primary" aria-hidden="true" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {value.title}
-                </h3>
-                <p className="text-gray-600">{value.description}</p>
+                <Card>
+                  <CardContent>
+                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                      <Icon className="w-6 h-6 text-primary" aria-hidden="true" />
+                    </div>
+                    <Heading level={3} className="mb-2">
+                      {value.title}
+                    </Heading>
+                    <Text color="muted">
+                      {value.description}
+                    </Text>
+                  </CardContent>
+                </Card>
               </motion.div>
             )
           })}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }

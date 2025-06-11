@@ -13,6 +13,11 @@ import {
 import projectsData from '../data/projects.json'
 import Meta from '../components/Meta'
 import OptimizedImage from '../components/OptimizedImage'
+import { Section } from '../components/ui/Section'
+import { Container } from '../components/ui/Container'
+import { Heading, Text } from '../components/ui/Typography'
+import { Button } from '../components/ui/Button'
+import { Card, CardContent } from '../components/ui/Card'
 
 interface Project {
   id: string
@@ -43,16 +48,7 @@ export default function Projects() {
   )
 
   const currentLanguage = i18n.language as keyof Project['title']
-
-  // Diagnostic logging
-  filteredProjects.forEach((p) =>
-    console.log('🕵️‍♂️ project', {
-      id: p.id,
-      title: p.title[currentLanguage],
-      category: p.category,
-      status: p.status,
-    })
-  )
+  const isRTL = i18n.dir() === 'rtl'
 
   const uniqueCategories = [
     'all',
@@ -130,16 +126,20 @@ export default function Projects() {
           'Explore our various youth empowerment projects and initiatives'
         )}
       />
-      <section className="min-h-screen py-24 bg-gradient-to-tr from-midnight via-cetacean to-black relative overflow-hidden">
+      <Section 
+        className="min-h-screen py-24 bg-gradient-to-tr from-midnight via-cetacean to-black relative overflow-hidden"
+        background="transparent"
+        fullWidth
+      >
         {/* Background decorations */}
         <div className="absolute inset-0 pointer-events-none select-none">
           <motion.div
-            className="absolute top-1/4 right-1/4 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl"
+            className="absolute top-1/4 right-1/4 w-72 h-72 bg-primary/10 rounded-full blur-3xl"
             animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
             transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
           />
           <motion.div
-            className="absolute bottom-1/3 left-1/4 w-56 h-56 bg-accent-500/10 rounded-full blur-3xl"
+            className="absolute bottom-1/3 left-1/4 w-56 h-56 bg-accent/10 rounded-full blur-3xl"
             animate={{ scale: [1.2, 1, 1.2], opacity: [0.4, 0.6, 0.4] }}
             transition={{
               duration: 10,
@@ -149,7 +149,8 @@ export default function Projects() {
             }}
           />
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <Container className="relative z-10">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -165,36 +166,35 @@ export default function Projects() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 mb-6 text-sm text-white/90 font-almarai"
             >
-              <div className="w-2 h-2 bg-secondary-400 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
               {t('projects.featured', 'مشاريعنا')}
             </motion.div>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="font-tajawal text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+            
+            <Heading 
+              level={1} 
+              align="center"
+              className="text-white mb-6 font-tajawal"
             >
               {t('projects.title', 'Our Projects')}
-            </motion.h1>
+            </Heading>
+            
             <motion.div
-              className="mx-auto mb-4 mt-[-12px] h-1 w-32 bg-gradient-to-r from-secondary-400 to-yellow-400 rounded-full"
+              className="mx-auto mb-4 mt-[-12px] h-1 w-32 bg-gradient-to-r from-accent to-yellow-400 rounded-full"
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               transition={{ duration: 0.5, delay: 0.5 }}
             />
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="font-almarai text-lg md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed"
+            
+            <Text 
+              align="center"
+              size="xl"
+              className="text-white/80 max-w-3xl mx-auto leading-relaxed font-almarai"
             >
               {t(
                 'projects.subtitle',
                 'Discover our initiatives making a difference in communities worldwide'
               )}
-            </motion.p>
+            </Text>
           </motion.div>
 
           {/* Filters/Search */}
@@ -209,30 +209,33 @@ export default function Projects() {
                   'projects.search_placeholder',
                   'Search projects...'
                 )}
-                className="input input-bordered w-full pl-10 bg-cetacean/80 text-white border-white/20 placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary/50 rounded-full font-almarai"
+                className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-full text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent/50 font-almarai"
               />
             </div>
             <div className="flex gap-2">
-              <button
+              <Button
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className="px-5 py-2 rounded-full bg-gradient-to-r from-secondary-400 to-yellow-400 text-black font-tajawal font-bold shadow hover:from-secondary-500 hover:to-yellow-500 transition-all duration-300 flex items-center gap-2"
+                variant="primary"
+                leftIcon={<Filter className="w-5 h-5" />}
+                className="rounded-full bg-gradient-to-r from-accent to-accent-light text-white font-tajawal font-bold shadow"
               >
-                <Filter className="w-5 h-5" />
                 {t('projects.filter', 'تصفية')}
-              </button>
+              </Button>
               {(selectedCategory !== 'all' ||
                 selectedStatus !== 'all' ||
                 searchQuery) && (
-                <button
+                <Button
                   onClick={clearFilters}
-                  className="px-5 py-2 rounded-full bg-white/10 text-white font-tajawal font-bold hover:bg-white/20 transition-all duration-300 flex items-center gap-2"
+                  variant="outline"
+                  leftIcon={<X className="w-5 h-5" />}
+                  className="rounded-full bg-white/10 text-white border-white/20 hover:bg-white/20 font-tajawal font-bold"
                 >
-                  <X className="w-5 h-5" />
                   {t('projects.clear', 'إعادة تعيين')}
-                </button>
+                </Button>
               )}
             </div>
           </div>
+          
           <AnimatePresence>
             {isFilterOpen && (
               <motion.div
@@ -242,36 +245,32 @@ export default function Projects() {
                 className="mb-10 grid grid-cols-1 md:grid-cols-2 gap-4"
               >
                 <div>
-                  <label className="label">
-                    <span className="label-text text-white/80 font-almarai">
-                      {t('projects.category', 'الفئة')}
-                    </span>
+                  <label className="block text-white/80 font-almarai mb-2">
+                    {t('projects.category', 'الفئة')}
                   </label>
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="select select-bordered w-full bg-cetacean/80 text-white border-white/20 rounded-full font-almarai"
+                    className="w-full bg-white/10 border border-white/20 rounded-full px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-accent/50 font-almarai"
                   >
                     {uniqueCategories.map((category) => (
-                      <option key={category ?? 'all'} value={category}>
+                      <option key={category ?? 'all'} value={category} className="bg-midnight text-white">
                         {t(`projects.categories.${category}`, category)}
                       </option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="label">
-                    <span className="label-text text-white/80 font-almarai">
-                      {t('projects.status', 'الحالة')}
-                    </span>
+                  <label className="block text-white/80 font-almarai mb-2">
+                    {t('projects.status', 'الحالة')}
                   </label>
                   <select
                     value={selectedStatus}
                     onChange={(e) => setSelectedStatus(e.target.value)}
-                    className="select select-bordered w-full bg-cetacean/80 text-white border-white/20 rounded-full font-almarai"
+                    className="w-full bg-white/10 border border-white/20 rounded-full px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-accent/50 font-almarai"
                   >
                     {uniqueStatuses.map((status) => (
-                      <option key={status ?? 'all'} value={status}>
+                      <option key={status ?? 'all'} value={status} className="bg-midnight text-white">
                         {t(`projects.statuses.${status}`, status)}
                       </option>
                     ))}
@@ -294,13 +293,16 @@ export default function Projects() {
                   project.id ?? project.title[currentLanguage] ?? String(index)
                 }
                 variants={cardVariants}
-                className="card-base group"
               >
                 <Link
                   to={project.id ? `/projects/${project.id}` : '#'}
-                  className="block"
+                  className="block h-full"
                 >
-                  <div className="relative bg-white/5 backdrop-blur-md rounded-2xl shadow-lg overflow-hidden transition-all duration-500 border border-white/10 hover:border-white/20 hover:shadow-xl group-hover:ring-4 group-hover:ring-secondary-400/20 h-full">
+                  <Card 
+                    className="h-full group"
+                    hover={true}
+                    padding="none"
+                  >
                     {/* Project Image */}
                     <div className="relative h-48 overflow-hidden">
                       <OptimizedImage
@@ -311,8 +313,9 @@ export default function Projects() {
                         lazy={true}
                         placeholder={true}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-secondary-400/40 to-transparent opacity-35" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-accent/40 to-transparent opacity-35" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      
                       {/* Status Badge */}
                       <div className="absolute top-4 left-4">
                         <div className="bg-white/20 backdrop-blur-md rounded-full px-3 py-2 border border-white/30 flex items-center gap-2">
@@ -325,6 +328,7 @@ export default function Projects() {
                           </span>
                         </div>
                       </div>
+                      
                       {/* Category Badge */}
                       <div className="absolute top-4 right-4">
                         <div className="px-3 py-2 rounded-full text-xs font-medium bg-white/20 text-white border border-white/30 backdrop-blur-md font-almarai">
@@ -334,6 +338,7 @@ export default function Projects() {
                           )}
                         </div>
                       </div>
+                      
                       {/* Floating Icon */}
                       <motion.div
                         className="absolute bottom-4 right-4 p-3 bg-white/20 backdrop-blur-md rounded-full shadow-lg"
@@ -343,21 +348,32 @@ export default function Projects() {
                         <ExternalLink className="w-7 h-7 text-white" />
                       </motion.div>
                     </div>
+                    
                     {/* Content */}
                     <div className="p-6">
-                      <h3 className="text-xl font-tajawal font-semibold text-white mb-3 text-center group-hover:text-secondary-300 transition-colors duration-300">
+                      <Heading 
+                        level={3} 
+                        align="center"
+                        className="text-white mb-3 group-hover:text-accent transition-colors duration-300 font-tajawal"
+                      >
                         {project.title[currentLanguage]}
-                      </h3>
+                      </Heading>
+                      
                       {/* Animated accent line */}
                       <motion.div
-                        className={`mx-auto mb-4 mt-[-12px] h-1 w-20 bg-gradient-to-r from-secondary-400 to-yellow-400 rounded-full`}
+                        className="mx-auto mb-4 mt-[-12px] h-1 w-20 bg-gradient-to-r from-accent to-yellow-400 rounded-full"
                         initial={{ scaleX: 0 }}
                         whileHover={{ scaleX: 1 }}
                         transition={{ duration: 0.3 }}
                       />
-                      <p className="text-white/80 font-almarai text-center leading-relaxed group-hover:text-white/90 transition-colors duration-300 mb-4 text-sm">
+                      
+                      <Text 
+                        align="center"
+                        className="text-white/80 group-hover:text-white/90 transition-colors duration-300 mb-4 text-sm font-almarai"
+                      >
                         {project.description[currentLanguage]}
-                      </p>
+                      </Text>
+                      
                       {/* Project Details */}
                       <div className="flex items-center justify-center text-white/60 text-sm mb-4 gap-2">
                         <Calendar className="w-4 h-4" />
@@ -367,38 +383,41 @@ export default function Projects() {
                             : 'N/A'}
                         </span>
                       </div>
+                      
                       {/* Action Button */}
                       <motion.div
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="w-full relative px-4 py-3 rounded-full font-tajawal font-medium text-white text-sm bg-gradient-to-r from-secondary-400 to-yellow-400 opacity-90 group-hover:opacity-100 transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2 overflow-hidden"
+                        className="w-full relative px-4 py-3 rounded-full font-tajawal font-medium text-white text-sm bg-gradient-to-r from-accent to-accent-light opacity-90 group-hover:opacity-100 transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2 overflow-hidden"
                       >
                         <span className="relative z-10">
                           {t('projects.view_details', 'View Details')}
                         </span>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                        <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
                         <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </motion.div>
                     </div>
+                    
                     {/* Background glow effect */}
-                    <div className="absolute inset-0 from-secondary-400/10 to-yellow-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br" />
-                  </div>
+                    <div className="absolute inset-0 from-accent/10 to-accent-light/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br" />
+                  </Card>
                 </Link>
               </motion.div>
             ))}
           </motion.div>
+          
           {filteredProjects.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-lg text-white/60 font-almarai">
+              <Text className="text-white/60 font-almarai">
                 {t(
                   'projects.no_results',
                   'No projects found matching your criteria.'
                 )}
-              </p>
+              </Text>
             </div>
           )}
-        </div>
-      </section>
+        </Container>
+      </Section>
     </>
   )
 }

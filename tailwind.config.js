@@ -26,7 +26,14 @@ export default {
           DEFAULT: '#FFFFFF',
           100: '#F8FAFC',
           200: '#F1F5F9'
-        }
+        },
+        midnight: '#0F172A',
+        cetacean: '#1E293B'
+      },
+      fontFamily: {
+        tajawal: ['Tajawal', 'sans-serif'],
+        almarai: ['Almarai', 'sans-serif'],
+        sans: ['Tajawal', 'sans-serif']
       },
       spacing: {
         section: '4rem',

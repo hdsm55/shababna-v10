@@ -1,5 +1,9 @@
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
+import { Section } from './ui/Section'
+import { Container } from './ui/Container'
+import { Heading, Text } from './ui/Typography'
+import { Card, CardContent } from './ui/Card'
 
 export default function TestimonialsSection() {
   const { t } = useTranslation()
@@ -22,8 +26,8 @@ export default function TestimonialsSection() {
   ]
 
   return (
-    <section className="section bg-gray-50">
-      <div className="container mx-auto">
+    <Section background="light">
+      <Container>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -31,15 +35,15 @@ export default function TestimonialsSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <Heading level={2} align="center" className="mb-4">
             {t('testimonials.heading')}
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          </Heading>
+          <Text align="center" color="muted" className="max-w-2xl mx-auto">
             {t('testimonials.subheading')}
-          </p>
+          </Text>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.name}
@@ -47,26 +51,33 @@ export default function TestimonialsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="card-base"
             >
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                  <span className="text-primary font-semibold">
-                    {testimonial.name.charAt(0)}
-                  </span>
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {testimonial.name}
-                  </h3>
-                  <p className="text-sm text-gray-600">{testimonial.role}</p>
-                </div>
-              </div>
-              <p className="text-gray-600">{testimonial.content}</p>
+              <Card>
+                <CardContent>
+                  <div className="flex items-center mb-4">
+                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                      <span className="text-primary font-semibold">
+                        {testimonial.name.charAt(0)}
+                      </span>
+                    </div>
+                    <div className="ml-4">
+                      <Heading level={4} className="text-lg">
+                        {testimonial.name}
+                      </Heading>
+                      <Text size="sm" color="muted">
+                        {testimonial.role}
+                      </Text>
+                    </div>
+                  </div>
+                  <Text color="muted">
+                    {testimonial.content}
+                  </Text>
+                </CardContent>
+              </Card>
             </motion.div>
           ))}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }

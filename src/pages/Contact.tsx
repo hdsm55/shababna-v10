@@ -1,9 +1,12 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { Mail, Phone, MapPin } from 'lucide-react'
 import ContactForm from '../components/ContactForm'
+import { Section } from '../components/ui/Section'
+import { Container } from '../components/ui/Container'
+import { Heading, Text } from '../components/ui/Typography'
+import { Card, CardContent } from '../components/ui/Card'
 
 export default function Contact() {
   const { t, i18n } = useTranslation()
@@ -27,23 +30,23 @@ export default function Contact() {
         <meta property="og:type" content="website" />
       </Helmet>
 
-      <div className="min-h-screen bg-base-100 pt-24 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Section className="pt-24 pb-16">
+        <Container>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-center mb-12"
           >
-            <h1 className="text-4xl font-bold text-base-content mb-4">
+            <Heading level={1} align="center" className="mb-4">
               {t('contact.title', 'Contact Us')}
-            </h1>
-            <p className="text-lg text-base-content/80 max-w-2xl mx-auto">
+            </Heading>
+            <Text align="center" color="muted" className="max-w-2xl mx-auto">
               {t(
                 'contact.subtitle',
                 "Have questions? We'd love to hear from you."
               )}
-            </p>
+            </Text>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -63,86 +66,90 @@ export default function Contact() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="space-y-8"
             >
-              <div className="bg-base-200 rounded-xl shadow-xl p-8">
-                <h2 className="text-2xl font-semibold mb-6">
-                  {t('contact.info.title', 'Contact Information')}
-                </h2>
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <Mail className="w-6 h-6 text-primary mt-1" aria-hidden="true" />
-                    <div>
-                      <h3 className="font-medium mb-1">
-                        {t('contact.info.email', 'Email')}
-                      </h3>
-                      <a
-                        href="mailto:contact@example.com"
-                        className="text-base-content/80 hover:text-primary"
-                      >
-                        contact@example.com
-                      </a>
+              <Card>
+                <CardContent>
+                  <Heading level={2} className="mb-6">
+                    {t('contact.info.title', 'Contact Information')}
+                  </Heading>
+                  <div className="space-y-6">
+                    <div className="flex items-start gap-4">
+                      <Mail className="w-6 h-6 text-primary mt-1" aria-hidden="true" />
+                      <div>
+                        <Heading level={4} className="mb-1">
+                          {t('contact.info.email', 'Email')}
+                        </Heading>
+                        <a
+                          href="mailto:contact@example.com"
+                          className="text-gray-600 hover:text-primary"
+                        >
+                          contact@example.com
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <Phone className="w-6 h-6 text-primary mt-1" aria-hidden="true" />
+                      <div>
+                        <Heading level={4} className="mb-1">
+                          {t('contact.info.phone', 'Phone')}
+                        </Heading>
+                        <a
+                          href="tel:+1234567890"
+                          className="text-gray-600 hover:text-primary"
+                        >
+                          +1 (234) 567-890
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <MapPin className="w-6 h-6 text-primary mt-1" aria-hidden="true" />
+                      <div>
+                        <Heading level={4} className="mb-1">
+                          {t('contact.info.address', 'Address')}
+                        </Heading>
+                        <Text color="muted">
+                          123 Main Street
+                          <br />
+                          City, State 12345
+                          <br />
+                          Country
+                        </Text>
+                      </div>
                     </div>
                   </div>
+                </CardContent>
+              </Card>
 
-                  <div className="flex items-start gap-4">
-                    <Phone className="w-6 h-6 text-primary mt-1" aria-hidden="true" />
-                    <div>
-                      <h3 className="font-medium mb-1">
-                        {t('contact.info.phone', 'Phone')}
-                      </h3>
-                      <a
-                        href="tel:+1234567890"
-                        className="text-base-content/80 hover:text-primary"
-                      >
-                        +1 (234) 567-890
-                      </a>
+              <Card>
+                <CardContent>
+                  <Heading level={2} className="mb-6">
+                    {t('contact.hours.title', 'Business Hours')}
+                  </Heading>
+                  <div className="space-y-4">
+                    <div className="flex justify-between">
+                      <Text color="muted">
+                        {t('contact.hours.weekdays', 'Monday - Friday')}
+                      </Text>
+                      <Text weight="medium">9:00 AM - 5:00 PM</Text>
+                    </div>
+                    <div className="flex justify-between">
+                      <Text color="muted">
+                        {t('contact.hours.saturday', 'Saturday')}
+                      </Text>
+                      <Text weight="medium">10:00 AM - 2:00 PM</Text>
+                    </div>
+                    <div className="flex justify-between">
+                      <Text color="muted">
+                        {t('contact.hours.sunday', 'Sunday')}
+                      </Text>
+                      <Text weight="medium">
+                        {t('contact.hours.closed', 'Closed')}
+                      </Text>
                     </div>
                   </div>
-
-                  <div className="flex items-start gap-4">
-                    <MapPin className="w-6 h-6 text-primary mt-1" aria-hidden="true" />
-                    <div>
-                      <h3 className="font-medium mb-1">
-                        {t('contact.info.address', 'Address')}
-                      </h3>
-                      <p className="text-base-content/80">
-                        123 Main Street
-                        <br />
-                        City, State 12345
-                        <br />
-                        Country
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-base-200 rounded-xl shadow-xl p-8">
-                <h2 className="text-2xl font-semibold mb-6">
-                  {t('contact.hours.title', 'Business Hours')}
-                </h2>
-                <div className="space-y-4">
-                  <div className="flex justify-between">
-                    <span className="text-base-content/80">
-                      {t('contact.hours.weekdays', 'Monday - Friday')}
-                    </span>
-                    <span className="font-medium">9:00 AM - 5:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-base-content/80">
-                      {t('contact.hours.saturday', 'Saturday')}
-                    </span>
-                    <span className="font-medium">10:00 AM - 2:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-base-content/80">
-                      {t('contact.hours.sunday', 'Sunday')}
-                    </span>
-                    <span className="font-medium">
-                      {t('contact.hours.closed', 'Closed')}
-                    </span>
-                  </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             </motion.div>
           </div>
 
@@ -153,9 +160,9 @@ export default function Contact() {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="mt-16"
           >
-            <h2 className="text-2xl font-semibold mb-6 text-center">
+            <Heading level={2} align="center" className="mb-6">
               {t('contact.map.title', 'Our Location')}
-            </h2>
+            </Heading>
             <div className="rounded-xl overflow-hidden shadow-xl h-96">
               <iframe
                 title="Google Map"
@@ -169,8 +176,8 @@ export default function Contact() {
               ></iframe>
             </div>
           </motion.div>
-        </div>
-      </div>
+        </Container>
+      </Section>
     </>
   )
 }
