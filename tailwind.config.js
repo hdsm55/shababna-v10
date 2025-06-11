@@ -5,8 +5,16 @@ export default {
     extend: {
       colors: {
         primary: { DEFAULT: '#003362', hover: '#002345' },
+        secondary: { 
+          DEFAULT: '#6366f1', 
+          500: '#6366f1', 
+          600: '#4f46e5',
+          light: '#818cf8',
+          dark: '#4338ca',
+          contrast: '#ffffff'
+        },
         accent: { DEFAULT: '#8b5cf6', hover: '#7c3aed' },
-        surface: { DEFAULT: '#FFFFFF', secondary: '#F8FAFC' }
+        surface: { DEFAULT: '#FFFFFF', 100: '#F8FAFC' }
       },
       fontFamily: { sans: ['Tajawal', 'sans-serif'] },
       spacing: {
