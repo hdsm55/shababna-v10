@@ -3,13 +3,32 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '').trim().replace(/\/$/, '');
 const supabaseKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '').trim();
 
-if (!supabaseUrl) throw new Error('❌ VITE_SUPABASE_URL is missing – ‎.env غير مضبوط');
-if (!supabaseKey) console.warn('⚠️ VITE_SUPABASE_ANON_KEY فارغ، الاتصال سيكون للقراءة فقط');
-
-export const supabase = createClient(supabaseUrl, supabaseKey);
-
-// Debug مرة واحدة
-if (import.meta.env.DEV) {
-  console.log('✅ Supabase URL:', supabaseUrl);
-  console.log('✅ Supabase KEY (first 12):', supabaseKey.slice(0, 12) + '…');
+// Create a mock client if Supabase is not configured
+if (!supabaseUrl || !supabaseKey) {
+  console.warn('⚠️ Supabase not configured. Using mock client for development.');
+  
+  // Create a mock Supabase client that won't break the app
+  export const supabase = {
+    auth: {
+      signUp: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+      signIn: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+      signOut: () => Promise.resolve({ error: null }),
+      getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+      onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } })
+    },
+    from: () => ({
+      select: () => Promise.resolve({ data: [], error: null }),
+      insert: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+      update: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+      delete: () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } })
+    })
+  } as any;
+} else {
+  export const supabase = createClient(supabaseUrl, supabaseKey);
+  
+  // Debug info in development
+  if (import.meta.env.DEV) {
+    console.log('✅ Supabase URL:', supabaseUrl);
+    console.log('✅ Supabase KEY (first 12):', supabaseKey.slice(0, 12) + '…');
+  }
 }
