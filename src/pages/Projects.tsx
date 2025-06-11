@@ -9,6 +9,9 @@ import {
   Calendar,
   ArrowRight,
   ExternalLink,
+  Tag,
+  Clock,
+  CheckCircle,
 } from 'lucide-react'
 import projectsData from '../data/projects.json'
 import Meta from '../components/Meta'
@@ -18,6 +21,7 @@ import { Container } from '../components/ui/Container'
 import { Heading, Text } from '../components/ui/Typography'
 import { Button } from '../components/ui/Button'
 import { Card, CardContent } from '../components/ui/Card'
+import { logger } from '../utils/logger'
 
 interface Project {
   id: string
@@ -46,6 +50,7 @@ export default function Projects() {
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(
     (projectsData.projects as Project[]) || []
   )
+  const [isLoading, setIsLoading] = useState(true)
 
   const currentLanguage = i18n.language as keyof Project['title']
   const isRTL = i18n.dir() === 'rtl'
@@ -59,26 +64,53 @@ export default function Projects() {
     ...new Set(projectsData.projects.map((p) => p.status)),
   ]
 
-  const filterProjects = useCallback(() => {
-    const filtered = ((projectsData.projects as Project[]) || []).filter(
-      (project) => {
-        const matchesCategory =
-          selectedCategory === 'all' || project.category === selectedCategory
-        const matchesStatus =
-          selectedStatus === 'all' || project.status === selectedStatus
-        const matchesSearch =
-          searchQuery === '' ||
-          project.title[currentLanguage]
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase()) ||
-          project.description[currentLanguage]
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
+  // Simulate loading state for better UX
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 800)
+    return () => clearTimeout(timer)
+  }, [])
 
-        return matchesCategory && matchesStatus && matchesSearch
-      }
-    )
-    setFilteredProjects(filtered)
+  const filterProjects = useCallback(() => {
+    try {
+      const filtered = ((projectsData.projects as Project[]) || []).filter(
+        (project) => {
+          const matchesCategory =
+            selectedCategory === 'all' || project.category === selectedCategory
+          const matchesStatus =
+            selectedStatus === 'all' || project.status === selectedStatus
+          const matchesSearch =
+            searchQuery === '' ||
+            project.title[currentLanguage]
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase()) ||
+            project.description[currentLanguage]
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase())
+
+          return matchesCategory && matchesStatus && matchesSearch
+        }
+      )
+      setFilteredProjects(filtered)
+      
+      // Log filter usage for analytics
+      logger.info('Projects filtered', {
+        tags: ['projects', 'filter'],
+        metadata: { 
+          category: selectedCategory, 
+          status: selectedStatus, 
+          searchQuery: searchQuery ? true : false,
+          resultsCount: filtered.length
+        }
+      })
+    } catch (error) {
+      logger.error('Error filtering projects', {
+        tags: ['projects', 'error'],
+        metadata: { error }
+      })
+      setFilteredProjects([])
+    }
   }, [selectedCategory, selectedStatus, searchQuery, currentLanguage])
 
   useEffect(() => {
@@ -89,6 +121,10 @@ export default function Projects() {
     setSelectedCategory('all')
     setSelectedStatus('all')
     setSearchQuery('')
+    
+    logger.info('Projects filters cleared', {
+      tags: ['projects', 'filter']
+    })
   }
 
   // Animation variants
@@ -115,6 +151,14 @@ export default function Projects() {
         duration: 0.6,
       },
     },
+  }
+
+  // Handle project click for analytics
+  const handleProjectClick = (projectId: string, projectTitle: string) => {
+    logger.info('Project clicked', {
+      tags: ['projects', 'interaction'],
+      metadata: { projectId, projectTitle }
+    })
   }
 
   return (
@@ -167,7 +211,7 @@ export default function Projects() {
               className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 mb-6 text-sm text-white/90 font-almarai"
             >
               <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
-              {t('projects.featured', 'مشاريعنا')}
+              {t('projects.featured', 'Our Featured Projects')}
             </motion.div>
             
             <Heading 
@@ -210,6 +254,7 @@ export default function Projects() {
                   'Search projects...'
                 )}
                 className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-full text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent/50 font-almarai"
+                aria-label={t('projects.search_placeholder')}
               />
             </div>
             <div className="flex gap-2">
@@ -218,8 +263,10 @@ export default function Projects() {
                 variant="primary"
                 leftIcon={<Filter className="w-5 h-5" />}
                 className="rounded-full bg-gradient-to-r from-accent to-accent-light text-white font-tajawal font-bold shadow"
+                aria-expanded={isFilterOpen}
+                aria-controls="filter-panel"
               >
-                {t('projects.filter', 'تصفية')}
+                {t('projects.filter', 'Filter')}
               </Button>
               {(selectedCategory !== 'all' ||
                 selectedStatus !== 'all' ||
@@ -230,7 +277,7 @@ export default function Projects() {
                   leftIcon={<X className="w-5 h-5" />}
                   className="rounded-full bg-white/10 text-white border-white/20 hover:bg-white/20 font-tajawal font-bold"
                 >
-                  {t('projects.clear', 'إعادة تعيين')}
+                  {t('projects.clear', 'Reset')}
                 </Button>
               )}
             </div>
@@ -239,6 +286,7 @@ export default function Projects() {
           <AnimatePresence>
             {isFilterOpen && (
               <motion.div
+                id="filter-panel"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
@@ -246,12 +294,13 @@ export default function Projects() {
               >
                 <div>
                   <label className="block text-white/80 font-almarai mb-2">
-                    {t('projects.category', 'الفئة')}
+                    {t('projects.category', 'Category')}
                   </label>
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
                     className="w-full bg-white/10 border border-white/20 rounded-full px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-accent/50 font-almarai"
+                    aria-label={t('projects.category')}
                   >
                     {uniqueCategories.map((category) => (
                       <option key={category ?? 'all'} value={category} className="bg-midnight text-white">
@@ -262,12 +311,13 @@ export default function Projects() {
                 </div>
                 <div>
                   <label className="block text-white/80 font-almarai mb-2">
-                    {t('projects.status', 'الحالة')}
+                    {t('projects.status', 'Status')}
                   </label>
                   <select
                     value={selectedStatus}
                     onChange={(e) => setSelectedStatus(e.target.value)}
                     className="w-full bg-white/10 border border-white/20 rounded-full px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-accent/50 font-almarai"
+                    aria-label={t('projects.status')}
                   >
                     {uniqueStatuses.map((status) => (
                       <option key={status ?? 'all'} value={status} className="bg-midnight text-white">
@@ -280,141 +330,198 @@ export default function Projects() {
             )}
           </AnimatePresence>
 
-          {/* Projects Grid */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={
-                  project.id ?? project.title[currentLanguage] ?? String(index)
-                }
-                variants={cardVariants}
-              >
-                <Link
-                  to={project.id ? `/projects/${project.id}` : '#'}
-                  className="block h-full"
-                >
-                  <Card 
-                    className="h-full group"
-                    hover={true}
-                    padding="none"
-                  >
-                    {/* Project Image */}
-                    <div className="relative h-48 overflow-hidden">
-                      <OptimizedImage
-                        src={project.image}
-                        alt={project.title[currentLanguage]}
-                        className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
-                        quality={80}
-                        lazy={true}
-                        placeholder={true}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-accent/40 to-transparent opacity-35" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                      
-                      {/* Status Badge */}
-                      <div className="absolute top-4 left-4">
-                        <div className="bg-white/20 backdrop-blur-md rounded-full px-3 py-2 border border-white/30 flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-current animate-pulse" />
-                          <span className="text-xs text-white font-almarai font-bold">
-                            {t(
-                              `projects.statuses.${project.status}`,
-                              project.status
-                            )}
-                          </span>
-                        </div>
-                      </div>
-                      
-                      {/* Category Badge */}
-                      <div className="absolute top-4 right-4">
-                        <div className="px-3 py-2 rounded-full text-xs font-medium bg-white/20 text-white border border-white/30 backdrop-blur-md font-almarai">
-                          {t(
-                            `projects.categories.${project.category}`,
-                            project.category
-                          )}
-                        </div>
-                      </div>
-                      
-                      {/* Floating Icon */}
-                      <motion.div
-                        className="absolute bottom-4 right-4 p-3 bg-white/20 backdrop-blur-md rounded-full shadow-lg"
-                        whileHover={{ scale: 1.1, rotate: 10 }}
-                        transition={{ type: 'spring', stiffness: 300 }}
-                      >
-                        <ExternalLink className="w-7 h-7 text-white" />
-                      </motion.div>
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="p-6">
-                      <Heading 
-                        level={3} 
-                        align="center"
-                        className="text-white mb-3 group-hover:text-accent transition-colors duration-300 font-tajawal"
-                      >
-                        {project.title[currentLanguage]}
-                      </Heading>
-                      
-                      {/* Animated accent line */}
-                      <motion.div
-                        className="mx-auto mb-4 mt-[-12px] h-1 w-20 bg-gradient-to-r from-accent to-yellow-400 rounded-full"
-                        initial={{ scaleX: 0 }}
-                        whileHover={{ scaleX: 1 }}
-                        transition={{ duration: 0.3 }}
-                      />
-                      
-                      <Text 
-                        align="center"
-                        className="text-white/80 group-hover:text-white/90 transition-colors duration-300 mb-4 text-sm font-almarai"
-                      >
-                        {project.description[currentLanguage]}
-                      </Text>
-                      
-                      {/* Project Details */}
-                      <div className="flex items-center justify-center text-white/60 text-sm mb-4 gap-2">
-                        <Calendar className="w-4 h-4" />
-                        <span className="font-almarai">
-                          {project.date
-                            ? new Date(project.date).toLocaleDateString()
-                            : 'N/A'}
-                        </span>
-                      </div>
-                      
-                      {/* Action Button */}
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="w-full relative px-4 py-3 rounded-full font-tajawal font-medium text-white text-sm bg-gradient-to-r from-accent to-accent-light opacity-90 group-hover:opacity-100 transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2 overflow-hidden"
-                      >
-                        <span className="relative z-10">
-                          {t('projects.view_details', 'View Details')}
-                        </span>
-                        <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
-                        <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      </motion.div>
-                    </div>
-                    
-                    {/* Background glow effect */}
-                    <div className="absolute inset-0 from-accent/10 to-accent-light/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br" />
-                  </Card>
-                </Link>
-              </motion.div>
-            ))}
-          </motion.div>
-          
-          {filteredProjects.length === 0 && (
-            <div className="text-center py-12">
-              <Text className="text-white/60 font-almarai">
-                {t(
-                  'projects.no_results',
-                  'No projects found matching your criteria.'
-                )}
-              </Text>
+          {/* Loading State */}
+          {isLoading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="w-16 h-16 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
             </div>
+          ) : (
+            <>
+              {/* Projects Grid */}
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              >
+                {filteredProjects.map((project, index) => (
+                  <motion.div
+                    key={
+                      project.id ?? project.title[currentLanguage] ?? String(index)
+                    }
+                    variants={cardVariants}
+                  >
+                    <Link
+                      to={project.id ? `/projects/${project.id}` : '#'}
+                      className="block h-full"
+                      onClick={() => handleProjectClick(project.id, project.title[currentLanguage])}
+                      aria-label={`${t('projects.view_details')}: ${project.title[currentLanguage]}`}
+                    >
+                      <Card 
+                        className="h-full group"
+                        hover={true}
+                        padding="none"
+                      >
+                        {/* Project Image */}
+                        <div className="relative h-48 overflow-hidden">
+                          <OptimizedImage
+                            src={project.image}
+                            alt={project.title[currentLanguage]}
+                            className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                            quality={80}
+                            lazy={true}
+                            placeholder={true}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-accent/40 to-transparent opacity-35" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                          
+                          {/* Status Badge */}
+                          <div className="absolute top-4 left-4">
+                            <div className="bg-white/20 backdrop-blur-md rounded-full px-3 py-2 border border-white/30 flex items-center gap-2">
+                              {project.status === 'active' && (
+                                <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                              )}
+                              {project.status === 'completed' && (
+                                <CheckCircle className="w-3 h-3 text-green-400" />
+                              )}
+                              {project.status === 'planning' && (
+                                <Clock className="w-3 h-3 text-yellow-400" />
+                              )}
+                              <span className="text-xs text-white font-almarai font-bold">
+                                {t(
+                                  `projects.statuses.${project.status}`,
+                                  project.status
+                                )}
+                              </span>
+                            </div>
+                          </div>
+                          
+                          {/* Category Badge */}
+                          <div className="absolute top-4 right-4">
+                            <div className="px-3 py-2 rounded-full text-xs font-medium bg-white/20 text-white border border-white/30 backdrop-blur-md font-almarai flex items-center gap-2">
+                              <Tag className="w-3 h-3" />
+                              {t(
+                                `projects.categories.${project.category}`,
+                                project.category
+                              )}
+                            </div>
+                          </div>
+                          
+                          {/* Floating Icon */}
+                          <motion.div
+                            className="absolute bottom-4 right-4 p-3 bg-white/20 backdrop-blur-md rounded-full shadow-lg"
+                            whileHover={{ scale: 1.1, rotate: 10 }}
+                            transition={{ type: 'spring', stiffness: 300 }}
+                          >
+                            <ExternalLink className="w-7 h-7 text-white" />
+                          </motion.div>
+                        </div>
+                        
+                        {/* Content */}
+                        <div className="p-6">
+                          <Heading 
+                            level={3} 
+                            align="center"
+                            className="text-white mb-3 group-hover:text-accent transition-colors duration-300 font-tajawal"
+                          >
+                            {project.title[currentLanguage]}
+                          </Heading>
+                          
+                          {/* Animated accent line */}
+                          <motion.div
+                            className="mx-auto mb-4 mt-[-12px] h-1 w-20 bg-gradient-to-r from-accent to-yellow-400 rounded-full"
+                            initial={{ scaleX: 0 }}
+                            whileHover={{ scaleX: 1 }}
+                            transition={{ duration: 0.3 }}
+                          />
+                          
+                          <Text 
+                            align="center"
+                            className="text-white/80 group-hover:text-white/90 transition-colors duration-300 mb-4 text-sm font-almarai line-clamp-3"
+                          >
+                            {project.description[currentLanguage]}
+                          </Text>
+                          
+                          {/* Project Details */}
+                          {project.date && (
+                            <div className="flex items-center justify-center text-white/60 text-sm mb-4 gap-2">
+                              <Calendar className="w-4 h-4" />
+                              <span className="font-almarai">
+                                {new Date(project.date).toLocaleDateString(i18n.language, {
+                                  year: 'numeric',
+                                  month: 'long',
+                                })}
+                              </span>
+                            </div>
+                          )}
+                          
+                          {/* Action Button */}
+                          <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="w-full relative px-4 py-3 rounded-full font-tajawal font-medium text-white text-sm bg-gradient-to-r from-accent to-accent-light opacity-90 group-hover:opacity-100 transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2 overflow-hidden"
+                          >
+                            <span className="relative z-10">
+                              {t('projects.view_details', 'View Details')}
+                            </span>
+                            <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
+                            <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          </motion.div>
+                        </div>
+                        
+                        {/* Background glow effect */}
+                        <div className="absolute inset-0 from-accent/10 to-accent-light/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br" />
+                      </Card>
+                    </Link>
+                  </motion.div>
+                ))}
+              </motion.div>
+              
+              {filteredProjects.length === 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-center py-20 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10"
+                >
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center">
+                    <Search className="w-8 h-8 text-white/40" />
+                  </div>
+                  <Text className="text-white/60 font-almarai text-lg mb-4">
+                    {t(
+                      'projects.no_results',
+                      'No projects found matching your criteria.'
+                    )}
+                  </Text>
+                  <Button
+                    onClick={clearFilters}
+                    variant="outline"
+                    className="border-white/20 text-white hover:bg-white/10 font-tajawal"
+                  >
+                    {t('projects.clear', 'Reset Filters')}
+                  </Button>
+                </motion.div>
+              )}
+              
+              {/* View All Projects Button */}
+              {filteredProjects.length > 0 && filteredProjects.length < projectsData.projects.length && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="mt-12 text-center"
+                >
+                  <Button
+                    onClick={clearFilters}
+                    variant="secondary"
+                    size="lg"
+                    rightIcon={<ArrowRight className={isRTL ? 'rotate-180' : ''} />}
+                    className="bg-secondary hover:bg-secondary-600 text-white font-tajawal"
+                  >
+                    {t('projects.viewAll', 'View All Projects')}
+                  </Button>
+                </motion.div>
+              )}
+            </>
           )}
         </Container>
       </Section>

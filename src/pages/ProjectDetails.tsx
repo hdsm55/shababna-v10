@@ -1,10 +1,10 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Calendar, Globe, Users, ExternalLink } from 'lucide-react'
+import { ArrowLeft, Calendar, Globe, Users, ExternalLink, Heart, Share2, Tag, Clock, CheckCircle } from 'lucide-react'
 import projectsData from '../data/projects.json'
 import Meta from '../components/Meta'
-import { FaShareAlt } from 'react-icons/fa'
+import { logger } from '../utils/logger'
 
 interface Project {
   id: string
@@ -35,6 +35,52 @@ export default function ProjectDetails() {
   const project = projectsData.projects.find((p) => p.id === id) as
     | Project
     | undefined
+  const isRTL = i18n.dir() === 'rtl'
+
+  // Log page view for analytics
+  React.useEffect(() => {
+    if (project) {
+      logger.info('Project details viewed', {
+        tags: ['projects', 'pageview'],
+        metadata: { 
+          projectId: project.id, 
+          projectTitle: project.title[currentLanguage],
+          language: i18n.language
+        }
+      })
+    }
+  }, [project, currentLanguage, i18n.language])
+
+  // Handle share functionality
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: project?.title[currentLanguage] || '',
+          url: window.location.href,
+        })
+        
+        logger.info('Project shared', {
+          tags: ['projects', 'share', 'success'],
+          metadata: { projectId: project?.id }
+        })
+      } else {
+        // Fallback for browsers that don't support the Web Share API
+        navigator.clipboard.writeText(window.location.href)
+        alert(t('project.link_copied', 'Link copied to clipboard!'))
+        
+        logger.info('Project link copied', {
+          tags: ['projects', 'share', 'clipboard'],
+          metadata: { projectId: project?.id }
+        })
+      }
+    } catch (error) {
+      logger.error('Project share failed', {
+        tags: ['projects', 'share', 'error'],
+        metadata: { error, projectId: project?.id }
+      })
+    }
+  }
 
   if (!project) {
     return (
@@ -54,6 +100,20 @@ export default function ProjectDetails() {
     )
   }
 
+  // Get status icon
+  const getStatusIcon = () => {
+    switch (project.status) {
+      case 'active':
+        return <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+      case 'completed':
+        return <CheckCircle className="w-4 h-4 text-green-400" />
+      case 'planning':
+        return <Clock className="w-4 h-4 text-yellow-400" />
+      default:
+        return null
+    }
+  }
+
   return (
     <>
       <Meta
@@ -69,10 +129,10 @@ export default function ProjectDetails() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             onClick={() => navigate('/projects')}
-            className="mb-8 flex items-center gap-2 text-white/80 hover:text-white transition-colors duration-300"
+            className="mb-8 flex items-center gap-2 text-white/80 hover:text-white transition-colors duration-300 font-almarai"
           >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="font-almarai">{t('project.back')}</span>
+            <ArrowLeft className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} />
+            <span>{t('project.back')}</span>
           </motion.button>
 
           {/* Project Header */}
@@ -83,7 +143,7 @@ export default function ProjectDetails() {
             className="text-center mb-12"
           >
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6 text-sm text-white/90 font-almarai">
-              <div className="w-2 h-2 bg-secondary-400 rounded-full animate-pulse"></div>
+              <Tag className="w-4 h-4 text-secondary-400" />
               {t(`projects.categories.${project.category}`, project.category)}
             </div>
 
@@ -92,16 +152,19 @@ export default function ProjectDetails() {
             </h1>
 
             <div className="flex items-center justify-center gap-6 text-white/70 text-sm mb-8">
+              {project.date && (
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  <span className="font-almarai">
+                    {new Date(project.date).toLocaleDateString(i18n.language, {
+                      year: 'numeric',
+                      month: 'long',
+                    })}
+                  </span>
+                </div>
+              )}
               <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                <span className="font-almarai">
-                  {project.date
-                    ? new Date(project.date).toLocaleDateString()
-                    : 'N/A'}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-secondary-400 rounded-full animate-pulse"></div>
+                {getStatusIcon()}
                 <span className="font-almarai">
                   {t(`projects.statuses.${project.status}`, project.status)}
                 </span>
@@ -120,27 +183,39 @@ export default function ProjectDetails() {
               src={project.image}
               alt={project.title[currentLanguage]}
               className="w-full h-64 md:h-96 object-cover"
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </motion.div>
 
           {/* Gallery Section */}
           {project.images && project.images.length > 1 && (
-            <div className="mb-12">
-              <h3 className="text-xl font-bold text-white mb-4">
-                {t('project.gallery', 'معرض الصور')}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mb-12"
+            >
+              <h3 className="text-xl font-bold text-white mb-4 font-tajawal">
+                {t('project.gallery', 'Gallery')}
               </h3>
-              <div className="flex gap-4 overflow-x-auto pb-2">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {project.images.map((img, idx) => (
-                  <img
+                  <motion.div
                     key={idx}
-                    src={img}
-                    alt={project.title[currentLanguage] + ' ' + (idx + 1)}
-                    className="h-32 w-48 object-cover rounded-lg shadow-md border border-white/20"
-                  />
+                    whileHover={{ scale: 1.05 }}
+                    className="rounded-lg overflow-hidden shadow-md border border-white/20"
+                  >
+                    <img
+                      src={img}
+                      alt={project.title[currentLanguage] + ' ' + (idx + 1)}
+                      className="h-32 w-full object-cover"
+                      loading="lazy"
+                    />
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           )}
 
           {/* Project Content */}
@@ -153,7 +228,7 @@ export default function ProjectDetails() {
             <h2 className="text-2xl font-tajawal font-bold text-white mb-6">
               {t('project.about')}
             </h2>
-            <p className="text-white/90 font-almarai text-lg leading-relaxed mb-8">
+            <p className="text-white/90 font-almarai text-lg leading-relaxed mb-8 whitespace-pre-line">
               {project.description[currentLanguage]}
             </p>
 
@@ -191,10 +266,10 @@ export default function ProjectDetails() {
             {/* Team/Volunteers Section */}
             {project.team && project.team.length > 0 && (
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-white mb-4">
-                  {t('project.team', 'فريق العمل')}
+                <h3 className="text-xl font-bold text-white mb-4 font-tajawal">
+                  {t('project.team', 'Team')}
                 </h3>
-                <div className="flex gap-4 flex-wrap">
+                <div className="flex flex-wrap gap-4">
                   {project.team.map((member, idx) => (
                     <div
                       key={idx}
@@ -203,9 +278,10 @@ export default function ProjectDetails() {
                       <img
                         src={member.avatar}
                         alt={member.name}
-                        className="w-16 h-16 rounded-full mb-2 border-2 border-secondary-400"
+                        className="w-16 h-16 rounded-full mb-2 border-2 border-secondary-400 object-cover"
+                        loading="lazy"
                       />
-                      <span className="text-white font-almarai text-sm font-bold">
+                      <span className="text-white font-almarai text-sm font-bold text-center">
                         {member.name}
                       </span>
                     </div>
@@ -216,34 +292,105 @@ export default function ProjectDetails() {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="group bg-secondary-400 hover:bg-secondary-500 text-black px-8 py-4 rounded-xl font-almarai font-semibold transition-all duration-300 flex items-center justify-center gap-3 hover:scale-105">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="group bg-secondary-400 hover:bg-secondary-500 text-black px-8 py-4 rounded-xl font-almarai font-semibold transition-all duration-300 flex items-center justify-center gap-3 hover:shadow-lg hover:shadow-secondary-400/20"
+              >
                 <Users className="w-5 h-5" />
                 {t('project.join')}
-              </button>
-              <button className="group border-2 border-white/30 text-white px-8 py-4 rounded-xl font-almarai font-semibold hover:border-white/50 hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-3">
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="group border-2 border-white/30 text-white px-8 py-4 rounded-xl font-almarai font-semibold hover:border-white/50 hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-3"
+              >
                 <ExternalLink className="w-5 h-5" />
                 {t('project.learn_more')}
-              </button>
+              </motion.button>
             </div>
 
             {/* Share Button */}
-            <div className="flex justify-end mb-4">
-              <button
-                onClick={() =>
-                  navigator.share
-                    ? navigator.share({
-                        title: project.title[currentLanguage],
-                        url: window.location.href,
-                      })
-                    : null
-                }
-                className="flex items-center gap-2 bg-accent-400 hover:bg-accent-500 text-black px-4 py-2 rounded-lg font-almarai font-semibold transition-all duration-300 shadow-md"
+            <div className="flex justify-end mt-8">
+              <motion.button
+                onClick={handleShare}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2 bg-accent-400 hover:bg-accent-500 text-white px-4 py-2 rounded-lg font-almarai font-semibold transition-all duration-300 shadow-md hover:shadow-lg"
               >
-                <FaShareAlt className="w-4 h-4" />
-                {t('project.share', 'مشاركة المشروع')}
-              </button>
+                <Share2 className="w-4 h-4" />
+                {t('project.share', 'Share Project')}
+              </motion.button>
             </div>
           </motion.div>
+          
+          {/* Related Projects Teaser */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8"
+          >
+            <h3 className="text-xl font-bold text-white mb-6 font-tajawal">
+              {t('project.related', 'Related Projects')}
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {projectsData.projects
+                .filter(p => p.id !== id && p.category === project.category)
+                .slice(0, 2)
+                .map((relatedProject, idx) => (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ scale: 1.03 }}
+                    className="bg-white/10 rounded-xl overflow-hidden flex cursor-pointer"
+                    onClick={() => navigate(`/projects/${relatedProject.id}`)}
+                  >
+                    <div className="w-24 h-24 flex-shrink-0">
+                      <img 
+                        src={relatedProject.image} 
+                        alt={relatedProject.title[currentLanguage]}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="p-4">
+                      <h4 className="text-white font-tajawal font-semibold mb-1 line-clamp-1">
+                        {relatedProject.title[currentLanguage]}
+                      </h4>
+                      <p className="text-white/70 text-sm font-almarai line-clamp-2">
+                        {relatedProject.description[currentLanguage]}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+            </div>
+            
+            <div className="text-center mt-6">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/projects')}
+                className="text-secondary-400 hover:text-secondary-300 font-almarai font-medium inline-flex items-center gap-2"
+              >
+                {t('projects.viewAll')}
+                <ArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
+              </motion.button>
+            </div>
+          </motion.div>
+          
+          {/* Engagement Metrics (hidden but tracked) */}
+          <div className="hidden">
+            <Heart 
+              className="text-red-500" 
+              onClick={() => {
+                logger.info('Project liked', {
+                  tags: ['projects', 'engagement'],
+                  metadata: { projectId: project.id }
+                })
+              }} 
+            />
+          </div>
         </div>
       </section>
     </>

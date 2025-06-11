@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { Calendar, ArrowRight } from 'lucide-react'
+import { Calendar, ArrowRight, Tag, Clock, CheckCircle } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 interface ProjectCardProps {
   id: string
@@ -16,11 +17,14 @@ export default function ProjectCard({
   id,
   title,
   description,
-  imageUrl,
+  imageUrl = 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
   year,
   category,
   status
 }: ProjectCardProps) {
+  const { i18n } = useTranslation()
+  const isRTL = i18n.dir() === 'rtl'
+
   return (
     <motion.div
       whileHover={{ y: -5, transition: { duration: 0.2 } }}
@@ -39,25 +43,37 @@ export default function ProjectCard({
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             
+            {/* Status Badge */}
             {status && (
+              <div className="absolute top-3 left-3">
+                <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-white/20 backdrop-blur-sm text-white border border-white/30">
+                  {status === 'active' && (
+                    <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse mr-1" />
+                  )}
+                  {status === 'completed' && (
+                    <CheckCircle className="w-3 h-3 text-green-400 mr-1" />
+                  )}
+                  {status === 'planning' && (
+                    <Clock className="w-3 h-3 text-yellow-400 mr-1" />
+                  )}
+                  <span className="font-almarai">{status}</span>
+                </div>
+              </div>
+            )}
+            
+            {/* Category Badge */}
+            {category && (
               <div className="absolute top-3 right-3">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/20 backdrop-blur-sm text-white border border-white/30">
-                  {status}
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-white/20 backdrop-blur-sm text-white border border-white/30">
+                  <Tag className="w-3 h-3 mr-1" />
+                  <span className="font-almarai">{category}</span>
                 </span>
               </div>
             )}
           </div>
         )}
         
-        <div className="flex-1">
-          {category && (
-            <div className="mb-2">
-              <span className="inline-block px-2.5 py-1 text-xs font-medium bg-accent/10 text-accent rounded-full">
-                {category}
-              </span>
-            </div>
-          )}
-          
+        <div className="flex-1 px-1">
           <h3 className="text-xl font-semibold text-primary mb-2 line-clamp-2 font-tajawal">{title}</h3>
           
           <p className="text-gray-600 mb-4 line-clamp-3 text-sm font-almarai">{description}</p>
@@ -73,10 +89,10 @@ export default function ProjectCard({
           
           <Link
             to={`/projects/${id}`}
-            className="inline-flex items-center text-accent hover:text-accent-hover font-medium transition-colors font-almarai"
+            className="inline-flex items-center text-accent hover:text-accent-hover font-medium transition-colors font-almarai group"
           >
             <span className="mr-1">اعرف المزيد</span>
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+            <ArrowRight className={`w-4 h-4 transition-transform ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} aria-hidden="true" />
           </Link>
         </div>
       </div>

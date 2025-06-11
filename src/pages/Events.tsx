@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import {
@@ -15,8 +15,12 @@ import {
   Mail,
   Phone,
   Heart,
+  X,
+  Tag,
+  ExternalLink,
 } from 'lucide-react'
 import Meta from '../components/Meta'
+import { logger } from '../utils/logger'
 
 interface Event {
   id: number
@@ -150,7 +154,7 @@ interface RegistrationForm {
 }
 
 export default function Events() {
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
   const isRTL = i18n.dir() === 'rtl'
 
   const [selectedCategory, setSelectedCategory] = useState('جميع الفئات')
@@ -167,13 +171,31 @@ export default function Events() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([])
 
-  const filteredEvents = events.filter((event) => {
+  // Simulate loading state for better UX
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+      
+      // Sort events by date (upcoming first)
+      const sortedEvents = [...events].sort((a, b) => {
+        return new Date(a.date).getTime() - new Date(b.date).getTime()
+      })
+      
+      setUpcomingEvents(sortedEvents)
+    }, 800)
+    return () => clearTimeout(timer)
+  }, [])
+
+  const filteredEvents = upcomingEvents.filter((event) => {
     const matchesCategory =
       selectedCategory === 'جميع الفئات' || event.category === selectedCategory
     const matchesSearch =
       event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      event.description.toLowerCase().includes(searchTerm.toLowerCase())
+      event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.location.toLowerCase().includes(searchTerm.toLowerCase())
     return matchesCategory && matchesSearch
   })
 
@@ -181,6 +203,12 @@ export default function Events() {
     setSelectedEvent(event)
     setRegistrationForm((prev) => ({ ...prev, eventId: event.id }))
     setShowRegistration(true)
+    
+    // Log event for analytics
+    logger.info('Event registration started', {
+      tags: ['events', 'registration'],
+      metadata: { eventId: event.id, eventTitle: event.title }
+    })
   }
 
   const handleInputChange = (
@@ -194,42 +222,98 @@ export default function Events() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    setIsSubmitting(false)
-    setIsSuccess(true)
-
-    // Reset after success
-    setTimeout(() => {
-      setIsSuccess(false)
-      setShowRegistration(false)
-      setRegistrationForm({
-        eventId: 0,
-        name: '',
-        email: '',
-        phone: '',
-        experience: '',
-        motivation: '',
+    try {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      
+      // Log successful registration
+      logger.info('Event registration completed', {
+        tags: ['events', 'registration', 'success'],
+        metadata: { 
+          eventId: selectedEvent?.id,
+          eventTitle: selectedEvent?.title,
+          userEmail: registrationForm.email.substring(0, 3) + '***' // Log partial email for privacy
+        }
       })
-    }, 3000)
+
+      setIsSubmitting(false)
+      setIsSuccess(true)
+
+      // Reset after success
+      setTimeout(() => {
+        setIsSuccess(false)
+        setShowRegistration(false)
+        setRegistrationForm({
+          eventId: 0,
+          name: '',
+          email: '',
+          phone: '',
+          experience: '',
+          motivation: '',
+        })
+      }, 3000)
+    } catch (error) {
+      logger.error('Event registration failed', {
+        tags: ['events', 'registration', 'error'],
+        metadata: { error, eventId: selectedEvent?.id }
+      })
+      
+      setIsSubmitting(false)
+      // Would handle error state here
+    }
   }
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
-    return date.toLocaleDateString('ar-SA', {
+    return date.toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'ar-SA', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     })
   }
 
+  // Calculate days remaining until event
+  const getDaysRemaining = (dateString: string) => {
+    const eventDate = new Date(dateString)
+    const today = new Date()
+    const diffTime = eventDate.getTime() - today.getTime()
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    return diffDays
+  }
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.15,
+      },
+    },
+  }
+  
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: 'spring',
+        stiffness: 100,
+        damping: 15,
+        duration: 0.7,
+      },
+    },
+  }
+
   if (showRegistration && selectedEvent) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-midnight via-cetacean to-black">
         <Meta
-          title="تسجيل في الفعالية - شبابنا"
-          description="سجل في الفعالية واحصل على فرصة المشاركة"
+          title={`${t('events.register')} - ${selectedEvent.title}`}
+          description={`${t('events.register_for')} ${selectedEvent.title}`}
         />
 
         <div className="container mx-auto px-4 py-16">
@@ -241,7 +325,7 @@ export default function Events() {
               whileHover={{ x: isRTL ? 5 : -5 }}
             >
               <ArrowRight className={`w-5 h-5 ${isRTL ? '' : 'rotate-180'}`} />
-              العودة للفعاليات
+              {t('events.back_to_events', 'Back to Events')}
             </motion.button>
 
             {isSuccess ? (
@@ -260,16 +344,15 @@ export default function Events() {
                 </motion.div>
 
                 <h2 className="text-3xl font-bold text-white mb-4 font-tajawal">
-                  تم تسجيلك بنجاح!
+                  {t('events.registration_success', 'Registration Successful!')}
                 </h2>
 
                 <p className="text-white/80 font-almarai mb-6">
-                  تم تسجيلك في فعالية "{selectedEvent.title}" بنجاح. ستصلك رسالة
-                  تأكيد على بريدك الإلكتروني.
+                  {t('events.registration_confirmation', 'You have been successfully registered for')} "{selectedEvent.title}". {t('events.confirmation_email', 'A confirmation email will be sent to your email address.')}
                 </p>
 
                 <div className="text-secondary-400 font-almarai text-sm">
-                  سيتم تحويلك لصفحة الفعاليات خلال 3 ثوانٍ...
+                  {t('events.redirect_message', 'You will be redirected to the events page in 3 seconds...')}
                 </div>
               </motion.div>
             ) : (
@@ -297,28 +380,38 @@ export default function Events() {
                       {selectedEvent.location}
                     </div>
                   </div>
-                  {selectedEvent.price > 0 && (
-                    <div className="mt-4 text-secondary-400 font-bold">
-                      رسوم المشاركة: {selectedEvent.price} ريال
+                  <div className="mt-4 flex flex-wrap gap-4">
+                    <div className="flex items-center gap-2 text-white/80 font-almarai">
+                      <Users className="w-4 h-4 text-secondary-400" />
+                      <span>{selectedEvent.participants}/{selectedEvent.maxParticipants} {t('events.participants', 'participants')}</span>
                     </div>
-                  )}
+                    <div className="flex items-center gap-2 text-white/80 font-almarai">
+                      <Tag className="w-4 h-4 text-secondary-400" />
+                      <span>{selectedEvent.category}</span>
+                    </div>
+                    {selectedEvent.price > 0 && (
+                      <div className="flex items-center gap-2 text-secondary-400 font-bold font-almarai">
+                        <span>{t('events.fee', 'Registration fee')}: {selectedEvent.price} {t('events.currency', 'SAR')}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Registration Form */}
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="text-center mb-6">
                     <h3 className="text-2xl font-bold text-white mb-2 font-tajawal">
-                      تسجيل في الفعالية
+                      {t('events.register_for_event', 'Register for Event')}
                     </h3>
                     <p className="text-white/70 font-almarai">
-                      املأ البيانات التالية للتسجيل
+                      {t('events.fill_form', 'Fill in the following information to register')}
                     </p>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-white mb-2 font-almarai font-medium">
-                        الاسم الكامل
+                        {t('events.full_name', 'Full Name')} <span className="text-red-400">*</span>
                       </label>
                       <div className="relative">
                         <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/50" />
@@ -328,7 +421,7 @@ export default function Events() {
                           value={registrationForm.name}
                           onChange={handleInputChange}
                           className="w-full bg-white/10 border border-white/20 rounded-xl px-12 py-4 text-white placeholder-white/50 focus:outline-none focus:border-secondary-400 focus:bg-white/15 transition-all duration-300 font-almarai"
-                          placeholder="أدخل اسمك الكامل"
+                          placeholder={t('events.name_placeholder', 'Enter your full name')}
                           required
                         />
                       </div>
@@ -336,7 +429,7 @@ export default function Events() {
 
                     <div>
                       <label className="block text-white mb-2 font-almarai font-medium">
-                        البريد الإلكتروني
+                        {t('events.email', 'Email Address')} <span className="text-red-400">*</span>
                       </label>
                       <div className="relative">
                         <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/50" />
@@ -355,7 +448,7 @@ export default function Events() {
 
                   <div>
                     <label className="block text-white mb-2 font-almarai font-medium">
-                      رقم الهاتف
+                      {t('events.phone', 'Phone Number')}
                     </label>
                     <div className="relative">
                       <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/50" />
@@ -366,14 +459,13 @@ export default function Events() {
                         onChange={handleInputChange}
                         className="w-full bg-white/10 border border-white/20 rounded-xl px-12 py-4 text-white placeholder-white/50 focus:outline-none focus:border-secondary-400 focus:bg-white/15 transition-all duration-300 font-almarai"
                         placeholder="+966 XX XXX XXXX"
-                        required
                       />
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-white mb-2 font-almarai font-medium">
-                      خبرتك في هذا المجال
+                      {t('events.experience', 'Your Experience in this Field')}
                     </label>
                     <textarea
                       name="experience"
@@ -381,13 +473,13 @@ export default function Events() {
                       onChange={handleInputChange}
                       rows={3}
                       className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-4 text-white placeholder-white/50 focus:outline-none focus:border-secondary-400 focus:bg-white/15 transition-all duration-300 font-almarai resize-none"
-                      placeholder="أخبرنا عن خبرتك ذات الصلة..."
+                      placeholder={t('events.experience_placeholder', 'Tell us about your relevant experience...')}
                     />
                   </div>
 
                   <div>
                     <label className="block text-white mb-2 font-almarai font-medium">
-                      لماذا تريد المشاركة؟
+                      {t('events.motivation', 'Why do you want to participate?')} <span className="text-red-400">*</span>
                     </label>
                     <div className="relative">
                       <Heart className="absolute left-4 top-4 w-5 h-5 text-white/50" />
@@ -397,7 +489,7 @@ export default function Events() {
                         onChange={handleInputChange}
                         rows={4}
                         className="w-full bg-white/10 border border-white/20 rounded-xl px-12 py-4 text-white placeholder-white/50 focus:outline-none focus:border-secondary-400 focus:bg-white/15 transition-all duration-300 font-almarai resize-none"
-                        placeholder="ما الذي يحفزك للمشاركة في هذه الفعالية؟"
+                        placeholder={t('events.motivation_placeholder', 'What motivates you to participate in this event?')}
                         required
                       />
                     </div>
@@ -413,11 +505,11 @@ export default function Events() {
                     {isSubmitting ? (
                       <>
                         <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                        جاري التسجيل...
+                        {t('events.submitting', 'Registering...')}
                       </>
                     ) : (
                       <>
-                        تأكيد التسجيل
+                        {t('events.confirm_registration', 'Confirm Registration')}
                         <CheckCircle className="w-5 h-5" />
                       </>
                     )}
@@ -434,8 +526,8 @@ export default function Events() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-midnight via-cetacean to-black">
       <Meta
-        title="الفعاليات - شبابنا"
-        description="اكتشف وشارك في فعاليات شبابنا العالمية"
+        title={t('events.title', 'Events')}
+        description={t('events.description', 'Discover and participate in our global youth events')}
       />
 
       {/* Header */}
@@ -448,15 +540,15 @@ export default function Events() {
           >
             <div className="inline-flex items-center gap-2 bg-secondary-400/20 backdrop-blur-md border border-secondary-400/30 rounded-full px-6 py-3 mb-6 text-sm text-secondary-400 font-almarai">
               <Calendar className="w-4 h-4" />
-              فعاليات ملهمة ومؤثرة
+              {t('events.inspiring', 'Inspiring and impactful events')}
             </div>
 
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 font-tajawal">
-              فعالياتنا القادمة
+              {t('events.upcoming_title', 'Upcoming Events')}
             </h1>
 
             <p className="text-xl text-white/80 max-w-2xl mx-auto font-almarai">
-              انضم إلى مجتمع عالمي من الشباب المبدع في فعاليات تفاعلية ومؤثرة
+              {t('events.join_community', 'Join a global community of creative youth in interactive and impactful events')}
             </p>
           </motion.div>
         </div>
@@ -478,8 +570,18 @@ export default function Events() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full bg-white/10 border border-white/20 rounded-xl px-12 py-4 text-white placeholder-white/50 focus:outline-none focus:border-secondary-400 focus:bg-white/15 transition-all duration-300 font-almarai"
-                placeholder="ابحث عن فعالية..."
+                placeholder={t('events.search', 'Search for an event...')}
+                aria-label={t('events.search')}
               />
+              {searchTerm && (
+                <button 
+                  onClick={() => setSearchTerm('')}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-white"
+                  aria-label={t('common.clear', 'Clear')}
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              )}
             </div>
 
             {/* Category Filter */}
@@ -489,6 +591,7 @@ export default function Events() {
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className="bg-white/10 border border-white/20 rounded-xl px-12 py-4 text-white focus:outline-none focus:border-secondary-400 focus:bg-white/15 transition-all duration-300 font-almarai appearance-none cursor-pointer min-w-[200px]"
+                aria-label={t('events.filter_by_category', 'Filter by category')}
               >
                 {categories.map((category) => (
                   <option
@@ -497,109 +600,220 @@ export default function Events() {
                     className="bg-midnight text-white"
                   >
                     {category}
-                      </option>
-                    ))}
-                  </select>
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
-          {/* Events Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredEvents.map((event, index) => (
-                <motion.div
-                  key={event.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group relative bg-white/10 backdrop-blur-lg rounded-3xl overflow-hidden border border-white/20 hover:border-secondary-400/50 transition-all duration-300"
+          {/* Loading State */}
+          {isLoading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="w-16 h-16 border-4 border-secondary border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : (
+            <>
+              {/* Events Grid */}
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
               >
-                {/* Featured Badge */}
-                {event.featured && (
-                  <div className="absolute top-4 right-4 z-10 bg-gradient-to-r from-secondary-400 to-secondary-500 text-black px-3 py-1 rounded-full text-xs font-bold font-almarai">
-                    <Star className="w-3 h-3 inline mr-1" />
-                    مميز
+                {filteredEvents.map((event, index) => (
+                  <motion.div
+                    key={event.id}
+                    variants={cardVariants}
+                    whileHover={{
+                      y: -10,
+                      scale: 1.02,
+                      transition: { type: 'spring', stiffness: 300, damping: 20 },
+                    }}
+                    className="group relative cursor-pointer"
+                  >
+                    {/* Main Card */}
+                    <div className="relative bg-white/10 backdrop-blur-lg rounded-3xl shadow-lg overflow-hidden transition-all duration-500 border border-white/10 hover:border-secondary-400/50 h-full flex flex-col">
+                      {/* Featured Badge */}
+                      {event.featured && (
+                        <div className="absolute top-4 right-4 z-10 bg-gradient-to-r from-secondary-400 to-secondary-500 text-black px-3 py-1 rounded-full text-xs font-bold font-almarai flex items-center gap-1">
+                          <Star className="w-3 h-3 inline" />
+                          {t('events.featured', 'Featured')}
                         </div>
                       )}
 
-                {/* Event Image */}
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                      {/* Event Image */}
+                      <div className="relative h-48 overflow-hidden">
+                        <img
+                          src={event.image}
+                          alt={event.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-                  {/* Category Tag */}
-                  <div className="absolute bottom-4 left-4 bg-accent-400/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold font-almarai">
-                    {event.category}
+                        {/* Category Tag */}
+                        <div className="absolute bottom-4 left-4 bg-accent-400/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold font-almarai">
+                          {event.category}
+                        </div>
+                        
+                        {/* Days Remaining */}
+                        {getDaysRemaining(event.date) > 0 && (
+                          <div className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold font-almarai flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {getDaysRemaining(event.date)} {t('events.days_remaining', 'days remaining')}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Event Content */}
+                      <div className="p-6 flex-1 flex flex-col">
+                        <h3 className="text-xl font-bold text-white mb-3 font-tajawal group-hover:text-secondary-400 transition-colors duration-300">
+                          {event.title}
+                        </h3>
+
+                        <p className="text-white/70 text-sm mb-4 font-almarai line-clamp-2 flex-grow">
+                          {event.description}
+                        </p>
+
+                        {/* Event Details */}
+                        <div className="space-y-2 mb-6">
+                          <div className="flex items-center gap-2 text-white/60 text-sm font-almarai">
+                            <Calendar className="w-4 h-4 text-secondary-400" />
+                            {formatDate(event.date)}
+                          </div>
+                          <div className="flex items-center gap-2 text-white/60 text-sm font-almarai">
+                            <Clock className="w-4 h-4 text-secondary-400" />
+                            {event.time}
+                          </div>
+                          <div className="flex items-center gap-2 text-white/60 text-sm font-almarai">
+                            <MapPin className="w-4 h-4 text-secondary-400" />
+                            {event.location}
+                          </div>
+                          <div className="flex items-center gap-2 text-white/60 text-sm font-almarai">
+                            <Users className="w-4 h-4 text-secondary-400" />
+                            <div className="w-full">
+                              <div className="flex justify-between mb-1">
+                                <span>{event.participants}/{event.maxParticipants} {t('events.participants', 'participants')}</span>
+                                <span>{Math.round((event.participants / event.maxParticipants) * 100)}%</span>
+                              </div>
+                              <div className="w-full bg-white/10 rounded-full h-1.5">
+                                <div 
+                                  className="bg-secondary-400 h-1.5 rounded-full" 
+                                  style={{ width: `${(event.participants / event.maxParticipants) * 100}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Price & Register */}
+                        <div className="flex items-center justify-between mt-auto">
+                          <div className="text-secondary-400 font-bold font-almarai">
+                            {event.price === 0 ? t('events.free', 'Free') : `${event.price} ${t('events.currency', 'SAR')}`}
+                          </div>
+
+                          <motion.button
+                            onClick={() => handleRegister(event)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="bg-gradient-to-r from-secondary-400 to-secondary-500 hover:from-secondary-500 hover:to-secondary-600 text-black font-bold px-6 py-2 rounded-full text-sm transition-all duration-300 flex items-center gap-2 font-almarai"
+                          >
+                            {t('events.register', 'Register Now')}
+                            <ArrowRight
+                              className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`}
+                            />
+                          </motion.button>
                         </div>
                       </div>
 
-                {/* Event Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white mb-3 font-tajawal group-hover:text-secondary-400 transition-colors duration-300">
-                    {event.title}
-                  </h3>
-
-                  <p className="text-white/70 text-sm mb-4 font-almarai line-clamp-2">
-                    {event.description}
-                  </p>
-
-                  {/* Event Details */}
-                  <div className="space-y-2 mb-6">
-                    <div className="flex items-center gap-2 text-white/60 text-sm font-almarai">
-                      <Calendar className="w-4 h-4 text-secondary-400" />
-                      {formatDate(event.date)}
-                    </div>
-                    <div className="flex items-center gap-2 text-white/60 text-sm font-almarai">
-                      <Clock className="w-4 h-4 text-secondary-400" />
-                      {event.time}
-                        </div>
-                    <div className="flex items-center gap-2 text-white/60 text-sm font-almarai">
-                      <MapPin className="w-4 h-4 text-secondary-400" />
-                      {event.location}
-                      </div>
-                    <div className="flex items-center gap-2 text-white/60 text-sm font-almarai">
-                      <Users className="w-4 h-4 text-secondary-400" />
-                      {event.participants}/{event.maxParticipants} مشارك
-                    </div>
-                  </div>
-
-                  {/* Price & Register */}
-                  <div className="flex items-center justify-between">
-                    <div className="text-secondary-400 font-bold font-almarai">
-                      {event.price === 0 ? 'مجاني' : `${event.price} ريال`}
-                    </div>
-
-                    <motion.button
-                      onClick={() => handleRegister(event)}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="bg-gradient-to-r from-secondary-400 to-secondary-500 hover:from-secondary-500 hover:to-secondary-600 text-black font-bold px-6 py-2 rounded-full text-sm transition-all duration-300 flex items-center gap-2 font-almarai"
-                    >
-                      سجل الآن
-                      <ArrowRight
-                        className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`}
+                      {/* Background glow effect */}
+                      <div
+                        className={`absolute inset-0 bg-secondary-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}
                       />
-                    </motion.button>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
-          </div>
+                  </motion.div>
+                ))}
+              </motion.div>
 
-            {filteredEvents.length === 0 && (
-            <div className="text-center py-16">
-              <div className="text-white/50 text-6xl mb-4">🔍</div>
-              <h3 className="text-2xl font-bold text-white mb-2 font-tajawal">
-                لا توجد فعاليات
-              </h3>
-              <p className="text-white/70 font-almarai">
-                جرب تغيير معايير البحث أو الفئة
-              </p>
-            </div>
+              {filteredEvents.length === 0 && (
+                <div className="text-center py-16">
+                  <div className="text-white/50 text-6xl mb-4">🔍</div>
+                  <h3 className="text-2xl font-bold text-white mb-2 font-tajawal">
+                    {t('events.no_events', 'No events found')}
+                  </h3>
+                  <p className="text-white/70 font-almarai">
+                    {t('events.try_different', 'Try changing your search criteria or category')}
+                  </p>
+                  {(searchTerm || selectedCategory !== 'جميع الفئات') && (
+                    <button
+                      onClick={() => {
+                        setSearchTerm('');
+                        setSelectedCategory('جميع الفئات');
+                      }}
+                      className="mt-4 px-6 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors font-almarai"
+                    >
+                      {t('events.clear_filters', 'Clear filters')}
+                    </button>
+                  )}
+                </div>
+              )}
+              
+              {/* View All Events Button */}
+              {filteredEvents.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 1.2 }}
+                  className="text-center mt-20"
+                >
+                  <motion.button
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: '0 20px 25px -5px rgba(242, 201, 76, 0.4)',
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-gradient-to-r from-secondary-400 to-secondary-500 hover:from-secondary-500 hover:to-secondary-600 text-black font-tajawal font-bold px-12 py-5 rounded-full shadow-xl transition-all duration-300 group"
+                  >
+                    <span className="flex items-center gap-3">
+                      {t('events.view_all', 'View All Events')}
+                      <motion.div
+                        animate={{ x: [0, 3, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        <ArrowRight className={`w-6 h-6 group-hover:translate-x-2 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-2' : ''}`} />
+                      </motion.div>
+                    </span>
+                  </motion.button>
+                </motion.div>
+              )}
+            </>
           )}
+          
+          {/* Calendar Integration Teaser */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="mt-20 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 text-center"
+          >
+            <Calendar className="w-12 h-12 text-secondary-400 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-white mb-3 font-tajawal">
+              {t('events.never_miss', 'Never Miss an Event')}
+            </h2>
+            <p className="text-white/70 font-almarai mb-6 max-w-2xl mx-auto">
+              {t('events.calendar_description', 'Subscribe to our events calendar to stay updated with all our upcoming activities and receive automatic reminders.')}
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3 rounded-xl border border-white/20 transition-all duration-300 flex items-center gap-2 mx-auto font-almarai"
+            >
+              <Calendar className="w-5 h-5" />
+              {t('events.subscribe_calendar', 'Subscribe to Calendar')}
+            </motion.button>
+          </motion.div>
         </div>
       </div>
     </div>

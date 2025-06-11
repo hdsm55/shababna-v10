@@ -1,6 +1,6 @@
-// FILE: src/components/EventsSection.tsx
-import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
+import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import {
   Calendar,
   MapPin,
@@ -16,7 +16,8 @@ import {
 } from 'lucide-react'
 
 export default function EventsSection() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const isRTL = i18n.dir() === 'rtl'
 
   const events = [
     {
@@ -72,60 +73,6 @@ export default function EventsSection() {
       featured: true,
       description:
         'ندوة متخصصة تناقش أهمية الصحة النفسية وطرق تعزيزها لدى الشباب.',
-    },
-    {
-      id: 'sustainability-forum',
-      title: 'منتدى الاستدامة البيئية',
-      date: '28 يوليو 2024',
-      time: '10:00 - 16:00',
-      location: 'مركز الشيخ زايد - أبوظبي',
-      category: 'بيئة',
-      type: 'منتدى',
-      icon: BookOpen,
-      image:
-        'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg',
-      color: 'from-emerald-400 to-green-500',
-      bgColor: 'bg-emerald-500/10',
-      participants: 300,
-      featured: false,
-      description:
-        'منتدى يناقش الحلول المبتكرة للتحديات البيئية ودور الشباب في الاستدامة.',
-    },
-    {
-      id: 'entrepreneurship-bootcamp',
-      title: 'معسكر ريادة الأعمال',
-      date: '5 سبتمبر 2024',
-      time: '09:00 - 21:00',
-      location: 'حي التصميم - دبي',
-      category: 'ريادة',
-      type: 'معسكر',
-      icon: GraduationCap,
-      image:
-        'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg',
-      color: 'from-secondary-400 to-yellow-500',
-      bgColor: 'bg-secondary-500/10',
-      participants: 100,
-      featured: false,
-      description:
-        'معسكر مكثف لتطوير مهارات ريادة الأعمال وبناء المشاريع الناشئة.',
-    },
-    {
-      id: 'cultural-exchange',
-      title: 'ملتقى التبادل الثقافي',
-      date: '18 أكتوبر 2024',
-      time: '13:00 - 20:00',
-      location: 'المركز الثقافي - الرباط',
-      category: 'ثقافة',
-      type: 'ملتقى',
-      icon: Mic,
-      image:
-        'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg',
-      color: 'from-orange-400 to-red-500',
-      bgColor: 'bg-orange-500/10',
-      participants: 250,
-      featured: false,
-      description:
-        'ملتقى يحتفي بالتنوع الثقافي ويعزز التفاهم بين الشباب من مختلف الثقافات.',
     },
   ]
 
@@ -207,7 +154,7 @@ export default function EventsSection() {
             className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 mb-6 text-sm text-white/90 font-almarai"
           >
             <div className="w-2 h-2 bg-secondary-400 rounded-full animate-pulse"></div>
-            فعاليات قادمة
+            {t('events.upcoming', 'Upcoming Events')}
           </motion.div>
 
           <motion.h2
@@ -264,18 +211,19 @@ export default function EventsSection() {
                     transition={{ delay: 0.5 }}
                     className="absolute -top-3 -right-3 z-20 bg-gradient-to-r from-secondary-400 to-yellow-500 text-black px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
                   >
-                    ⭐ مميز
+                    ⭐ {t('events.featured', 'Featured')}
                   </motion.div>
                 )}
 
                 {/* Main Card */}
-                <div className="relative bg-white/5 backdrop-blur-md rounded-2xl shadow-lg overflow-hidden transition-all duration-700 border border-white/10 hover:border-white/20 hover:shadow-xl">
+                <div className="relative bg-white/5 backdrop-blur-md rounded-2xl shadow-lg overflow-hidden transition-all duration-700 border border-white/10 hover:border-white/20 hover:shadow-xl h-full flex flex-col">
                   {/* Event Image */}
                   <div className="relative h-48 overflow-hidden">
                     <img
                       src={event.image}
                       alt={event.title}
                       className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                      loading="lazy"
                     />
                     <div
                       className={`absolute inset-0 bg-gradient-to-t ${event.color} opacity-35`}
@@ -305,7 +253,7 @@ export default function EventsSection() {
                   </div>
 
                   {/* Content */}
-                  <div className="p-6">
+                  <div className="p-6 flex-1 flex flex-col">
                     <motion.h3
                       className={`font-tajawal font-bold text-white mb-3 group-hover:text-secondary-300 transition-colors duration-300 ${
                         isFeatured ? 'text-2xl' : 'text-xl'
@@ -316,7 +264,7 @@ export default function EventsSection() {
                     </motion.h3>
 
                     <motion.p
-                      className={`font-almarai text-white/80 group-hover:text-white/90 transition-colors duration-300 leading-relaxed mb-4 ${
+                      className={`font-almarai text-white/80 group-hover:text-white/90 transition-colors duration-300 leading-relaxed mb-4 flex-grow ${
                         isFeatured ? 'text-base' : 'text-sm'
                       }`}
                       initial={{ opacity: 0.8 }}
@@ -341,30 +289,45 @@ export default function EventsSection() {
                       </div>
                       <div className="flex items-center gap-3 text-white/70 text-sm">
                         <Users className="w-4 h-4 text-secondary-400" />
-                        <span className="font-almarai">
-                          {event.participants} مشارك
-                        </span>
+                        <div className="w-full">
+                          <div className="flex justify-between mb-1">
+                            <span className="font-almarai">
+                              {event.participants}/{event.maxParticipants} {t('events.participants', 'participants')}
+                            </span>
+                            <span className="font-almarai">
+                              {Math.round((event.participants / event.maxParticipants) * 100)}%
+                            </span>
+                          </div>
+                          <div className="w-full bg-white/10 rounded-full h-1.5">
+                            <div 
+                              className="bg-secondary-400 h-1.5 rounded-full" 
+                              style={{ width: `${(event.participants / event.maxParticipants) * 100}%` }}
+                            ></div>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex gap-3">
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`
-                          flex-1 relative px-4 py-3 rounded-full font-tajawal font-medium text-white text-sm
-                          bg-gradient-to-r ${event.color} opacity-90 group-hover:opacity-100
-                          transition-all duration-300 hover:shadow-lg
-                          overflow-hidden flex items-center justify-center gap-2
-                        `}
-                      >
-                        <span className="relative z-10">
-                          {t('events.register')}
-                        </span>
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-                        <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      </motion.button>
+                    <div className="mt-auto">
+                      <Link to="/events">
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className={`
+                            w-full relative px-4 py-3 rounded-full font-tajawal font-medium text-white text-sm
+                            bg-gradient-to-r ${event.color} opacity-90 group-hover:opacity-100
+                            transition-all duration-300 hover:shadow-lg
+                            overflow-hidden flex items-center justify-center gap-2
+                          `}
+                        >
+                          <span className="relative z-10">
+                            {t('events.register')}
+                          </span>
+                          <ArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
+                          <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        </motion.button>
+                      </Link>
                     </div>
                   </div>
 
@@ -386,24 +349,26 @@ export default function EventsSection() {
           transition={{ duration: 0.7, delay: 1.2 }}
           className="text-center mt-20"
         >
-          <motion.button
-            whileHover={{
-              scale: 1.05,
-              boxShadow: '0 20px 25px -5px rgba(242, 201, 76, 0.4)',
-            }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-secondary-400 to-secondary-500 hover:from-secondary-500 hover:to-secondary-600 text-black font-tajawal font-bold px-12 py-5 rounded-full shadow-xl transition-all duration-300 group"
-          >
-            <span className="flex items-center gap-3">
-              {t('events.view_all')}
-              <motion.div
-                animate={{ x: [0, 3, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
-              </motion.div>
-            </span>
-          </motion.button>
+          <Link to="/events">
+            <motion.button
+              whileHover={{
+                scale: 1.05,
+                boxShadow: '0 20px 25px -5px rgba(242, 201, 76, 0.4)',
+              }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-gradient-to-r from-secondary-400 to-secondary-500 hover:from-secondary-500 hover:to-secondary-600 text-black font-tajawal font-bold px-12 py-5 rounded-full shadow-xl transition-all duration-300 group"
+            >
+              <span className="flex items-center gap-3">
+                {t('events.view_all')}
+                <motion.div
+                  animate={{ x: [0, 3, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <ArrowRight className={`w-6 h-6 group-hover:translate-x-2 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover:-translate-x-2' : ''}`} />
+                </motion.div>
+              </span>
+            </motion.button>
+          </Link>
         </motion.div>
       </div>
     </section>
