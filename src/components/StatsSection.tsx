@@ -1,4 +1,3 @@
-// FILE: src/components/StatsSection.tsx
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 
@@ -12,7 +11,7 @@ export default function StatsSection() {
   ]
 
   return (
-    <section className="section-wrapper bg-primary-50">
+    <section className="section bg-primary/5">
       <div className="container mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
@@ -23,7 +22,7 @@ export default function StatsSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="text-center"
             >
-              <h3 className="text-4xl font-bold text-primary-600 mb-2">
+              <h3 className="text-4xl font-bold text-primary mb-2">
                 {stat.value}
               </h3>
               <p className="text-gray-600">{stat.label}</p>

@@ -62,7 +62,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         case 'success':
           return 'bg-green-500 hover:bg-green-600 text-white border-green-500 hover:border-green-600 shadow-lg hover:shadow-xl hover:shadow-green-500/25'
         case 'gradient':
-          return 'bg-gradient-to-r from-primary to-accent-500 hover:from-primary/90 hover:to-accent-600 text-white border-transparent shadow-lg hover:shadow-xl hover:shadow-primary/25'
+          return 'bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent-hover text-white border-transparent shadow-lg hover:shadow-xl hover:shadow-primary/25'
         default:
           return 'btn-primary'
       }
@@ -75,13 +75,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         case 'sm':
           return 'px-4 py-2 text-sm font-medium'
         case 'md':
-          return 'px-6 py-3 text-base font-semibold'
+          return 'px-6 py-2.5 text-base font-semibold'
         case 'lg':
-          return 'px-8 py-4 text-lg font-semibold'
+          return 'px-8 py-3 text-lg font-semibold'
         case 'xl':
-          return 'px-10 py-5 text-xl font-bold'
+          return 'px-10 py-4 text-xl font-bold'
         default:
-          return 'px-6 py-3 text-base font-semibold'
+          return 'px-6 py-2.5 text-base font-semibold'
       }
     }
 
@@ -121,8 +121,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const baseClasses = `
     inline-flex items-center justify-center gap-2
-    font-tajawal transition-all duration-300
-    border focus:outline-none focus:ring-4 focus:ring-primary-500/30
+    font-sans transition-all duration-300
+    border focus:outline-none focus:ring-4 focus:ring-primary/30
     disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
     ${getVariantClasses()}
     ${getSizeClasses()}
@@ -171,6 +171,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           form={props.form}
           name={props.name}
           value={props.value}
+          aria-busy={loading}
         >
           {content}
         </motion.button>
@@ -183,6 +184,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={baseClasses}
         disabled={disabled || loading}
         {...props}
+        aria-busy={loading}
       >
         {content}
       </button>
@@ -191,83 +193,5 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 )
 
 Button.displayName = 'Button'
-
-// Specialized button variants
-export const PrimaryButton = forwardRef<
-  HTMLButtonElement,
-  Omit<ButtonProps, 'variant'>
->((props, ref) => <Button ref={ref} variant="primary" {...props} />)
-
-export const SecondaryButton = forwardRef<
-  HTMLButtonElement,
-  Omit<ButtonProps, 'variant'>
->((props, ref) => <Button ref={ref} variant="secondary" {...props} />)
-
-export const OutlineButton = forwardRef<
-  HTMLButtonElement,
-  Omit<ButtonProps, 'variant'>
->((props, ref) => <Button ref={ref} variant="outline" {...props} />)
-
-export const GhostButton = forwardRef<
-  HTMLButtonElement,
-  Omit<ButtonProps, 'variant'>
->((props, ref) => <Button ref={ref} variant="ghost" {...props} />)
-
-export const DangerButton = forwardRef<
-  HTMLButtonElement,
-  Omit<ButtonProps, 'variant'>
->((props, ref) => <Button ref={ref} variant="danger" {...props} />)
-
-export const SuccessButton = forwardRef<
-  HTMLButtonElement,
-  Omit<ButtonProps, 'variant'>
->((props, ref) => <Button ref={ref} variant="success" {...props} />)
-
-export const GradientButton = forwardRef<
-  HTMLButtonElement,
-  Omit<ButtonProps, 'variant'>
->((props, ref) => <Button ref={ref} variant="gradient" {...props} />)
-
-// Button group component
-export interface ButtonGroupProps {
-  children: React.ReactNode
-  orientation?: 'horizontal' | 'vertical'
-  spacing?: 'none' | 'sm' | 'md' | 'lg'
-  className?: string
-}
-
-export const ButtonGroup: React.FC<ButtonGroupProps> = ({
-  children,
-  orientation = 'horizontal',
-  spacing = 'sm',
-  className = '',
-}) => {
-  const getSpacingClasses = () => {
-    const isVertical = orientation === 'vertical'
-    switch (spacing) {
-      case 'none':
-        return ''
-      case 'sm':
-        return isVertical ? 'space-y-2' : 'space-x-2'
-      case 'md':
-        return isVertical ? 'space-y-4' : 'space-x-4'
-      case 'lg':
-        return isVertical ? 'space-y-6' : 'space-x-6'
-      default:
-        return isVertical ? 'space-y-2' : 'space-x-2'
-    }
-  }
-
-  const orientationClasses =
-    orientation === 'vertical' ? 'flex-col' : 'flex-row'
-
-  return (
-    <div
-      className={`flex ${orientationClasses} ${getSpacingClasses()} ${className}`}
-    >
-      {children}
-    </div>
-  )
-}
 
 export default Button

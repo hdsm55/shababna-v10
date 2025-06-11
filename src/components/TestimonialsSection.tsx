@@ -1,4 +1,3 @@
-// FILE: src/components/TestimonialsSection.tsx
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 
@@ -23,7 +22,7 @@ export default function TestimonialsSection() {
   ]
 
   return (
-    <section className="section-wrapper bg-gray-50">
+    <section className="section bg-gray-50">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -48,11 +47,11 @@ export default function TestimonialsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white p-6 rounded-lg shadow-md"
+              className="card-base"
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                  <span className="text-primary-600 font-semibold">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                  <span className="text-primary font-semibold">
                     {testimonial.name.charAt(0)}
                   </span>
                 </div>
