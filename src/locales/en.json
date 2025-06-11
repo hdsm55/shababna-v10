@@ -32,14 +32,31 @@
   "cta": {
     "buttons": {
       "contact": "Contact Us",
-      "projects": "Our Projects"
-    }
+      "projects": "Our Projects",
+      "join": "Join Us",
+      "donate": "Donate Now",
+      "learn": "Learn More"
+    },
+    "headline": "Join Our Mission",
+    "subheadline": "Be part of positive change",
+    "button": "Get Involved"
   },
   "footer": {
     "about": "About Us",
     "whoWeAre": "Who We Are",
     "contact": "Contact Us",
-    "join": "Join Us"
+    "join": "Join Us",
+    "projects": "Projects",
+    "events": "Events",
+    "blog": "Blog",
+    "reports": "Reports",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "press": "Press",
+    "partners": "Partners",
+    "donate": "Donate",
+    "volunteer": "Volunteer",
+    "faq": "FAQ"
   },
   "common": {
     "error": "An error occurred",

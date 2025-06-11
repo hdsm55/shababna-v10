@@ -1,4 +1,3 @@
-// FILE: src/components/ProjectsSection.tsx
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { useProjects } from '../hooks/useProjects'
@@ -7,15 +6,6 @@ import { Link } from 'react-router-dom'
 export default function ProjectsSection() {
   const { t } = useTranslation()
   const { data: projects = [], isLoading, error } = useProjects()
-
-  // Diagnostic logging
-  projects.forEach((p) =>
-    console.log('🕵️‍♂️ project', {
-      id: p.id,
-      uuid: p.uuid,
-      title: p.title,
-    })
-  )
 
   if (isLoading) return <p className="section-wrapper">Loading…</p>
   if (error)
@@ -42,20 +32,34 @@ export default function ProjectsSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((p, index) => (
             <motion.div
-              key={p.id ?? p.uuid ?? String(index)}
+              key={p.id ?? String(index)}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-white rounded-lg shadow-md overflow-hidden"
             >
+              {p.img_url && (
+                <div className="h-48 overflow-hidden">
+                  <img 
+                    src={p.img_url} 
+                    alt={p.title} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
               <div className="p-6">
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   {p.title}
                 </h3>
                 <p className="text-gray-600 mb-4">{p.description}</p>
+                {p.year && (
+                  <div className="text-sm text-gray-500 mb-4">
+                    {p.year}
+                  </div>
+                )}
                 <Link
-                  to={`/projects/${p.id ?? p.uuid}`}
+                  to={`/projects/${p.id}`}
                   className="inline-flex items-center text-primary-600 hover:text-primary-700"
                 >
                   {t('projects.learnMore')}
