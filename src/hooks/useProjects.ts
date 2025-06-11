@@ -10,9 +10,12 @@ interface Project {
   image?: string;
   created_at: string;
   updated_at: string;
+  uuid?: string;
+  slug?: string;
+  link?: string;
 }
 
-const invalidate = (qc:any)=>qc.invalidateQueries(['projects']);
+const invalidate = (qc: ReturnType<typeof useQueryClient>) => qc.invalidateQueries({ queryKey: ['projects'] });
 
 // List projects
 export const useProjects = () =>

@@ -35,6 +35,12 @@
       "projects": "Our Projects"
     }
   },
+  "footer": {
+    "about": "About Us",
+    "whoWeAre": "Who We Are",
+    "contact": "Contact Us",
+    "join": "Join Us"
+  },
   "common": {
     "error": "An error occurred",
     "saving": "Saving...",

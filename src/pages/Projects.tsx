@@ -39,14 +39,14 @@ export default function Projects() {
   const [searchQuery, setSearchQuery] = useState('')
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(
-    projectsData.projects as Project[]
+    (projectsData.projects as Project[]) || []
   )
 
   const currentLanguage = i18n.language as keyof Project['title']
 
   // Diagnostic logging
   filteredProjects.forEach((p) =>
-    console.log('💡 project item', {
+    console.log('🕵️‍♂️ project', {
       id: p.id,
       title: p.title[currentLanguage],
       category: p.category,
@@ -64,22 +64,24 @@ export default function Projects() {
   ]
 
   const filterProjects = useCallback(() => {
-    const filtered = (projectsData.projects as Project[]).filter((project) => {
-      const matchesCategory =
-        selectedCategory === 'all' || project.category === selectedCategory
-      const matchesStatus =
-        selectedStatus === 'all' || project.status === selectedStatus
-      const matchesSearch =
-        searchQuery === '' ||
-        project.title[currentLanguage]
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        project.description[currentLanguage]
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase())
+    const filtered = ((projectsData.projects as Project[]) || []).filter(
+      (project) => {
+        const matchesCategory =
+          selectedCategory === 'all' || project.category === selectedCategory
+        const matchesStatus =
+          selectedStatus === 'all' || project.status === selectedStatus
+        const matchesSearch =
+          searchQuery === '' ||
+          project.title[currentLanguage]
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()) ||
+          project.description[currentLanguage]
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
 
-      return matchesCategory && matchesStatus && matchesSearch
-    })
+        return matchesCategory && matchesStatus && matchesSearch
+      }
+    )
     setFilteredProjects(filtered)
   }, [selectedCategory, selectedStatus, searchQuery, currentLanguage])
 

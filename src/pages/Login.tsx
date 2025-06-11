@@ -136,6 +136,7 @@ const Login = () => {
                 <Mail className="w-5 h-5 text-white/50" />
               </div>
               <input
+                id="login-email"
                 type="email"
                 name="email"
                 value={formData.email}
@@ -143,6 +144,7 @@ const Login = () => {
                 className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 pl-10 text-white placeholder-white/50 font-almarai focus:outline-none focus:ring-2 focus:ring-secondary-400 focus:border-transparent"
                 placeholder={t('login.email', 'البريد الإلكتروني')}
                 required
+                aria-label={t('login.email', 'البريد الإلكتروني')}
               />
             </div>
           </div>
@@ -157,6 +159,7 @@ const Login = () => {
                 <Lock className="w-5 h-5 text-white/50" />
               </div>
               <input
+                id="login-password"
                 type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={formData.password}
@@ -164,11 +167,17 @@ const Login = () => {
                 className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 pl-10 pr-10 text-white placeholder-white/50 font-almarai focus:outline-none focus:ring-2 focus:ring-secondary-400 focus:border-transparent"
                 placeholder={t('login.password', 'كلمة المرور')}
                 required
+                aria-label={t('login.password', 'كلمة المرور')}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                aria-label={
+                  showPassword
+                    ? t('login.hidePassword', 'إخفاء كلمة المرور')
+                    : t('login.showPassword', 'إظهار كلمة المرور')
+                }
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5 text-white/50 hover:text-white/80" />

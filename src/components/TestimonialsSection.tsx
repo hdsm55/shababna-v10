@@ -1,143 +1,72 @@
 // FILE: src/components/TestimonialsSection.tsx
-import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import { Star, Quote } from 'lucide-react'
-
-const testimonials = [
-  {
-    key: 'testimonial1',
-    name: 'Sarah Ahmed',
-    role: 'Program Participant',
-    avatar:
-      'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
-    rating: 5,
-    text: 'This organization changed my perspective on leadership and community service. The programs are well-structured and impactful.',
-  },
-  {
-    key: 'testimonial2',
-    name: 'Michael Chen',
-    role: 'Volunteer',
-    avatar:
-      'https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg',
-    rating: 5,
-    text: 'Being part of this community has been incredible. The support system and opportunities for growth are unmatched.',
-  },
-  {
-    key: 'testimonial3',
-    name: 'Aisha Patel',
-    role: 'Mentor',
-    avatar:
-      'https://images.pexels.com/photos/3184423/pexels-photo-3184423.jpeg',
-    rating: 5,
-    text: 'Working with young leaders through this organization has been one of the most rewarding experiences of my career.',
-  },
-]
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-    },
-  },
-}
+import { useTranslation } from 'react-i18next'
 
 export default function TestimonialsSection() {
   const { t } = useTranslation()
+  const testimonials = [
+    {
+      name: t('testimonials.volunteer1.name'),
+      role: t('testimonials.volunteer1.role'),
+      content: t('testimonials.volunteer1.content'),
+    },
+    {
+      name: t('testimonials.volunteer2.name'),
+      role: t('testimonials.volunteer2.role'),
+      content: t('testimonials.volunteer2.content'),
+    },
+    {
+      name: t('testimonials.volunteer3.name'),
+      role: t('testimonials.volunteer3.role'),
+      content: t('testimonials.volunteer3.content'),
+    },
+  ]
 
   return (
-    <section
-      id="testimonials"
-      className="py-24 bg-gradient-to-b from-cetacean/90 to-black/90"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="section-wrapper bg-gray-50">
+      <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-tajawal font-bold text-white mb-4">
-            {t('testimonials.heading', 'What People Say')}
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            {t('testimonials.heading')}
           </h2>
-          <p className="text-xl font-almarai text-white/80 max-w-3xl mx-auto">
-            {t(
-              'testimonials.subheading',
-              'Hear from our community members about their transformative experiences'
-            )}
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            {t('testimonials.subheading')}
           </p>
         </motion.div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {testimonials.map((testimonial) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {testimonials.map((testimonial, index) => (
             <motion.div
-              key={testimonial.key}
-              variants={itemVariants}
-              whileHover={{ y: -10, scale: 1.02 }}
-              className="group bg-cetacean/90 border border-white/10 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 relative"
+              key={testimonial.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-white p-6 rounded-lg shadow-md"
             >
-              <div className="absolute top-4 right-4 text-primary/20">
-                <Quote className="w-8 h-8" />
-              </div>
-
-              <div className="flex items-center mb-6">
-                <img
-                  src={testimonial.avatar}
-                  alt={testimonial.name}
-                  className="w-16 h-16 rounded-full object-cover border-2 border-primary/30 mr-4"
-                />
-                <div>
-                  <h3 className="font-tajawal font-bold text-white text-lg">
-                    {t(
-                      `testimonials.${testimonial.key}.name`,
-                      testimonial.name
-                    )}
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                  <span className="text-primary-600 font-semibold">
+                    {testimonial.name.charAt(0)}
+                  </span>
+                </div>
+                <div className="ml-4">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {testimonial.name}
                   </h3>
-                  <p className="font-almarai text-white/60 text-sm">
-                    {t(
-                      `testimonials.${testimonial.key}.role`,
-                      testimonial.role
-                    )}
-                  </p>
+                  <p className="text-sm text-gray-600">{testimonial.role}</p>
                 </div>
               </div>
-
-              <div className="flex items-center mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-5 h-5 text-yellow-400 fill-current"
-                  />
-                ))}
-              </div>
-
-              <blockquote className="text-white/80 font-almarai leading-relaxed italic">
-                "{t(`testimonials.${testimonial.key}.text`, testimonial.text)}"
-              </blockquote>
-
-              <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 to-transparent rounded-b-xl transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+              <p className="text-gray-600">{testimonial.content}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )

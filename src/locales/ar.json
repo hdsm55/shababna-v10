@@ -35,6 +35,12 @@
       "projects": "مشاريعنا"
     }
   },
+  "footer": {
+    "about": "من نحن",
+    "whoWeAre": "نحن",
+    "contact": "اتصل بنا",
+    "join": "انضم إلينا"
+  },
   "common": {
     "error": "حدث خطأ",
     "saving": "جاري الحفظ...",

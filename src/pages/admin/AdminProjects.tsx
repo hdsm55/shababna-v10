@@ -10,7 +10,13 @@ export default function AdminProjects() {
   const del = useDeleteProject()
 
   // Diagnostic logging
-  projects.forEach((p) => console.log('🔍 id:', p.id, 'title:', p.title))
+  projects.forEach((p) =>
+    console.log('🕵️‍♂️ project', {
+      id: p.id,
+      uuid: p.uuid,
+      title: p.title,
+    })
+  )
 
   if (isLoading) return <p className="section-wrapper">Loading…</p>
   if (error)
@@ -29,7 +35,7 @@ export default function AdminProjects() {
       <ul className="space-y-2">
         {projects.map((p, index) => (
           <li
-            key={p.id ?? p.title ?? String(index)}
+            key={p.id ?? p.uuid ?? String(index)}
             className="card-base flex justify-between items-center"
           >
             <span>{p.title}</span>
