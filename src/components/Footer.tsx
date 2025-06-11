@@ -96,18 +96,17 @@ export default function Footer() {
             <div className="mb-6">
               <img
                 src="/Shababuna-Logo-1.1.svg.svg"
-                alt="Shababuna Logo"
+                alt={t('navbar.logoAlt')}
                 className="h-12 w-auto mb-4"
                 loading="lazy"
                 width="180"
                 height="48"
               />
-              <h3 className="font-sans text-2xl font-bold mb-4 text-white">
-                شبابنا - منظمة الشباب العالمية
+              <h3 className="font-tajawal text-2xl font-bold mb-4 text-white">
+                {t('hero.organization')}
               </h3>
-              <p className="text-white/70 leading-relaxed max-w-md">
-                نعمل على تمكين الشباب وبناء مستقبل أفضل من خلال التعليم
-                والتطوير والمشاركة المجتمعية.
+              <p className="text-white/70 leading-relaxed max-w-md font-almarai">
+                {t('about.mission.description')}
               </p>
             </div>
 
@@ -117,7 +116,7 @@ export default function Footer() {
                 <Mail className="w-5 h-5 text-accent" aria-hidden="true" />
                 <a
                   href="mailto:info@shababuna.org"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors font-almarai"
                 >
                   info@shababuna.org
                 </a>
@@ -126,14 +125,14 @@ export default function Footer() {
                 <Phone className="w-5 h-5 text-accent" aria-hidden="true" />
                 <a
                   href="tel:+1234567890"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-white transition-colors font-almarai"
                 >
                   +123 456 7890
                 </a>
               </div>
               <div className="flex items-center gap-3 text-white/70">
                 <MapPin className="w-5 h-5 text-accent" aria-hidden="true" />
-                <span>اسطنبول، تركيا</span>
+                <span className="font-almarai">{t('contact.info.address.details')}</span>
               </div>
             </div>
           </motion.div>
@@ -145,15 +144,15 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h4 className="font-sans text-lg font-bold mb-6 text-white">
-              الروابط الرئيسية
+            <h4 className="font-tajawal text-lg font-bold mb-6 text-white">
+              {t('footer.about_us')}
             </h4>
             <ul className="space-y-3">
               {mainLinks.map((link) => (
                 <li key={link.to}>
                   <Link
                     to={link.to}
-                    className="text-white/70 hover:text-white transition-colors duration-300 flex items-center gap-2 group"
+                    className="text-white/70 hover:text-white transition-colors duration-300 flex items-center gap-2 group font-almarai"
                   >
                     <span>{link.label}</span>
                     <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
@@ -170,15 +169,15 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h4 className="font-sans text-lg font-bold mb-6 text-white">
-              الدعم والمساعدة
+            <h4 className="font-tajawal text-lg font-bold mb-6 text-white">
+              {t('footer.get_involved')}
             </h4>
             <ul className="space-y-3">
               {supportLinks.map((link) => (
                 <li key={link.to}>
                   <Link
                     to={link.to}
-                    className="text-white/70 hover:text-white transition-colors duration-300 flex items-center gap-2 group"
+                    className="text-white/70 hover:text-white transition-colors duration-300 flex items-center gap-2 group font-almarai"
                   >
                     <span>{link.label}</span>
                     <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
@@ -195,37 +194,40 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h4 className="font-sans text-lg font-bold mb-6 text-white">
-              ابقى على تواصل
+            <h4 className="font-tajawal text-lg font-bold mb-6 text-white">
+              {t('newsletter.heading')}
             </h4>
 
             {/* Newsletter */}
             <div className="mb-6">
-              <p className="text-white/70 text-sm mb-4">
-                اشترك في نشرتنا الإخبارية
+              <p className="text-white/70 text-sm mb-4 font-almarai">
+                {t('newsletter.subheading')}
               </p>
               <div className="flex gap-2">
                 <input
                   type="email"
                   id="footer-email"
                   name="footer-email"
-                  placeholder="بريدك الإلكتروني"
-                  className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent backdrop-blur-sm"
-                  aria-label="البريد الإلكتروني للاشتراك"
+                  placeholder={t('newsletter.placeholder')}
+                  className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent backdrop-blur-sm font-almarai"
+                  aria-label={t('newsletter.placeholder')}
                 />
                 <button 
                   className="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg transition-colors flex-shrink-0"
-                  aria-label="اشتراك"
+                  aria-label={t('newsletter.button')}
                 >
                   <Mail className="w-4 h-4" aria-hidden="true" />
                 </button>
               </div>
+              <p className="text-white/60 text-xs mt-2 font-almarai">
+                {t('newsletter.privacy')}
+              </p>
             </div>
 
             {/* Social Media */}
             <div>
-              <p className="text-white/70 text-sm mb-4">
-                تابعنا على وسائل التواصل
+              <p className="text-white/70 text-sm mb-4 font-almarai">
+                {t('common.followUs')}
               </p>
               <div className="flex gap-3">
                 {socialLinks.map(({ icon: Icon, href, label, color }) => (
@@ -258,8 +260,8 @@ export default function Footer() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex items-center gap-2 text-white/60"
             >
-              <span className="text-sm">
-                © {currentYear} شبابنا. جميع الحقوق محفوظة.
+              <span className="text-sm font-almarai">
+                {t('footer.copy')}
               </span>
               <Heart className="w-4 h-4 text-red-400 animate-pulse" aria-hidden="true" />
             </motion.div>
@@ -276,7 +278,7 @@ export default function Footer() {
                 <Link
                   key={link.to}
                   to={link.to}
-                  className="text-white/60 hover:text-white text-sm transition-colors duration-300"
+                  className="text-white/60 hover:text-white text-sm transition-colors duration-300 font-almarai"
                 >
                   {link.label}
                 </Link>
@@ -290,22 +292,25 @@ export default function Footer() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
+              <label htmlFor="footer-language" className="sr-only">
+                {t('navbar.select_language')}
+              </label>
               <select
                 id="footer-language"
                 name="footer-language"
                 onChange={(e) => changeLang(e.target.value)}
                 value={i18n.language}
-                className="bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-sm"
-                aria-label="اختر اللغة"
+                className="bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-sm font-almarai"
+                aria-label={t('navbar.select_language')}
               >
                 <option value="ar" className="bg-midnight text-white">
-                  العربية
+                  {t('navbar.lang_ar')}
                 </option>
                 <option value="en" className="bg-midnight text-white">
-                  English
+                  {t('navbar.lang_en')}
                 </option>
                 <option value="tr" className="bg-midnight text-white">
-                  Türkçe
+                  {t('navbar.lang_tr')}
                 </option>
               </select>
             </motion.div>
@@ -319,7 +324,7 @@ export default function Footer() {
         className="fixed bottom-6 right-6 p-3 bg-accent text-white rounded-full shadow-lg hover:bg-accent-hover transition-colors"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        aria-label="العودة إلى الأعلى"
+        aria-label={t('common.back_to_top', 'Back to top')}
       >
         <svg 
           xmlns="http://www.w3.org/2000/svg" 

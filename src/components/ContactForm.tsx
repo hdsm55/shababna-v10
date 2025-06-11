@@ -143,17 +143,17 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
           >
             <CheckCircle className="w-8 h-8 text-green-500" />
           </motion.div>
-          <h3 className="text-xl font-bold text-white mb-2">
+          <h3 className="text-xl font-bold text-white mb-2 font-tajawal">
             {t('contact.form.success.title', 'Message Sent!')}
           </h3>
-          <p className="text-white/80">
+          <p className="text-white/80 font-almarai">
             {t('contact.form.success.message', 'Thank you for your message. We will get back to you soon.')}
           </p>
         </motion.div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4" aria-label={t('contact.form.title', 'Contact form')}>
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-white mb-1">
+            <label htmlFor="name" className="block text-sm font-medium text-white mb-1 font-almarai">
               {t('contact.form.name', 'Name')} <span className="text-red-400">*</span>
             </label>
             <input
@@ -162,21 +162,21 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className={`w-full bg-white/10 border ${errors.name ? 'border-red-400' : 'border-white/20'} rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:border-accent transition-colors`}
-              placeholder={t('contact.form.namePlaceholder', 'Your name')}
+              className={`w-full bg-white/10 border ${errors.name ? 'border-red-400' : 'border-white/20'} rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:border-accent transition-colors font-almarai`}
+              placeholder={t('contact.form.namePlaceholder', 'Your full name')}
               aria-required="true"
               aria-invalid={errors.name ? 'true' : 'false'}
               aria-describedby={errors.name ? 'name-error' : undefined}
             />
             {errors.name && (
-              <p id="name-error" className="mt-1 text-sm text-red-400" role="alert">
+              <p id="name-error" className="mt-1 text-sm text-red-400 font-almarai" role="alert">
                 {errors.name}
               </p>
             )}
           </div>
           
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-white mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-white mb-1 font-almarai">
               {t('contact.form.email', 'Email')} <span className="text-red-400">*</span>
             </label>
             <input
@@ -185,21 +185,21 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full bg-white/10 border ${errors.email ? 'border-red-400' : 'border-white/20'} rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:border-accent transition-colors`}
+              className={`w-full bg-white/10 border ${errors.email ? 'border-red-400' : 'border-white/20'} rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:border-accent transition-colors font-almarai`}
               placeholder={t('contact.form.emailPlaceholder', 'your@email.com')}
               aria-required="true"
               aria-invalid={errors.email ? 'true' : 'false'}
               aria-describedby={errors.email ? 'email-error' : undefined}
             />
             {errors.email && (
-              <p id="email-error" className="mt-1 text-sm text-red-400" role="alert">
+              <p id="email-error" className="mt-1 text-sm text-red-400 font-almarai" role="alert">
                 {errors.email}
               </p>
             )}
           </div>
           
           <div>
-            <label htmlFor="content" className="block text-sm font-medium text-white mb-1">
+            <label htmlFor="content" className="block text-sm font-medium text-white mb-1 font-almarai">
               {t('contact.form.message', 'Message')} <span className="text-red-400">*</span>
             </label>
             <textarea
@@ -208,14 +208,14 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
               value={formData.content}
               onChange={handleChange}
               rows={5}
-              className={`w-full bg-white/10 border ${errors.content ? 'border-red-400' : 'border-white/20'} rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:border-accent transition-colors resize-none`}
+              className={`w-full bg-white/10 border ${errors.content ? 'border-red-400' : 'border-white/20'} rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:border-accent transition-colors resize-none font-almarai`}
               placeholder={t('contact.form.messagePlaceholder', 'Your message...')}
               aria-required="true"
               aria-invalid={errors.content ? 'true' : 'false'}
               aria-describedby={errors.content ? 'content-error' : undefined}
             />
             {errors.content && (
-              <p id="content-error" className="mt-1 text-sm text-red-400" role="alert">
+              <p id="content-error" className="mt-1 text-sm text-red-400 font-almarai" role="alert">
                 {errors.content}
               </p>
             )}
@@ -223,7 +223,7 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
           
           {errors.general && (
             <div className="bg-red-500/20 border border-red-400 rounded-lg p-3" role="alert">
-              <p className="text-red-400 text-sm">{errors.general}</p>
+              <p className="text-red-400 text-sm font-almarai">{errors.general}</p>
             </div>
           )}
           
@@ -232,7 +232,7 @@ export default function ContactForm({ className = '' }: ContactFormProps) {
             disabled={isSubmitting}
             whileHover={{ scale: isSubmitting ? 1 : 1.03 }}
             whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-            className="w-full bg-secondary hover:bg-secondary-600 text-white font-bold py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:shadow-secondary/20"
+            className="w-full bg-secondary hover:bg-secondary-600 text-white font-bold py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:shadow-secondary/20 font-tajawal"
             aria-busy={isSubmitting}
           >
             {isSubmitting ? (

@@ -1,9 +1,8 @@
-// FILE: src/components/Navbar.tsx
 import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { FiMenu, FiX } from 'react-icons/fi'
 import { motion, AnimatePresence } from 'framer-motion'
+import { FiMenu, FiX } from 'react-icons/fi'
 
 export default function Navbar() {
   const { t, i18n } = useTranslation()
@@ -55,17 +54,17 @@ export default function Navbar() {
             whileHover={{ scale: 1.05 }}
             transition={{ type: 'spring', stiffness: 400, damping: 10 }}
           >
-            <Link
-              to="/"
+            <a
+              href="/"
               aria-label={t('navbar.home')}
               className="flex items-center"
             >
               <img
                 src="/Shababuna-Logo-1.1.svg.svg"
-                alt="Logo"
+                alt={t('navbar.logoAlt')}
                 className="h-12 w-auto"
               />
-            </Link>
+            </a>
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -79,8 +78,8 @@ export default function Navbar() {
                 whileHover={{ y: -2 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 10 }}
               >
-                <Link
-                  to={link.to}
+                <a
+                  href={link.to}
                   className={`relative font-tajawal text-white hover:text-white/80 px-3 py-2 transition-colors duration-300 rounded-lg ${
                     location.pathname === link.to
                       ? 'bg-white/10 text-white font-bold shadow'
@@ -104,7 +103,7 @@ export default function Navbar() {
                       }}
                     />
                   )}
-                </Link>
+                </a>
               </motion.div>
             ))}
           </div>
@@ -170,8 +169,8 @@ export default function Navbar() {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.2 }}
               >
-                <Link
-                  to={link.to}
+                <a
+                  href={link.to}
                   className={`block font-tajawal text-white hover:text-white/80 px-4 py-3 transition-colors duration-300 rounded-lg ${
                     location.pathname === link.to
                       ? 'bg-white/10 text-white font-bold'
@@ -183,7 +182,7 @@ export default function Navbar() {
                   }
                 >
                   {link.label}
-                </Link>
+                </a>
               </motion.div>
             ))}
             <motion.div

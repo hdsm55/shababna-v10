@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Globe, ChevronDown } from 'lucide-react'
 
 const Header: React.FC = () => {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLangOpen, setIsLangOpen] = useState(false)
@@ -21,18 +21,18 @@ const Header: React.FC = () => {
   }, [])
 
   const navItems = [
-    { path: '/', label: 'الرئيسية', id: 'home' },
-    { path: '/about', label: 'من نحن', id: 'about' },
-    { path: '/projects', label: 'مشاريعنا', id: 'projects' },
-    { path: '/events', label: 'الفعاليات', id: 'events' },
-    { path: '/join', label: 'انضم إلينا', id: 'join' },
-    { path: '/contact', label: 'تواصل معنا', id: 'contact' },
+    { path: '/', label: t('navbar.home'), id: 'home' },
+    { path: '/about', label: t('navbar.about'), id: 'about' },
+    { path: '/projects', label: t('navbar.projects'), id: 'projects' },
+    { path: '/events', label: t('navbar.events'), id: 'events' },
+    { path: '/join', label: t('navbar.join', 'Join Us'), id: 'join' },
+    { path: '/contact', label: t('navbar.contact', 'Contact Us'), id: 'contact' },
   ]
 
   const languages = [
-    { code: 'ar', name: 'العربية', flag: '🇸🇦' },
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'tr', name: 'Türkçe', flag: '🇹🇷' },
+    { code: 'ar', name: t('navbar.lang_ar'), flag: '🇸🇦' },
+    { code: 'en', name: t('navbar.lang_en'), flag: '🇺🇸' },
+    { code: 'tr', name: t('navbar.lang_tr'), flag: '🇹🇷' },
   ]
 
   const toggleLanguage = (langCode: string) => {
@@ -99,11 +99,14 @@ const Header: React.FC = () => {
               <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
                 className="flex items-center gap-2 px-3 py-2 bg-white hover:bg-primary-100 border border-primary-200 rounded-full transition-all duration-300 text-primary-700 shadow-sm"
+                aria-expanded={isLangOpen}
+                aria-haspopup="listbox"
+                aria-label={t('navbar.select_language')}
               >
                 <Globe className="w-4 h-4 text-primary-700" />
                 <span className="hidden sm:block font-almarai text-sm text-primary-700">
                   {languages.find((lang) => lang.code === i18n.language)
-                    ?.name || 'العربية'}
+                    ?.name || t('navbar.lang_ar')}
                 </span>
                 <ChevronDown
                   className={`w-4 h-4 text-primary-700 transition-transform duration-300 ${isLangOpen ? 'rotate-180' : ''}`}
@@ -117,6 +120,7 @@ const Header: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     className="absolute top-full right-0 mt-2 glass rounded-xl overflow-hidden min-w-[150px] z-50"
+                    role="listbox"
                   >
                     {languages.map((lang) => (
                       <button
@@ -127,6 +131,8 @@ const Header: React.FC = () => {
                             ? 'text-secondary'
                             : 'text-white'
                         }`}
+                        role="option"
+                        aria-selected={i18n.language === lang.code}
                       >
                         <span>{lang.flag}</span>
                         <span className="font-almarai">{lang.name}</span>
@@ -142,13 +148,16 @@ const Header: React.FC = () => {
               to="/join"
               className="hidden sm:block bg-gradient-to-r from-secondary to-secondary-500 hover:from-secondary-500 hover:to-secondary-600 text-white font-bold px-6 py-2 rounded-full transition-all duration-300 font-almarai shadow-lg hover:shadow-xl hover:shadow-secondary/20"
             >
-              انضم الآن
+              {t('join.button', 'Join Now')}
             </Link>
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="lg:hidden p-2 text-white hover:text-secondary transition-colors duration-300"
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={isMenuOpen ? t('navbar.close_menu') : t('navbar.open_menu')}
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -168,6 +177,9 @@ const Header: React.FC = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             className="lg:hidden bg-midnight/98 backdrop-blur-lg border-t border-white/10"
+            id="mobile-menu"
+            role="menu"
+            aria-label={t('navbar.mobile_menu')}
           >
             <div className="container mx-auto px-4 py-6">
               <div className="space-y-4">
@@ -181,6 +193,8 @@ const Header: React.FC = () => {
                         ? 'bg-secondary/20 text-secondary'
                         : 'text-white hover:bg-white/10 hover:text-secondary'
                     }`}
+                    role="menuitem"
+                    aria-current={isActive(item.path) ? 'page' : undefined}
                   >
                     {item.label}
                   </Link>
@@ -191,8 +205,9 @@ const Header: React.FC = () => {
                   to="/join"
                   onClick={() => setIsMenuOpen(false)}
                   className="block bg-gradient-to-r from-secondary to-secondary-500 text-white font-bold px-6 py-3 rounded-xl text-center transition-all duration-300 font-almarai mt-6 shadow-lg"
+                  role="menuitem"
                 >
-                  انضم الآن
+                  {t('join.button', 'Join Now')}
                 </Link>
               </div>
             </div>
@@ -208,6 +223,7 @@ const Header: React.FC = () => {
             setIsMenuOpen(false)
             setIsLangOpen(false)
           }}
+          aria-hidden="true"
         />
       )}
     </header>
