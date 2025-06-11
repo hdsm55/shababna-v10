@@ -12,7 +12,7 @@ export default function ProjectsSection() {
     return <p className="section-wrapper text-red-600">{String(error)}</p>
 
   return (
-    <section className="section-wrapper bg-gray-50">
+    <section className="section">
       <div className="container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -45,6 +45,7 @@ export default function ProjectsSection() {
                     src={p.img_url} 
                     alt={p.title} 
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
               )}
@@ -59,7 +60,7 @@ export default function ProjectsSection() {
                   </div>
                 )}
                 <Link
-                  to={p.link ?? '#'}
+                  to={p.id ? `/projects/${p.id}` : '#'}
                   className="inline-flex items-center text-primary-600 hover:text-primary-700"
                 >
                   {t('projects.learnMore')}
@@ -68,6 +69,7 @@ export default function ProjectsSection() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path
                       strokeLinecap="round"
