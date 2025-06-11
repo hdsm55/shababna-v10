@@ -10,6 +10,12 @@ export default {
           dark: '#002345',
           hover: '#00284D'
         },
+        secondary: {
+          DEFAULT: '#64748b',
+          light: '#94a3b8',
+          dark: '#475569',
+          hover: '#334155'
+        },
         accent: {
           DEFAULT: '#8b5cf6',
           light: '#a78bfa',
