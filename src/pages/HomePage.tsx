@@ -46,23 +46,23 @@ const HomePage: React.FC = () => {
   const coreValues = [
     {
       icon: Heart,
-      title: t('values.compassion.title'),
-      description: t('values.compassion.description'),
+      title: 'values.compassion.title',
+      description: 'values.compassion.description',
     },
     {
       icon: Globe,
-      title: t('values.sustainability.title'),
-      description: t('values.sustainability.description'),
+      title: 'values.sustainability.title',
+      description: 'values.sustainability.description',
     },
     {
       icon: Target,
-      title: t('values.excellence.title'),
-      description: t('values.excellence.description'),
+      title: 'values.excellence.title',
+      description: 'values.excellence.description',
     },
     {
       icon: Users,
-      title: t('values.community.title'),
-      description: t('values.community.description'),
+      title: 'values.community.title',
+      description: 'values.community.description',
     },
   ];
 
@@ -205,7 +205,7 @@ const HomePage: React.FC = () => {
 
           {isLoading ? (
             <div className="flex justify-center">
-              <Loader size="lg" color="primary" />
+              <Loader size="lg" color="primary" text={t('common.loading')} />
             </div>
           ) : error ? (
             <div className="text-center text-red-500">
@@ -317,9 +317,9 @@ const HomePage: React.FC = () => {
                         <Icon className="w-6 h-6 text-primary" />
                       </div>
                       <h3 className="text-xl font-semibold text-gray-900 mb-2 font-tajawal">
-                        {value.title}
+                        {t(value.title)}
                       </h3>
-                      <p className="text-gray-600 font-almarai">{value.description}</p>
+                      <p className="text-gray-600 font-almarai">{t(value.description)}</p>
                     </CardContent>
                   </Card>
                 </motion.div>
