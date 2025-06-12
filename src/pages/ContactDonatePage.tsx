@@ -11,6 +11,7 @@ import {
   Gift,
   Send,
   CheckCircle,
+  User,
 } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
