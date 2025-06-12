@@ -113,6 +113,54 @@ async function seed(): Promise<void> {
       await createUserWithProfile(user);
     }
 
+    // Add sample projects
+    const { error: projectsError } = await supabase
+      .from('projects')
+      .upsert([
+        {
+          id: uuidv4(),
+          title: 'Youth Empowerment Initiative',
+          description: 'A comprehensive program focused on empowering young people through education, mentorship, and skill development.',
+          category: 'Education',
+          status: 'active',
+          img_url: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
+          year: '2024'
+        },
+        {
+          id: uuidv4(),
+          title: 'Community Health Outreach',
+          description: 'Providing essential health services and education to underserved communities across the region.',
+          category: 'Health',
+          status: 'active',
+          img_url: 'https://images.pexels.com/photos/4386466/pexels-photo-4386466.jpeg',
+          year: '2024'
+        },
+        {
+          id: uuidv4(),
+          title: 'Digital Literacy Program',
+          description: 'Teaching essential digital skills to bridge the technology gap in rural communities.',
+          category: 'Technology',
+          status: 'active',
+          img_url: 'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg',
+          year: '2023'
+        },
+        {
+          id: uuidv4(),
+          title: 'Environmental Conservation Project',
+          description: 'Working with local communities to protect natural resources and promote sustainable practices.',
+          category: 'Environment',
+          status: 'completed',
+          img_url: 'https://images.pexels.com/photos/2990644/pexels-photo-2990644.jpeg',
+          year: '2023'
+        }
+      ]);
+
+    if (projectsError) {
+      throw new Error(`Failed to create projects: ${projectsError.message}`);
+    }
+
+    console.log('Sample projects created successfully');
+
     // Add sample programs
     const { error: programsError } = await supabase
       .from('programs')
