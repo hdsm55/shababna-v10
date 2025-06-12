@@ -1,41 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { ArrowRight, Heart, Globe, Target, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 import { Button } from '../components/ui/Button';
 import { Card, CardContent } from '../components/ui/Card';
+import { Loader } from '../components/ui/Loader';
 
 const HomePage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.dir() === 'rtl';
+  
+  // State for programs data
+  const [programs, setPrograms] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
-  // Featured programs
-  const featuredPrograms = [
-    {
-      id: 'youth-leadership',
-      title: t('programs.leadership.title'),
-      description: t('programs.leadership.description'),
-      image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
-      progress: 75,
-    },
-    {
-      id: 'education',
-      title: t('programs.education.title'),
-      description: t('programs.education.description'),
-      image: 'https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg',
-      progress: 60,
-    },
-    {
-      id: 'community',
-      title: t('programs.community.title'),
-      description: t('programs.community.description'),
-      image: 'https://images.pexels.com/photos/3184423/pexels-photo-3184423.jpeg',
-      progress: 45,
-    },
-  ];
+  // Fetch programs from Supabase
+  useEffect(() => {
+    const fetchPrograms = async () => {
+      try {
+        setIsLoading(true);
+        const { data, error } = await supabase
+          .from('programs')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(3);
+          
+        if (error) throw error;
+        
+        setPrograms(data || []);
+      } catch (err) {
+        console.error('Error fetching programs:', err);
+        setError(err instanceof Error ? err : new Error('Failed to fetch programs'));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchPrograms();
+  }, []);
 
-  // Core values
+  // Core values data
   const coreValues = [
     {
       icon: Heart,
@@ -59,11 +66,17 @@ const HomePage: React.FC = () => {
     },
   ];
 
+  // Calculate progress percentage
+  const getProgressPercentage = (current?: number, goal?: number) => {
+    if (!current || !goal) return 0;
+    return Math.min(Math.round((current / goal) * 100), 100);
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Video Background */}
+        {/* Video Background - Optimized with lazy loading */}
         <div className="absolute inset-0">
           <video
             autoPlay
@@ -72,6 +85,7 @@ const HomePage: React.FC = () => {
             playsInline
             className="w-full h-full object-cover"
             poster="/videos/hero-poster.jpg"
+            loading="lazy"
           >
             <source src="/videos/hero-hevc.mp4" type="video/mp4" />
           </video>
@@ -189,54 +203,76 @@ const HomePage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredPrograms.map((program, index) => (
-              <motion.div
-                key={program.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+          {isLoading ? (
+            <div className="flex justify-center">
+              <Loader size="lg" color="primary" />
+            </div>
+          ) : error ? (
+            <div className="text-center text-red-500">
+              <p>{error.message}</p>
+              <Button 
+                onClick={() => window.location.reload()} 
+                variant="primary"
+                className="mt-4"
               >
-                <Card hover className="h-full">
-                  <div className="relative h-48 -mx-6 -mt-6 mb-6 overflow-hidden">
-                    <img
-                      src={program.image}
-                      alt={program.title}
-                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <div className="flex justify-between items-center text-white mb-2">
-                        <h3 className="text-xl font-bold font-tajawal">{program.title}</h3>
-                        <span className="text-sm font-medium bg-white/20 px-2 py-1 rounded-full">
-                          {program.progress}%
-                        </span>
-                      </div>
-                      <div className="w-full bg-white/30 rounded-full h-1.5">
-                        <div
-                          className="bg-secondary h-1.5 rounded-full"
-                          style={{ width: `${program.progress}%` }}
-                        ></div>
+                {t('common.retry')}
+              </Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {programs.length > 0 ? programs.map((program, index) => (
+                <motion.div
+                  key={program.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <Card hover className="h-full">
+                    <div className="relative h-48 -mx-6 -mt-6 mb-6 overflow-hidden">
+                      <img
+                        src={program.image_url || 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg'}
+                        alt={program.title}
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <div className="flex justify-between items-center text-white mb-2">
+                          <h3 className="text-xl font-bold font-tajawal">{program.title}</h3>
+                          <span className="text-sm font-medium bg-white/20 px-2 py-1 rounded-full">
+                            {getProgressPercentage(program.current_amount, program.goal_amount)}%
+                          </span>
+                        </div>
+                        <div className="w-full bg-white/30 rounded-full h-1.5">
+                          <div
+                            className="bg-secondary h-1.5 rounded-full"
+                            style={{ width: `${getProgressPercentage(program.current_amount, program.goal_amount)}%` }}
+                          ></div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <CardContent>
-                    <p className="text-gray-600 mb-4 font-almarai">{program.description}</p>
-                    <Link to={`/programs/${program.id}`}>
-                      <Button
-                        variant="primary"
-                        rightIcon={<ArrowRight className={isRTL ? 'rotate-180' : ''} />}
-                        fullWidth
-                      >
-                        {t('programs.learnMore')}
-                      </Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
+                    <CardContent>
+                      <p className="text-gray-600 mb-4 font-almarai">{program.description}</p>
+                      <Link to={`/programs/${program.id}`}>
+                        <Button
+                          variant="primary"
+                          rightIcon={<ArrowRight className={isRTL ? 'rotate-180' : ''} />}
+                          fullWidth
+                        >
+                          {t('programs.learnMore')}
+                        </Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )) : (
+                <div className="col-span-3 text-center py-8">
+                  <p className="text-gray-500 font-almarai">{t('programs.no_results')}</p>
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="text-center mt-12">
             <Link to="/programs">
