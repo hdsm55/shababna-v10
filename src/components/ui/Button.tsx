@@ -1,56 +1,105 @@
 import React, { ButtonHTMLAttributes, ReactNode, forwardRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, MotionProps } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
+import { cn } from '../../utils/cn';
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'white' | 'danger' | 'success';
+export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onDrag' | 'onDragEnd' | 'onDragStart'> {
+  /**
+   * The visual style of the button
+   */
+  variant?: 'primary' | 'secondary' | 'accent' | 'outline' | 'ghost' | 'link' | 'danger' | 'success';
+  
+  /**
+   * The size of the button
+   */
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  fullWidth?: boolean;
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
+  
+  /**
+   * Whether the button is in a loading state
+   */
   isLoading?: boolean;
+  
+  /**
+   * Text to display when loading
+   */
+  loadingText?: string;
+  
+  /**
+   * Icon to display before the button text
+   */
+  leftIcon?: ReactNode;
+  
+  /**
+   * Icon to display after the button text
+   */
+  rightIcon?: ReactNode;
+  
+  /**
+   * Whether the button should take up the full width of its container
+   */
+  fullWidth?: boolean;
+  
+  /**
+   * The border radius of the button
+   */
+  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full';
+  
+  /**
+   * Whether to animate the button
+   */
   animate?: boolean;
-  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  
+  /**
+   * Additional motion props for the button
+   */
+  motionProps?: MotionProps;
 }
 
+/**
+ * Button component for user interactions
+ */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      variant = 'primary',
-      size = 'md',
-      fullWidth = false,
-      leftIcon,
-      rightIcon,
-      isLoading = false,
-      animate = true,
-      rounded = 'lg',
-      className = '',
-      children,
-      disabled,
-      ...props
-    },
-    ref
-  ) => {
+  ({
+    variant = 'primary',
+    size = 'md',
+    isLoading = false,
+    loadingText,
+    leftIcon,
+    rightIcon,
+    fullWidth = false,
+    rounded = 'md',
+    animate = true,
+    motionProps,
+    children,
+    className = '',
+    disabled,
+    ...props
+  }, ref) => {
+    // Determine the appropriate classes based on the variant
     const getVariantClasses = () => {
       switch (variant) {
         case 'primary':
-          return 'bg-primary text-white hover:bg-primary-600 focus:ring-primary/30';
+          return 'bg-primary text-white hover:bg-primary-dark focus:ring-primary/30';
         case 'secondary':
-          return 'bg-secondary text-white hover:bg-secondary-600 focus:ring-secondary/30';
+          return 'bg-secondary text-white hover:bg-secondary-dark focus:ring-secondary/30';
+        case 'accent':
+          return 'bg-accent text-white hover:bg-accent-dark focus:ring-accent/30';
         case 'outline':
-          return 'bg-transparent border border-current text-current hover:bg-current/5 focus:ring-current/20';
+          return 'bg-transparent border border-current text-primary hover:bg-primary/5 focus:ring-primary/20';
         case 'ghost':
-          return 'bg-transparent text-current hover:bg-current/5 focus:ring-current/20';
-        case 'white':
-          return 'bg-white text-gray-900 hover:bg-gray-100 focus:ring-gray-200';
+          return 'bg-transparent hover:bg-gray-100 text-gray-700 focus:ring-gray-200';
+        case 'link':
+          return 'bg-transparent text-primary hover:underline p-0 h-auto focus:ring-0';
         case 'danger':
-          return 'bg-error-500 text-white hover:bg-error-600 focus:ring-error-500/30';
+          return 'bg-error text-white hover:bg-error-600 focus:ring-error/30';
         case 'success':
-          return 'bg-success-500 text-white hover:bg-success-600 focus:ring-success-500/30';
+          return 'bg-success text-white hover:bg-success-600 focus:ring-success/30';
         default:
-          return 'bg-primary text-white hover:bg-primary-600 focus:ring-primary/30';
+          return 'bg-primary text-white hover:bg-primary-dark focus:ring-primary/30';
       }
     };
 
+    // Determine the appropriate classes based on the size
     const getSizeClasses = () => {
       switch (size) {
         case 'xs':
@@ -68,6 +117,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       }
     };
 
+    // Determine the appropriate classes based on the rounded option
     const getRoundedClasses = () => {
       switch (rounded) {
         case 'none':
@@ -78,51 +128,66 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           return 'rounded-md';
         case 'lg':
           return 'rounded-lg';
-        case 'xl':
-          return 'rounded-xl';
         case 'full':
           return 'rounded-full';
         default:
-          return 'rounded-lg';
+          return 'rounded-md';
       }
     };
 
-    const classes = `
-      ${getVariantClasses()}
-      ${getSizeClasses()}
-      ${getRoundedClasses()}
-      ${fullWidth ? 'w-full' : ''}
-      inline-flex items-center justify-center gap-2
-      font-medium transition-all duration-200
-      focus:outline-none focus:ring-4
-      disabled:opacity-60 disabled:cursor-not-allowed
-      shadow-sm hover:shadow
-      ${className}
-    `.trim();
+    // Combine all the classes
+    const buttonClasses = cn(
+      'inline-flex items-center justify-center gap-2',
+      'font-medium transition-all duration-200',
+      'focus:outline-none focus:ring-4',
+      'disabled:opacity-60 disabled:cursor-not-allowed',
+      'border border-transparent',
+      getVariantClasses(),
+      getSizeClasses(),
+      getRoundedClasses(),
+      fullWidth ? 'w-full' : '',
+      className
+    );
 
+    // Default motion props
+    const defaultMotionProps: MotionProps = {
+      whileHover: disabled || isLoading ? {} : { scale: 1.02 },
+      whileTap: disabled || isLoading ? {} : { scale: 0.98 },
+      transition: { type: 'spring', stiffness: 400, damping: 17 },
+      ...motionProps,
+    };
+
+    // Button content
     const content = (
       <>
         {isLoading && (
-          <svg className="animate-spin -ml-1 mr-1 h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
+          <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
         )}
-        {!isLoading && leftIcon && <span className="inline-block">{leftIcon}</span>}
-        <span>{children}</span>
-        {!isLoading && rightIcon && <span className="inline-block">{rightIcon}</span>}
+        {!isLoading && leftIcon && (
+          <span className="inline-flex">{leftIcon}</span>
+        )}
+        <span className={isLoading && loadingText ? 'sr-only' : ''}>
+          {isLoading && loadingText ? children : children}
+        </span>
+        {isLoading && loadingText && (
+          <span>{loadingText}</span>
+        )}
+        {!isLoading && rightIcon && (
+          <span className="inline-flex">{rightIcon}</span>
+        )}
       </>
     );
 
+    // Render with or without animation
     if (animate) {
       return (
         <motion.button
           ref={ref}
-          className={classes}
+          className={buttonClasses}
           disabled={disabled || isLoading}
-          whileHover={disabled || isLoading ? {} : { scale: 1.02 }}
-          whileTap={disabled || isLoading ? {} : { scale: 0.98 }}
+          {...defaultMotionProps}
           {...props}
+          aria-disabled={disabled || isLoading}
         >
           {content}
         </motion.button>
@@ -132,9 +197,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         ref={ref}
-        className={classes}
+        className={buttonClasses}
         disabled={disabled || isLoading}
         {...props}
+        aria-disabled={disabled || isLoading}
       >
         {content}
       </button>
@@ -143,3 +209,5 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = 'Button';
+
+export default Button;

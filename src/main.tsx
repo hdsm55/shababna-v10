@@ -1,13 +1,17 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import ErrorBoundary from './routes/ErrorBoundary'
-import './index.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.tsx';
+import './index.css';
+import './utils/i18n';
 
-createRoot(document.getElementById('root')!).render(
-  <ErrorBoundary>
-    <StrictMode>
-      <App />
-    </StrictMode>
-  </ErrorBoundary>
-)
+// Apply CSS variables from theme
+import { cssVariables } from './styles/theme';
+const styleElement = document.createElement('style');
+styleElement.innerHTML = cssVariables;
+document.head.appendChild(styleElement);
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+);
