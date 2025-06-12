@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '../lib/supabase';
+import { api } from '../api';
 import { logger } from '../utils/logger';
 
 interface Project {
@@ -22,15 +22,8 @@ export const useProjects = () =>
     queryKey: ['projects'],
     queryFn: async () => {
       try {
-        // Use relative path for API call
-        const response = await fetch('/api/projects');
-        
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
+        // Use the api client which handles fallback to mock data
+        const { data } = await api.projects.getAll();
         
         logger.info('Projects fetched successfully', {
           tags: ['projects', 'query'],
@@ -54,20 +47,7 @@ export const useAddProject = () => {
   return useMutation({
     mutationFn: async (dto: Partial<Project>) => {
       try {
-        const response = await fetch('/api/projects', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(dto),
-        });
-        
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
+        const { data } = await api.projects.create(dto);
         
         logger.info('Project added successfully', {
           tags: ['projects', 'mutation', 'add'],
@@ -93,20 +73,7 @@ export const useUpdateProject = () => {
   return useMutation({
     mutationFn: async ({ id, dto }: { id: string; dto: Partial<Project> }) => {
       try {
-        const response = await fetch(`/api/projects/${id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(dto),
-        });
-        
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
+        const { data } = await api.projects.update(id, dto);
         
         logger.info('Project updated successfully', {
           tags: ['projects', 'mutation', 'update'],
@@ -132,14 +99,7 @@ export const useDeleteProject = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       try {
-        const response = await fetch(`/api/projects/${id}`, {
-          method: 'DELETE',
-        });
-        
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
-        }
+        await api.projects.delete(id);
         
         logger.info('Project deleted successfully', {
           tags: ['projects', 'mutation', 'delete'],

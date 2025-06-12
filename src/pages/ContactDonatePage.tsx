@@ -153,7 +153,7 @@ const ContactDonatePage: React.FC = () => {
         ...contactErrors,
         message: t('contact.form.errors.general'),
       });
-      console.error('Error submitting contact form:', err);
+      console.error('Form submission error:', err);
     } finally {
       setIsContactSubmitting(false);
     }

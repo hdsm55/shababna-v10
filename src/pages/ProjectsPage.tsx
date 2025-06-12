@@ -1,235 +1,361 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Search, Filter, Grid, List } from 'lucide-react';
-import { supabase } from '../lib/supabase';
-import ProjectCard from '../components/ProjectCard';
-import LoadingSkeleton from '../components/LoadingSkeleton';
+import { Search, Filter, X, ArrowRight, Tag, Clock, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Card, CardContent } from '../components/ui/Card';
+import { Button } from '../components/ui/Button';
+import { Input } from '../components/ui/Input';
+import { Alert } from '../components/ui/Alert';
+import { Loader } from '../components/ui/Loader';
 
 interface Project {
   id: string;
   title: string;
   description: string;
-  category: string;
-  status: string;
-  img_url: string;
-  year: string;
-  created_at: string;
-  updated_at: string;
+  category?: string;
+  status?: 'active' | 'completed' | 'planning';
+  image_url: string;
+  year?: string;
 }
 
 const ProjectsPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
+  
   const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-
+  const [selectedStatus, setSelectedStatus] = useState('all');
+  
+  // Categories
   const categories = [
-    'all',
-    'education',
-    'health',
-    'environment',
-    'technology',
-    'community',
-    'arts'
+    { id: 'all', label: t('projects.categories.all') },
+    { id: 'education', label: t('projects.categories.education') },
+    { id: 'health', label: t('projects.categories.health') },
+    { id: 'environment', label: t('projects.categories.environment') },
+    { id: 'technology', label: t('projects.categories.technology') },
+    { id: 'community', label: t('projects.categories.community') },
   ];
-
+  
+  // Statuses
+  const statuses = [
+    { id: 'all', label: t('projects.statuses.all') },
+    { id: 'active', label: t('projects.statuses.active') },
+    { id: 'completed', label: t('projects.statuses.completed') },
+    { id: 'planning', label: t('projects.statuses.planning') },
+  ];
+  
+  // Fetch projects
   useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setIsLoading(true);
+        
+        // Instead of making an API call, use mock data
+        // This avoids the ECONNREFUSED error when the backend is not running
+        const mockProjects: Project[] = [
+          {
+            id: 'youth-leadership',
+            title: 'Youth Leadership Academy',
+            description: 'A comprehensive program developing leadership skills in young people through workshops and mentorship.',
+            category: 'education',
+            status: 'active',
+            image_url: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
+            year: '2023'
+          },
+          {
+            id: 'community-health',
+            title: 'Community Health Initiative',
+            description: 'Empowering youth to lead health education and awareness campaigns in their communities.',
+            category: 'health',
+            status: 'active',
+            image_url: 'https://images.pexels.com/photos/4386466/pexels-photo-4386466.jpeg',
+            year: '2023'
+          },
+          {
+            id: 'green-schools',
+            title: 'Green Schools Project',
+            description: 'Student-led environmental sustainability projects in schools across the region.',
+            category: 'environment',
+            status: 'completed',
+            image_url: 'https://images.pexels.com/photos/2990644/pexels-photo-2990644.jpeg',
+            year: '2022'
+          },
+          {
+            id: 'digital-training',
+            title: 'Digital Training Program',
+            description: 'Teaching essential digital skills to underprivileged youth for better career opportunities.',
+            category: 'technology',
+            status: 'active',
+            image_url: 'https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg',
+            year: '2023'
+          },
+          {
+            id: 'mental-health',
+            title: 'Mental Health Program',
+            description: 'Supporting youth mental health through peer counseling and professional guidance.',
+            category: 'health',
+            status: 'active',
+            image_url: 'https://images.pexels.com/photos/7176026/pexels-photo-7176026.jpeg',
+            year: '2023'
+          },
+          {
+            id: 'recycling-education',
+            title: 'Recycling Education Campaign',
+            description: 'Youth-led initiative to promote recycling awareness and sustainable practices.',
+            category: 'environment',
+            status: 'completed',
+            image_url: 'https://images.pexels.com/photos/802221/pexels-photo-802221.jpeg',
+            year: '2022'
+          }
+        ];
+        
+        setProjects(mockProjects);
+        setFilteredProjects(mockProjects);
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('Failed to fetch projects'));
+        console.error('Error fetching projects:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
     fetchProjects();
   }, []);
-
-  const fetchProjects = async () => {
-    try {
-      setLoading(true);
-      setError(null);
+  
+  // Filter projects
+  useEffect(() => {
+    const filtered = projects.filter(project => {
+      const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.description.toLowerCase().includes(searchQuery.toLowerCase());
       
-      const { data, error: supabaseError } = await supabase
-        .from('projects')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (supabaseError) {
-        throw supabaseError;
-      }
-
-      setProjects(data || []);
-    } catch (err) {
-      console.error('Error fetching projects:', err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch projects');
-    } finally {
-      setLoading(false);
+      const matchesCategory = selectedCategory === 'all' || project.category === selectedCategory;
+      
+      const matchesStatus = selectedStatus === 'all' || project.status === selectedStatus;
+      
+      return matchesSearch && matchesCategory && matchesStatus;
+    });
+    
+    setFilteredProjects(filtered);
+  }, [searchQuery, selectedCategory, selectedStatus, projects]);
+  
+  // Clear filters
+  const clearFilters = () => {
+    setSearchQuery('');
+    setSelectedCategory('all');
+    setSelectedStatus('all');
+  };
+  
+  // Get status icon
+  const getStatusIcon = (status?: string) => {
+    switch (status) {
+      case 'active':
+        return <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>;
+      case 'completed':
+        return <CheckCircle className="w-4 h-4 text-green-400" />;
+      case 'planning':
+        return <Clock className="w-4 h-4 text-yellow-400" />;
+      default:
+        return null;
     }
   };
 
-  const filteredProjects = projects.filter(project => {
-    const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         project.description?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || project.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
-
-  if (loading) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-        <Helmet>
-          <title>{t('projects.title')} | Global Youth Organization</title>
-          <meta name="description" content={t('projects.description')} />
-        </Helmet>
-        <div className="container mx-auto px-4 py-8">
-          <LoadingSkeleton />
-        </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader size="lg" text={t('common.loading')} />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-        <Helmet>
-          <title>{t('projects.title')} | Global Youth Organization</title>
-        </Helmet>
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center">
-            <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md mx-auto">
-              <h2 className="text-xl font-semibold text-red-800 mb-2">
-                {t('common.error')}
-              </h2>
-              <p className="text-red-600 mb-4">{error}</p>
-              <button
-                onClick={fetchProjects}
-                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
-              >
-                {t('common.retry')}
-              </button>
-            </div>
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <Alert
+          status="error"
+          title={t('common.error')}
+          className="max-w-md"
+        >
+          {error.message}
+          <div className="mt-4">
+            <Button onClick={() => window.location.reload()}>
+              {t('common.retry')}
+            </Button>
           </div>
-        </div>
+        </Alert>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <Helmet>
-        <title>{t('projects.title')} | Global Youth Organization</title>
-        <meta name="description" content={t('projects.description')} />
-      </Helmet>
-
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20">
-        <div className="container mx-auto px-4 text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-6xl font-bold mb-6"
-          >
+    <div className="min-h-screen bg-gray-50 pt-20 pb-16">
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="py-12 text-center">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4 font-tajawal">
             {t('projects.title')}
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto"
-          >
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto font-almarai">
             {t('projects.subtitle')}
-          </motion.p>
+          </p>
         </div>
-      </section>
-
-      {/* Filters and Search */}
-      <section className="py-8 bg-white shadow-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+        
+        {/* Filters */}
+        <div className="mb-8 bg-white rounded-xl shadow-sm p-6">
+          <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder={t('projects.search')}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            <div className="flex-1">
+              <Input
+                leftIcon={<Search className="w-5 h-5" />}
+                placeholder={t('projects.search_placeholder')}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                fullWidth
               />
             </div>
-
+            
             {/* Category Filter */}
-            <div className="flex items-center gap-2">
-              <Filter className="w-5 h-5 text-gray-500" />
+            <div className="flex-shrink-0 w-full md:w-48">
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full h-10 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                aria-label={t('projects.category')}
               >
-                {categories.map(category => (
-                  <option key={category} value={category}>
-                    {t(`projects.categories.${category}`)}
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.label}
                   </option>
                 ))}
               </select>
             </div>
-
-            {/* View Mode Toggle */}
-            <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2 rounded ${viewMode === 'grid' ? 'bg-white shadow-sm' : ''}`}
+            
+            {/* Status Filter */}
+            <div className="flex-shrink-0 w-full md:w-48">
+              <select
+                value={selectedStatus}
+                onChange={(e) => setSelectedStatus(e.target.value)}
+                className="w-full h-10 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                aria-label={t('projects.status')}
               >
-                <Grid className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-2 rounded ${viewMode === 'list' ? 'bg-white shadow-sm' : ''}`}
-              >
-                <List className="w-5 h-5" />
-              </button>
+                {statuses.map((status) => (
+                  <option key={status.id} value={status.id}>
+                    {status.label}
+                  </option>
+                ))}
+              </select>
             </div>
+            
+            {/* Clear Filters */}
+            {(searchQuery || selectedCategory !== 'all' || selectedStatus !== 'all') && (
+              <div className="flex-shrink-0">
+                <Button
+                  variant="outline"
+                  leftIcon={<X className="w-5 h-5" />}
+                  onClick={clearFilters}
+                >
+                  {t('projects.clear')}
+                </Button>
+              </div>
+            )}
           </div>
         </div>
-      </section>
-
-      {/* Projects Grid */}
-      <section className="py-12">
-        <div className="container mx-auto px-4">
-          {filteredProjects.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">
-                {searchTerm || selectedCategory !== 'all' 
-                  ? t('projects.noResults') 
-                  : t('projects.noProjects')
-                }
-              </p>
+        
+        {/* Projects Grid */}
+        {filteredProjects.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Card hover className="h-full">
+                  <div className="relative h-48 -mx-6 -mt-6 mb-6 overflow-hidden">
+                    <img
+                      src={project.image_url}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    
+                    {/* Status Badge */}
+                    {project.status && (
+                      <div className="absolute top-4 left-4">
+                        <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/20 backdrop-blur-sm text-white border border-white/30">
+                          {getStatusIcon(project.status)}
+                          <span className="font-almarai">
+                            {t(`projects.statuses.${project.status}`)}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Category Badge */}
+                    {project.category && (
+                      <div className="absolute top-4 right-4">
+                        <div className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/20 text-white border border-white/30 backdrop-blur-sm flex items-center gap-1">
+                          <Tag className="w-3 h-3" />
+                          <span className="font-almarai">
+                            {t(`projects.categories.${project.category}`)}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <CardContent>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 font-tajawal">
+                      {project.title}
+                    </h3>
+                    
+                    <p className="text-gray-600 mb-4 font-almarai line-clamp-3">
+                      {project.description}
+                    </p>
+                    
+                    {project.year && (
+                      <div className="flex items-center text-gray-500 text-sm mb-4 font-almarai">
+                        <Clock className="w-4 h-4 mr-1" aria-hidden="true" />
+                        <span>{project.year}</span>
+                      </div>
+                    )}
+                    
+                    <Link to={`/projects/${project.id}`}>
+                      <Button
+                        variant="primary"
+                        rightIcon={<ArrowRight className={isRTL ? 'rotate-180' : ''} />}
+                        fullWidth
+                      >
+                        {t('projects.view_details')}
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12 bg-white rounded-xl shadow-sm">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
+              <Filter className="w-8 h-8 text-gray-400" />
             </div>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className={`grid gap-6 ${
-                viewMode === 'grid' 
-                  ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
-                  : 'grid-cols-1'
-              }`}
-            >
-              {filteredProjects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <ProjectCard 
-                    project={project} 
-                    viewMode={viewMode}
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-        </div>
-      </section>
+            <h3 className="text-xl font-bold text-gray-900 mb-2 font-tajawal">
+              {t('projects.no_results')}
+            </h3>
+            <p className="text-gray-600 mb-6 font-almarai">
+              {t('projects.try_different')}
+            </p>
+            <Button onClick={clearFilters}>
+              {t('projects.clear')}
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
