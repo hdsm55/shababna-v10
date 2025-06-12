@@ -54,8 +54,8 @@ export default defineConfig(({ mode }) => {
           manualChunks: {
             'react-vendor': ['react', 'react-dom'],
             'i18n-vendor': ['i18next', 'react-i18next'],
-            'ui-vendor': ['lucide-react', 'react-toastify', 'framer-motion'],
-            'form-vendor': ['react-hook-form', '@stripe/react-stripe-js'],
+            'ui-vendor': ['lucide-react', 'framer-motion'],
+            'form-vendor': ['react-hook-form'],
           },
         },
       },
@@ -77,13 +77,6 @@ export default defineConfig(({ mode }) => {
       strictPort: true,
       host: true,
       open: true,
-      proxy: {
-        '/api': {
-          target: 'http://localhost:5000',
-          changeOrigin: true,
-          rewrite: path => path
-        }
-      }
     },
     preview: {
       port: 3001,
