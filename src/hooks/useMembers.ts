@@ -1,5 +1,4 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '../lib/supabase';
 import { logger } from '../utils/logger';
 import type { Member, CreateMemberDTO, UpdateMemberDTO, MemberStatus } from '../types/member';
 
@@ -16,41 +15,31 @@ export const useMembers = (options?: {
     queryKey: ['members', { status, search, limit, page }],
     queryFn: async () => {
       try {
-        let query = supabase
-          .from('members')
-          .select('*', { count: 'exact' });
+        // Build query params
+        const params = new URLSearchParams();
+        if (status) params.append('status', status);
+        if (search) params.append('search', search);
+        if (limit) params.append('limit', limit.toString());
+        if (page) params.append('page', page.toString());
         
-        // Apply filters if provided
-        if (status) {
-          query = query.eq('status', status);
+        const queryString = params.toString();
+        const url = `/api/members${queryString ? `?${queryString}` : ''}`;
+        
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
         }
         
-        if (search) {
-          query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%`);
-        }
-        
-        // Apply pagination
-        const from = (page - 1) * limit;
-        const to = from + limit - 1;
-        
-        const { data, error, count } = await query
-          .order('created_at', { ascending: false })
-          .range(from, to);
-          
-        if (error) throw error;
+        const data = await response.json();
         
         logger.info('Members fetched successfully', {
           tags: ['members', 'query'],
-          metadata: { count: count || 0, filters: { status, search } }
+          metadata: { count: data?.count || 0, filters: { status, search } }
         });
         
-        return { 
-          data: data as Member[],
-          count: count || 0,
-          page,
-          limit,
-          totalPages: count ? Math.ceil(count / limit) : 0
-        };
+        return data;
       } catch (error) {
         logger.error('Failed to fetch members', {
           tags: ['members', 'query', 'error'],
@@ -68,13 +57,14 @@ export const useMember = (id: string) => {
     queryKey: ['members', id],
     queryFn: async () => {
       try {
-        const { data, error } = await supabase
-          .from('members')
-          .select('*')
-          .eq('id', id)
-          .single();
-          
-        if (error) throw error;
+        const response = await fetch(`/api/members/${id}`);
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
         
         logger.info('Member fetched successfully', {
           tags: ['members', 'query'],
@@ -99,13 +89,20 @@ export const useCreateMember = () => {
   return useMutation({
     mutationFn: async (data: CreateMemberDTO) => {
       try {
-        const { data: member, error } = await supabase
-          .from('members')
-          .insert([data])
-          .select()
-          .single();
-          
-        if (error) throw error;
+        const response = await fetch('/api/members', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
+        }
+        
+        const member = await response.json();
         
         logger.info('Member created successfully', {
           tags: ['members', 'mutation', 'create'],
@@ -131,14 +128,20 @@ export const useUpdateMember = () => {
   return useMutation({
     mutationFn: async ({ id, data }: { id: string; data: UpdateMemberDTO }) => {
       try {
-        const { data: updatedMember, error } = await supabase
-          .from('members')
-          .update(data)
-          .eq('id', id)
-          .select()
-          .single();
-          
-        if (error) throw error;
+        const response = await fetch(`/api/members/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
+        }
+        
+        const updatedMember = await response.json();
         
         logger.info('Member updated successfully', {
           tags: ['members', 'mutation', 'update'],
@@ -168,12 +171,14 @@ export const useDeleteMember = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       try {
-        const { error } = await supabase
-          .from('members')
-          .delete()
-          .eq('id', id);
-          
-        if (error) throw error;
+        const response = await fetch(`/api/members/${id}`, {
+          method: 'DELETE',
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
+        }
         
         logger.info('Member deleted successfully', {
           tags: ['members', 'mutation', 'delete'],

@@ -18,16 +18,19 @@ const invalidate = (qc: ReturnType<typeof useQueryClient>) => qc.invalidateQueri
 
 // List projects
 export const useProjects = () =>
-  useQuery<Project[]>({
+  useQuery<Project[], Error>({
     queryKey: ['projects'],
     queryFn: async () => {
       try {
-        const { data, error } = await supabase
-          .from('projects')
-          .select('*')
-          .order('created_at', { ascending: false });
-          
-        if (error) throw error;
+        // Use relative path for API call
+        const response = await fetch('/api/projects');
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
         
         logger.info('Projects fetched successfully', {
           tags: ['projects', 'query'],
@@ -51,15 +54,27 @@ export const useAddProject = () => {
   return useMutation({
     mutationFn: async (dto: Partial<Project>) => {
       try {
-        const { data, error } = await supabase.from('projects').insert([dto]).select();
-        if (error) throw error;
+        const response = await fetch('/api/projects', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dto),
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
         
         logger.info('Project added successfully', {
           tags: ['projects', 'mutation', 'add'],
-          metadata: { projectId: data?.[0]?.id }
+          metadata: { projectId: data?.id }
         });
         
-        return data?.[0];
+        return data;
       } catch (error) {
         logger.error('Failed to add project', {
           tags: ['projects', 'mutation', 'add', 'error'],
@@ -78,14 +93,20 @@ export const useUpdateProject = () => {
   return useMutation({
     mutationFn: async ({ id, dto }: { id: string; dto: Partial<Project> }) => {
       try {
-        const { data, error } = await supabase
-          .from('projects')
-          .update(dto)
-          .eq('id', id)
-          .select()
-          .single();
-          
-        if (error) throw error;
+        const response = await fetch(`/api/projects/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dto),
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
         
         logger.info('Project updated successfully', {
           tags: ['projects', 'mutation', 'update'],
@@ -111,8 +132,14 @@ export const useDeleteProject = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       try {
-        const { error } = await supabase.from('projects').delete().eq('id', id);
-        if (error) throw error;
+        const response = await fetch(`/api/projects/${id}`, {
+          method: 'DELETE',
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
+        }
         
         logger.info('Project deleted successfully', {
           tags: ['projects', 'mutation', 'delete'],
