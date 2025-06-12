@@ -1,3 +1,4 @@
+import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
@@ -374,7 +375,7 @@ export default function ProjectDetails() {
                 className="text-secondary-400 hover:text-secondary-300 font-almarai font-medium inline-flex items-center gap-2"
               >
                 {t('projects.viewAll')}
-                <ArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
+                <ArrowLeft className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
               </motion.button>
             </div>
           </motion.div>
