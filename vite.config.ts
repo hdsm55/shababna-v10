@@ -73,13 +73,13 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      port: 3001,
+      port: 3000,
       strictPort: true,
       host: true,
       open: true,
     },
     preview: {
-      port: 3001,
+      port: 3000,
       strictPort: true,
       host: true,
     },
