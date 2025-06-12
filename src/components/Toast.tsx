@@ -179,7 +179,7 @@ const ToastItem: React.FC<{ toast: Toast }> = ({ toast }) => {
           <button
             onClick={() => removeToast(toast.id)}
             className="flex-shrink-0 ml-2 p-1 rounded-lg hover:bg-white/10 transition-colors duration-200 opacity-70 hover:opacity-100"
-            aria-label="إغلاق الإشعار"
+            aria-label="Close notification"
           >
             <X className="w-4 h-4" />
           </button>
