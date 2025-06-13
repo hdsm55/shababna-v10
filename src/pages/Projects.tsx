@@ -51,6 +51,7 @@ export default function Projects() {
     (projectsData.projects as Project[]) || []
   )
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
 
   const currentLanguage = i18n.language as keyof Project['title']
   const isRTL = i18n.dir() === 'rtl'
@@ -67,7 +68,12 @@ export default function Projects() {
   // Simulate loading state for better UX
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoading(false)
+      try {
+        setIsLoading(false)
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('An unknown error occurred'));
+        setIsLoading(false);
+      }
     }, 800)
     return () => clearTimeout(timer)
   }, [])
@@ -104,10 +110,11 @@ export default function Projects() {
           resultsCount: filtered.length
         }
       })
-    } catch (error) {
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Error filtering projects'));
       logger.error('Error filtering projects', {
         tags: ['projects', 'error'],
-        metadata: { error }
+        metadata: { error: err }
       })
       setFilteredProjects([])
     }
@@ -159,6 +166,25 @@ export default function Projects() {
       tags: ['projects', 'interaction'],
       metadata: { projectId, projectTitle }
     })
+  }
+
+  // Improved error handling
+  if (error) {
+    console.error('Error loading projects:', error);
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-midnight via-cetacean to-black">
+        <div className="text-center text-white p-8 max-w-md bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
+          <h2 className="text-2xl font-bold mb-4 font-tajawal">خطأ في تحميل المشاريع</h2>
+          <p className="text-white/80 mb-6 font-almarai">{error.message || JSON.stringify(error)}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="px-6 py-2 bg-secondary text-white rounded-lg hover:bg-secondary-600 transition-colors"
+          >
+            إعادة المحاولة
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (

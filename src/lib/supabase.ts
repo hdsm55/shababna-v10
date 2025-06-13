@@ -1,3 +1,7 @@
+/**
+ * Public Supabase client for use in React components
+ * This client uses the anon key and is safe to use in browser environments
+ */
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '').trim().replace(/\/$/, '');

@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '../lib/supabase';
+import { api } from '../api';
 import { logger } from '../utils/logger';
 
 interface Project {
@@ -18,16 +18,12 @@ const invalidate = (qc: ReturnType<typeof useQueryClient>) => qc.invalidateQueri
 
 // List projects
 export const useProjects = () =>
-  useQuery<Project[]>({
+  useQuery<Project[], Error>({
     queryKey: ['projects'],
     queryFn: async () => {
       try {
-        const { data, error } = await supabase
-          .from('projects')
-          .select('*')
-          .order('created_at', { ascending: false });
-          
-        if (error) throw error;
+        // Use the api client which handles fallback to mock data
+        const { data } = await api.projects.getAll();
         
         logger.info('Projects fetched successfully', {
           tags: ['projects', 'query'],
@@ -51,15 +47,14 @@ export const useAddProject = () => {
   return useMutation({
     mutationFn: async (dto: Partial<Project>) => {
       try {
-        const { data, error } = await supabase.from('projects').insert([dto]).select();
-        if (error) throw error;
+        const { data } = await api.projects.create(dto);
         
         logger.info('Project added successfully', {
           tags: ['projects', 'mutation', 'add'],
-          metadata: { projectId: data?.[0]?.id }
+          metadata: { projectId: data?.id }
         });
         
-        return data?.[0];
+        return data;
       } catch (error) {
         logger.error('Failed to add project', {
           tags: ['projects', 'mutation', 'add', 'error'],
@@ -78,14 +73,7 @@ export const useUpdateProject = () => {
   return useMutation({
     mutationFn: async ({ id, dto }: { id: string; dto: Partial<Project> }) => {
       try {
-        const { data, error } = await supabase
-          .from('projects')
-          .update(dto)
-          .eq('id', id)
-          .select()
-          .single();
-          
-        if (error) throw error;
+        const { data } = await api.projects.update(id, dto);
         
         logger.info('Project updated successfully', {
           tags: ['projects', 'mutation', 'update'],
@@ -111,8 +99,7 @@ export const useDeleteProject = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       try {
-        const { error } = await supabase.from('projects').delete().eq('id', id);
-        if (error) throw error;
+        await api.projects.delete(id);
         
         logger.info('Project deleted successfully', {
           tags: ['projects', 'mutation', 'delete'],

@@ -1,38 +1,123 @@
 {
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "success": "Success!",
+    "followUs": "Follow Us",
+    "back_to_top": "Back to top",
+    "learnMore": "Learn More"
+  },
   "navbar": {
-    "logoAlt": "Shababna Logo",
     "home": "Home",
+    "programs": "Programs",
     "projects": "Projects",
     "events": "Events",
-    "about": "About Us",
+    "volunteer": "Volunteer",
+    "contact": "Contact",
+    "login": "Login",
+    "logout": "Logout",
+    "profile": "Profile",
+    "admin": "Admin Dashboard",
     "lang_ar": "العربية",
     "lang_en": "English",
     "lang_tr": "Türkçe",
-    "main_navigation": "Main navigation",
     "select_language": "Select language",
     "close_menu": "Close menu",
     "open_menu": "Open menu",
-    "mobile_menu": "Mobile menu"
+    "mobile_menu": "Mobile menu",
+    "logoAlt": "Global Youth Organization Logo",
+    "main_navigation": "Main navigation"
   },
   "hero": {
-    "alt": "Background of the Hero section",
-    "title": "Welcome to Shababna",
-    "subtitle": "Empowering Youth Worldwide",
+    "title": "Empowering Youth Globally",
+    "subtitle": "Building bridges across cultures, fostering leadership, and creating positive change",
     "button": "Join Us",
     "organization": "Global Youth Organization",
     "watchVideo": "Watch Video",
-    "scrollDown": "Scroll Down"
+    "scrollDown": "Scroll Down",
+    "learnMore": "Learn More"
+  },
+  "footer": {
+    "about": "About Us",
+    "programs": "Programs",
+    "projects": "Projects",
+    "events": "Events",
+    "blog": "Blog",
+    "reports": "Reports",
+    "contact": "Contact Us",
+    "faq": "FAQ",
+    "volunteer": "Volunteer",
+    "join": "Join Us",
+    "donate": "Donate",
+    "partners": "Partners",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "press": "Press",
+    "about_us": "About Us",
+    "get_involved": "Get Involved",
+    "copy": "All rights reserved.",
+    "whoWeAre": "Who We Are"
+  },
+  "cta": {
+    "headline": "Join Our Mission",
+    "subheadline": "Be part of positive change",
+    "button": "Get Involved",
+    "buttons": {
+      "join": "Join Us",
+      "contact": "Contact Us",
+      "donate": "Donate Now",
+      "learn": "Learn More",
+      "projects": "Our Projects"
+    },
+    "title": "Join Our Community",
+    "subtitle": "Be part of positive change",
+    "joinButton": "Join Us",
+    "contactButton": "Contact Us"
   },
   "values": {
-    "heading": "Our Values",
-    "title": "Shababna Values",
-    "subtitle": "We believe in strong values that guide all our work and direct us toward empowering youth and building a better future for all.",
-    "subheading": "Our core values that guide everything we do.",
-    "cta": "Learn about our vision",
+    "heading": "Our Core Values",
+    "subheading": "The principles that guide everything we do",
+    "compassion": {
+      "title": "Compassion",
+      "description": "We believe in the importance of empathy and understanding in building strong human relationships."
+    },
+    "sustainability": {
+      "title": "Sustainability",
+      "description": "We are committed to developing sustainable solutions that preserve our resources for future generations."
+    },
+    "excellence": {
+      "title": "Excellence",
+      "description": "We always strive for excellence in all our work and initiatives."
+    },
+    "community": {
+      "title": "Community",
+      "description": "We build strong and connected communities based on mutual respect and support."
+    },
+    "title": "Our Values",
+    "subtitle": "Our values are the foundation that guides our work and relationships",
     "leadership": {
       "title": "Leadership",
-      "description": "We empower young leaders to create positive change in their communities and globally."
+      "description": "We believe in the power of youth leadership and its ability to create change"
     },
+    "integrity": {
+      "title": "Integrity",
+      "description": "We are committed to the highest standards of integrity and transparency in everything we do"
+    },
+    "global": {
+      "title": "Global Impact",
+      "description": "We work to build bridges of communication between youth around the world"
+    },
+    "description": "Our core values guide everything we do",
     "diversity": {
       "title": "Diversity & Inclusion",
       "description": "We embrace cultural and intellectual diversity and believe in the power of difference in building a strong, cohesive community."
@@ -45,67 +130,63 @@
       "title": "Innovation & Creativity",
       "description": "We encourage innovation and creative thinking to find innovative solutions to contemporary challenges."
     },
+    "cta": "Learn about our vision"
+  },
+  "programs": {
+    "heading": "Our Programs",
+    "subheading": "Discover our featured programs making a real impact",
+    "title": "Programs",
+    "subtitle": "Explore our initiatives empowering youth worldwide",
+    "viewAll": "View All Programs",
+    "learnMore": "Learn More",
+    "view_details": "View Details",
+    "no_results": "No programs found",
+    "try_different": "Try different search criteria or filters",
+    "clear_filters": "Clear Filters",
+    "search": "Search programs...",
+    "filter_category": "Filter by category",
+    "filter_status": "Filter by status",
+    "progress": "Progress",
+    "leadership": {
+      "title": "Youth Leadership",
+      "description": "Developing the next generation of community leaders through mentorship and hands-on experience"
+    },
+    "education": {
+      "title": "Education Access",
+      "description": "Providing educational resources and opportunities to underserved communities"
+    },
     "community": {
-      "title": "Community & Connection",
-      "description": "We build strong and connected communities based on love, understanding, and mutual support."
+      "title": "Community Building",
+      "description": "Strengthening local communities through youth-led initiatives and projects"
     },
-    "global": {
-      "title": "Global Vision",
-      "description": "We work with a global mindset to unite efforts and exchange experiences to build a better world for all."
+    "categories": {
+      "all": "All Categories",
+      "education": "Education",
+      "health": "Health",
+      "environment": "Environment",
+      "community": "Community"
     },
-    "description": "Our core values guide everything we do",
-    "compassion": {
-      "title": "Compassion",
-      "description": "We believe in the importance of empathy and understanding in building strong human relationships."
-    },
-    "sustainability": {
-      "title": "Sustainability",
-      "description": "We are committed to developing sustainable solutions that preserve our resources for future generations."
-    },
-    "excellence": {
-      "title": "Excellence",
-      "description": "We always strive for excellence in all our work and initiatives."
+    "statuses": {
+      "all": "All Statuses",
+      "active": "Active",
+      "completed": "Completed",
+      "upcoming": "Upcoming"
     }
   },
-  "partners": {
-    "heading": "Our Partners",
-    "UNICEFAlt": "UNICEF Logo",
-    "UNDPAlt": "UNDP Logo",
-    "WorldBankAlt": "World Bank Logo",
-    "title": "Our Featured Partners",
-    "subtitle": "Working with leading organizations to create global impact",
-    "countries": "Countries",
-    "projects": "Joint Projects",
-    "view_projects": "View Projects",
-    "become_partner": "Become a Partner",
-    "become_partner_desc": "Join our global network of organizations committed to youth empowerment",
-    "contact_us": "Contact Us"
-  },
-  "stats": {
-    "heading": "Our Impact",
-    "volunteers": "Volunteers",
-    "countries": "Countries",
-    "projects": "Projects",
-    "subheading": "See our impact in numbers.",
-    "members": "Members",
-    "years": "Years of Experience",
-    "title": "Our Impact",
-    "description": "Numbers that tell our story",
-    "awards": "Awards"
-  },
   "projects": {
-    "heading": "Featured Projects",
-    "subheading": "Discover our featured projects that made a real difference in communities",
-    "title": "Our Projects",
-    "subtitle": "Discover our initiatives making a difference in communities worldwide",
-    "featured": "Our Featured Projects",
+    "heading": "Our Projects",
+    "subheading": "Discover our initiatives making a difference in communities",
+    "title": "Projects",
+    "subtitle": "Explore our various initiatives and their impact",
+    "viewAll": "View All Projects",
+    "learnMore": "Learn More",
+    "view_details": "View Details",
+    "no_results": "No projects found",
+    "try_different": "Try different search criteria or filters",
+    "clear": "Reset Filters",
     "search_placeholder": "Search projects...",
-    "filter": "Filter",
-    "clear": "Reset",
     "category": "Category",
     "status": "Status",
-    "view_details": "View Details",
-    "no_results": "No projects found matching your criteria.",
     "categories": {
       "all": "All Categories",
       "education": "Education",
@@ -120,14 +201,8 @@
       "completed": "Completed",
       "planning": "Planning"
     },
-    "yla-2024": {"title": "Youth Leadership Academy 2024", "description": "A program to develop youth leadership skills."},
-    "chi-2024": {"title": "Community Health Initiative 2024", "description": "An initiative to promote community health."},
-    "gsp-2023": {"title": "Green Sustainability Project 2023", "description": "A project to promote environmental sustainability."},
-    "dtp-2024": {"title": "Digital Transformation Project 2024", "description": "An initiative to develop youth digital skills."},
-    "mhp-2024": {"title": "Mental Health Project 2024", "description": "A program to support youth mental health."},
-    "rec-2023": {"title": "Recycling Project 2023", "description": "An awareness campaign to encourage recycling in the community."},
-    "learnMore": "Learn More",
-    "viewAll": "View All Projects",
+    "featured": "Our Featured Projects",
+    "filter": "Filter",
     "description": "Discover our diverse projects aimed at community development",
     "addNew": "Add New Project",
     "addDescription": "Add a new project to the platform",
@@ -142,51 +217,243 @@
     "addSuccess": "Project added successfully"
   },
   "events": {
-    "heading": "Upcoming Events",
-    "title": "Our Events",
-    "upcoming_title": "Upcoming Events",
-    "subtitle": "Discover our featured events and join us",
-    "upcoming_subtitle": "Discover our upcoming events.",
-    "learnMore": "Learn More",
+    "title": "Events",
+    "subtitle": "Join our global events and make a difference",
     "register": "Register Now",
-    "view_all": "View All Events"
+    "free": "Free",
+    "participants": "participants",
+    "days_remaining": "days left",
+    "search": "Search events...",
+    "grid": "Grid View",
+    "calendar": "Calendar View",
+    "clear_filters": "Clear Filters",
+    "no_results": "No events found",
+    "try_different": "Try different search criteria or filters",
+    "calendar_title": "Upcoming Events Calendar",
+    "calendar_subtitle": "Plan your participation in our upcoming events",
+    "featured": "Featured",
+    "register_for": "Register for",
+    "form": {
+      "name": "Full Name",
+      "name_placeholder": "Enter your full name",
+      "email": "Email Address",
+      "email_placeholder": "your@email.com",
+      "phone": "Phone Number",
+      "phone_placeholder": "+1 (123) 456-7890",
+      "experience": "Your Experience in this Field",
+      "experience_placeholder": "Tell us about your relevant experience...",
+      "motivation": "Why do you want to participate?",
+      "motivation_placeholder": "What motivates you to join this event?"
+    },
+    "submitting": "Submitting...",
+    "confirm_registration": "Confirm Registration",
+    "registration_fee": "Registration Fee",
+    "payment_note": "Payment will be collected at the event",
+    "registration_success": "Registration Successful",
+    "registration_success_title": "You're Registered!",
+    "registration_success_message": "Thank you for registering. We've sent a confirmation email with all the details.",
+    "categories": {
+      "all": "All Categories",
+      "workshop": "Workshop",
+      "conference": "Conference",
+      "seminar": "Seminar",
+      "training": "Training",
+      "social": "Social"
+    },
+    "heading": "Upcoming Events",
+    "upcoming_title": "Upcoming Events",
+    "upcoming_subtitle": "Discover our upcoming events.",
+    "view_all": "View All Events",
+    "never_miss": "Never Miss an Event",
+    "calendar_description": "Subscribe to our events calendar to stay updated with all our upcoming activities and receive automatic reminders.",
+    "subscribe_calendar": "Subscribe to Calendar",
+    "back_to_events": "Back to Events",
+    "back": "Back",
+    "fee": "Registration fee",
+    "currency": "USD",
+    "fill_form": "Fill in the following information to register",
+    "full_name": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "experience": "Your Experience in this Field",
+    "motivation": "Why do you want to participate?",
+    "inspiring": "Inspiring and impactful events",
+    "join_community": "Join a global community of creative youth in interactive and impactful events",
+    "filter_by_category": "Filter by category"
   },
-  "testimonials": {
-    "heading": "What Our Volunteers Say",
-    "testimonial1": {
-      "text": "I love volunteering here!",
-      "avatarAlt": "Avatar of John Doe",
-      "name": "John Doe",
-      "role": "Volunteer"
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We'd love to hear from you",
+    "description": "Get in touch with us for any inquiries or collaboration opportunities",
+    "info": {
+      "title": "Contact Information",
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address",
+      "address.details": "123 Main Street, City, Country",
+      "hours": "Working Hours",
+      "hours.details": "Saturday - Thursday: 9:00 AM - 5:00 PM"
     },
-    "testimonial2": {
-      "text": "Amazing experience!",
-      "avatarAlt": "Avatar of Jane Smith",
-      "name": "Jane Smith",
-      "role": "Volunteer Leader"
+    "hours": {
+      "title": "Business Hours",
+      "weekdays": "Monday - Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "closed": "Closed"
     },
-    "subheading": "What our volunteers say about Shababna.",
-    "volunteer1": {
-      "name": "Ahmed Mahmoud",
-      "role": "Young Volunteer",
-      "content": "My experience with Shababna has been life-changing. I've learned new leadership skills and connected with youth from around the world."
+    "form": {
+      "title": "Send us a Message",
+      "name": "Name",
+      "namePlaceholder": "Your full name",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "subject": "Subject",
+      "subjectPlaceholder": "How can we help you?",
+      "message": "Message",
+      "messagePlaceholder": "Your message...",
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "success": {
+        "title": "Message Sent!",
+        "message": "Thank you for contacting us. We will get back to you soon."
+      },
+      "errors": {
+        "name": "Name is required",
+        "email": "Email is required",
+        "emailInvalid": "Email is invalid",
+        "message": "Message is required",
+        "general": "An error occurred. Please try again later."
+      }
     },
-    "volunteer2": {
-      "name": "Sarah Al-Khalidi",
-      "role": "Project Leader",
-      "content": "Shababna organization has given me the opportunity to lead projects with real impact in my community. I'm proud of what we've achieved together."
+    "map": {
+      "title": "Our Location"
+    }
+  },
+  "volunteer": {
+    "title": "Volunteer With Us",
+    "description": "Join our global community of volunteers and make a difference",
+    "subtitle": "Join our community of passionate volunteers making a difference globally",
+    "form": {
+      "title": "Volunteer Application",
+      "name": "Full Name",
+      "name_placeholder": "Enter your full name",
+      "email": "Email",
+      "email_placeholder": "your@email.com",
+      "phone": "Phone Number",
+      "phone_placeholder": "+1 (123) 456-7890",
+      "interests": "Areas of Interest",
+      "availability": "Availability",
+      "select_availability": "Select availability",
+      "weekdays": "Weekdays",
+      "weekends": "Weekends",
+      "flexible": "Flexible",
+      "experience": "Relevant Experience",
+      "experience_placeholder": "Tell us about your relevant experience...",
+      "message": "Why do you want to volunteer?",
+      "message_placeholder": "Tell us why you want to volunteer with us...",
+      "resume": "Resume/CV (Optional)",
+      "resume_placeholder": "Click to upload your resume",
+      "resume_help": "PDF, DOC, or DOCX file up to 5MB",
+      "submit": "Submit Application",
+      "submitting": "Submitting..."
     },
-    "volunteer3": {
-      "name": "Mohammed Al-Ali",
-      "role": "Program Participant",
-      "content": "The programs offered by Shababna have helped me discover my abilities and develop my skills. I recommend every young person to join."
+    "opportunities": {
+      "title": "Volunteer Opportunities",
+      "community": "Community Service",
+      "community_desc": "Help organize and participate in local community service projects",
+      "mentorship": "Mentorship",
+      "mentorship_desc": "Guide and support youth in their personal and professional development",
+      "global": "Global Initiatives",
+      "global_desc": "Contribute to international youth empowerment programs",
+      "flexible": "Flexible"
+    },
+    "requirements": {
+      "title": "Requirements",
+      "age": "Must be 18 years or older",
+      "commitment": "Minimum 3-month commitment",
+      "language": "Proficiency in English",
+      "training": "Attend required training sessions"
+    },
+    "contact": {
+      "title": "Contact Information"
+    },
+    "note": "All volunteer applications are reviewed within 5-7 business days. We'll contact you to discuss the next steps.",
+    "success": {
+      "title": "Application Submitted!",
+      "message": "Thank you for your interest in volunteering with us. We'll review your application and contact you soon."
+    },
+    "errors": {
+      "name": "Name is required",
+      "email": "Email is required",
+      "emailInvalid": "Email is invalid",
+      "phone": "Phone number is required",
+      "interests": "Please select at least one area of interest",
+      "availability": "Please select your availability",
+      "message": "Please tell us why you want to volunteer",
+      "general": "An error occurred. Please try again later."
+    },
+    "commitment": "Time Commitment"
+  },
+  "donate": {
+    "title": "Support Our Mission",
+    "subtitle": "Your contribution helps empower youth globally",
+    "description": "Make a difference by supporting our youth empowerment initiatives",
+    "select_amount": "Select Amount",
+    "custom_amount": "Custom Amount",
+    "enter_amount": "Enter amount",
+    "frequency": "Donation Frequency",
+    "one_time": "One-time",
+    "monthly": "Monthly",
+    "submit": "Donate Now",
+    "processing": "Processing...",
+    "secure_payment": "Secure payment powered by Stripe",
+    "tax_deductible": "All donations are tax-deductible to the extent allowed by law.",
+    "form": {
+      "title": "Make a Donation",
+      "name": "Full Name",
+      "name_placeholder": "Enter your full name",
+      "email": "Email Address",
+      "email_placeholder": "your@email.com",
+      "message": "Message (Optional)",
+      "message_placeholder": "Tell us why you're supporting our cause..."
+    },
+    "success": {
+      "title": "Thank You for Your Donation!",
+      "message": "Your contribution will help us continue our mission of empowering youth worldwide."
+    },
+    "errors": {
+      "amount": "Please select or enter a valid amount",
+      "name": "Name is required",
+      "email": "Email is required",
+      "emailInvalid": "Email is invalid",
+      "general": "An error occurred. Please try again later."
+    },
+    "impact": {
+      "title": "Your Impact",
+      "education": {
+        "title": "Education",
+        "description": "Support educational programs and workshops for underprivileged youth"
+      },
+      "mentorship": {
+        "title": "Mentorship",
+        "description": "Help provide mentorship opportunities for young leaders"
+      },
+      "resources": {
+        "title": "Resources",
+        "description": "Fund essential resources and tools for youth development"
+      }
+    },
+    "transparency": {
+      "title": "Transparency",
+      "description": "We are committed to transparency in how we use your donations. Regular reports and updates are provided to our donors.",
+      "thank_you": "Thank you for your support!"
     }
   },
   "join": {
     "heading": "Join Our Mission",
     "subheading": "Be part of something bigger",
     "button": "Get Involved",
-    "badge": "Join our global Shababna family",
+    "badge": "Join our global family",
     "title": "Join Us",
     "description": "Join our global community of creative and impactful youth",
     "form": {
@@ -198,7 +465,7 @@
       "emailPlaceholder": "your@email.com",
       "phone": "Phone Number",
       "phonePlaceholder": "+1 XXX XXX XXXX",
-      "motivation": "Why do you want to join Shababna?",
+      "motivation": "Why do you want to join?",
       "motivationPlaceholder": "Share your story and motivation to join our global youth organization...",
       "submit": "Join Now",
       "submitting": "Submitting...",
@@ -219,111 +486,10 @@
       "item4": "Certified volunteer certificates"
     },
     "success": {
-      "title": "Welcome to Shababna!",
+      "title": "Welcome!",
       "message": "Your application has been submitted successfully. We'll contact you soon to complete the joining process.",
       "redirect": "You will be redirected to the homepage in 3 seconds..."
     }
-  },
-  "faq": {
-    "heading": "Frequently Asked Questions",
-    "faq1": {
-      "question": "What is Shababna?",
-      "answer": "Shababna is a youth empowerment platform..."
-    },
-    "faq2": {
-      "question": "How can I volunteer?",
-      "answer": "Sign up using the form on our website..."
-    },
-    "subheading": "Most common questions about Shababna and our services.",
-    "title": "Frequently Asked Questions",
-    "subtitle": "Answers to common questions about our organization",
-    "search_placeholder": "Search questions...",
-    "no_results": "No questions found matching your criteria",
-    "reset_search": "Reset Search",
-    "still_have_questions": "Still have questions?",
-    "contact_description": "Can't find the answer you're looking for? Please contact our support team.",
-    "contact_us": "Contact Us"
-  },
-  "newsletter": {
-    "heading": "Subscribe to Our Newsletter",
-    "subheading": "Get the latest updates and resources",
-    "placeholder": "Enter your email address",
-    "button": "Subscribe",
-    "errorInvalid": "Please enter a valid email address.",
-    "success": "Thank you for subscribing!",
-    "privacy": "We respect your privacy and will never spam you."
-  },
-  "footer": {
-    "copy": "© 2025 Shababna. All rights reserved.",
-    "lang_ar": "العربية",
-    "lang_en": "English",
-    "lang_tr": "Türkçe",
-    "selectLanguage": "Select language",
-    "about_us": "About Us",
-    "mission": "Our Mission",
-    "team": "Team",
-    "impact": "Impact",
-    "partners": "Partners",
-    "get_involved": "Get Involved",
-    "volunteer": "Volunteer",
-    "donate": "Donate",
-    "events": "Events",
-    "projects": "Projects",
-    "resources": "Resources",
-    "blog": "Blog",
-    "press": "Press",
-    "reports": "Reports",
-    "faq": "FAQ",
-    "privacy": "Privacy Policy",
-    "terms": "Terms & Conditions",
-    "about": "About Us",
-    "whoWeAre": "Who We Are",
-    "contact": "Contact Us",
-    "join": "Join Us"
-  },
-  "why_us": {
-    "title": "Why Us?",
-    "subtitle": "Discover why youth around the world choose us and why we are the best option for developing their abilities and achieving their dreams.",
-    "experience": {
-      "title": "Experience & Professionalism",
-      "description": "Years of accumulated experience in empowering youth and developing their capabilities in various fields."
-    },
-    "community": {
-      "title": "Community & Network",
-      "description": "A diverse and supportive global community of thousands of ambitious youth from around the world."
-    },
-    "impact": {
-      "title": "Real Impact",
-      "description": "We create a positive and sustainable impact on the lives of youth and local and global communities."
-    },
-    "innovation": {
-      "title": "Innovation & Development",
-      "description": "We adopt the latest innovative methods and technologies to ensure a distinguished and effective educational experience."
-    },
-    "reliability": {
-      "title": "Reliability & Quality",
-      "description": "We adhere to the highest standards of quality and professionalism to ensure the achievement of desired results and exceed participants' expectations."
-    },
-    "growth": {
-      "title": "Continuous Growth",
-      "description": "We are witnessing accelerated growth in the number of participants and projects, reflecting the international community's confidence in our services."
-    },
-    "learn_more": "Learn More"
-  },
-  "error": {
-    "title": "Sorry, an error occurred",
-    "description": "We apologize for the inconvenience. Our technical team is working to resolve this issue.",
-    "errorId": "Error ID",
-    "technicalDetails": "Technical Details",
-    "retry": "Try Again",
-    "goHome": "Go to Homepage",
-    "report": "Report Error",
-    "support": "If the problem persists, please contact our technical support team"
-  },
-  "loading": {
-    "page": "Loading page...",
-    "content": "Loading...",
-    "please_wait": "Please wait..."
   },
   "about": {
     "title": "About Us",
@@ -392,54 +558,66 @@
       "countries": "Countries",
       "projects": "Projects",
       "beneficiaries": "Beneficiaries"
+    },
+    "team": {
+      "title": "Our Team",
+      "description": "Meet the dedicated individuals behind our mission",
+      "role1": "Executive Director",
+      "role2": "Programs Director",
+      "role3": "Community Impact Lead",
+      "bio1": "Passionate about youth empowerment and community development.",
+      "bio2": "Dedicated to creating innovative programs that transform lives.",
+      "bio3": "Committed to building bridges between diverse communities."
     }
   },
-  "contact": {
-    "title": "Contact Us",
-    "subtitle": "We are here to answer your inquiries and help you",
-    "description": "Get in touch with us for any inquiries or collaboration opportunities",
-    "info": {
-      "title": "Contact Information",
-      "phone": "Phone",
-      "email": "Email",
-      "address": "Address",
-      "address.details": "Main Street, City, Country",
-      "hours": "Working Hours",
-      "hours.details": "Saturday - Thursday: 9:00 AM - 5:00 PM"
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about our organization",
+    "search_placeholder": "Search questions...",
+    "no_results": "No questions found matching your criteria",
+    "reset_search": "Reset Search",
+    "still_have_questions": "Still have questions?",
+    "contact_description": "Can't find the answer you're looking for? Please contact our support team.",
+    "contact_us": "Contact Us",
+    "view_all": "View All FAQs",
+    "faq1": {
+      "question": "What is Global Youth Organization?",
+      "answer": "Global Youth Organization is a non-profit dedicated to empowering youth through education, leadership development, and community engagement programs worldwide."
     },
-    "form": {
-      "title": "Send us a Message",
-      "name": "Name",
-      "namePlaceholder": "Your full name",
-      "email": "Email",
-      "emailPlaceholder": "your@email.com",
-      "subject": "Subject",
-      "message": "Message",
-      "messagePlaceholder": "Your message...",
-      "submit": "Send Message",
-      "sending": "Sending...",
-      "success": {
-        "title": "Message Sent!",
-        "message": "Thank you for contacting us. We will get back to you soon."
-      },
-      "errors": {
-        "name": "Name is required",
-        "email": "Email is required",
-        "emailInvalid": "Email is invalid",
-        "content": "Message is required",
-        "general": "An error occurred. Please try again later."
-      }
-    },
-    "map": {
-      "title": "Our Location"
-    },
-    "hours": {
-      "title": "Business Hours",
-      "weekdays": "Monday - Friday",
-      "saturday": "Saturday",
-      "sunday": "Sunday",
-      "closed": "Closed"
+    "faq2": {
+      "question": "How can I get involved?",
+      "answer": "You can get involved by volunteering, participating in our events, donating to support our programs, or applying to join our leadership initiatives."
     }
+  },
+  "newsletter": {
+    "heading": "Subscribe to Our Newsletter",
+    "subheading": "Get the latest updates and resources",
+    "placeholder": "Enter your email address",
+    "button": "Subscribe",
+    "errorInvalid": "Please enter a valid email address.",
+    "success": "Thank you for subscribing!",
+    "privacy": "We respect your privacy and will never spam you."
+  },
+  "partners": {
+    "title": "Our Partners",
+    "subtitle": "Working with leading organizations to create global impact",
+    "countries": "Countries",
+    "projects": "Joint Projects",
+    "view_projects": "View Projects",
+    "become_partner": "Become a Partner",
+    "become_partner_desc": "Join our global network of organizations committed to youth empowerment",
+    "contact_us": "Contact Us"
+  },
+  "login": {
+    "title": "Login",
+    "description": "Access to the dashboard",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Login",
+    "credentials": "Login credentials:",
+    "back": "Back to Homepage",
+    "hidePassword": "Hide password",
+    "showPassword": "Show password"
   },
   "project": {
     "not_found": "Project not found",
@@ -453,159 +631,25 @@
     "learn_more": "Learn More",
     "gallery": "Gallery",
     "team": "Team",
-    "share": "Share Project"
-  },
-  "volunteer": {
-    "title": "Volunteer With Us",
-    "description": "Join our global community of volunteers and make a difference",
-    "subtitle": "Join our community of passionate volunteers making a difference globally",
-    "form": {
-      "name": "Full Name",
-      "email": "Email",
-      "phone": "Phone Number",
-      "interests": "Areas of Interest",
-      "availability": "Availability",
-      "select_availability": "Select availability",
-      "weekdays": "Weekdays",
-      "weekends": "Weekends",
-      "flexible": "Flexible",
-      "experience": "Relevant Experience",
-      "message": "Why do you want to volunteer?",
-      "submit": "Submit Application"
-    },
-    "opportunities": {
-      "title": "Volunteer Opportunities"
-    },
-    "commitment": "Time Commitment",
-    "requirements": {
-      "title": "Requirements",
-      "age": "Must be 18 years or older",
-      "commitment": "Minimum 3-month commitment",
-      "language": "Proficiency in English",
-      "training": "Attend required training sessions"
-    },
-    "contact": {
-      "title": "Contact Information"
-    }
-  },
-  "donate": {
-    "title": "Support Our Mission",
-    "subtitle": "Your contribution helps empower youth globally",
-    "description": "Make a difference by supporting our youth empowerment initiatives",
-    "select_amount": "Select Amount",
-    "custom_amount": "Custom Amount",
-    "enter_amount": "Enter amount",
-    "frequency": "Donation Frequency",
-    "one_time": "One-time",
-    "monthly": "Monthly",
-    "submit": "Donate Now",
-    "secure_payment": "Secure payment powered by Stripe",
-    "impact": {
-      "title": "Your Impact",
-      "education": {
-        "title": "Education",
-        "description": "Support educational programs and workshops for underprivileged youth"
-      },
-      "mentorship": {
-        "title": "Mentorship",
-        "description": "Help provide mentorship opportunities for young leaders"
-      },
-      "resources": {
-        "title": "Resources",
-        "description": "Fund essential resources and tools for youth development"
-      }
-    },
-    "transparency": {
-      "title": "Transparency",
-      "description": "We are committed to transparency in how we use your donations. Regular reports and updates are provided to our donors.",
-      "thank_you": "Thank you for your support!"
-    }
-  },
-  "blog": {
-    "title": "Blog",
-    "subtitle": "Stories and updates from our global community",
-    "description": "Latest news, stories and updates from our community",
-    "coming_soon": "Blog posts coming soon!"
-  },
-  "press": {
-    "title": "Press Releases",
-    "subtitle": "Stay updated with our latest announcements and media coverage",
-    "description": "Latest news and updates from Global Youth Organization",
-    "download_pdf": "Download PDF",
-    "read_more": "Read More",
-    "contact": {
-      "title": "Media Inquiries",
-      "description": "For press inquiries and interview requests, please contact our media relations team",
-      "button": "Contact Media Relations"
-    }
-  },
-  "privacy": {
-    "title": "Privacy Policy",
-    "subtitle": "Your privacy is important to us. This policy outlines how we collect, use, and protect your data.",
-    "description": "Learn about how we protect your privacy and handle your data"
-  },
-  "terms": {
-    "title": "Terms of Service",
-    "subtitle": "Please read these terms carefully before using our services",
-    "description": "Read our terms of service and user agreement"
-  },
-  "reports": {
-    "title": "Annual Reports",
-    "subtitle": "Transparency and accountability in our operations",
-    "description": "Access our annual reports, financial statements, and impact assessments",
-    "all_years": "All Years",
-    "download_pdf": "Download PDF",
-    "view_online": "View Online",
-    "no_reports": "No reports found for the selected year",
-    "show_all": "Show All Reports"
-  },
-  "common": {
-    "error": "An error occurred",
-    "saving": "Saving...",
-    "save": "Save",
-    "loading": "Loading...",
-    "retry": "Retry",
-    "readMore": "Read More",
-    "learnMore": "Learn More",
-    "contactUs": "Contact Us",
-    "joinUs": "Join Us",
-    "donate": "Donate",
-    "volunteer": "Volunteer",
-    "subscribe": "Subscribe",
-    "followUs": "Follow Us",
-    "menu": "Menu",
-    "close": "Close",
-    "search": "Search",
-    "language": "Language"
-  },
-  "login": {
-    "title": "Login",
-    "description": "Access to the dashboard",
-    "email": "Email",
-    "password": "Password",
-    "submit": "Login",
-    "credentials": "Login credentials:",
-    "back": "Back to Homepage",
-    "hidePassword": "Hide password",
-    "showPassword": "Show password"
-  },
-  "cta": {
-    "buttons": {
-      "contact": "Contact Us",
-      "projects": "Our Projects",
-      "join": "Join Us",
-      "donate": "Donate Now",
-      "learn": "Learn More"
-    },
-    "headline": "Join Our Mission",
-    "subheadline": "Be part of positive change",
-    "button": "Get Involved",
-    "title": "Join Our Community",
-    "subtitle": "Be part of positive change",
-    "joinButton": "Join Us",
-    "contactButton": "Contact Us"
+    "share": "Share Project",
+    "related": "Related Projects",
+    "link_copied": "Link copied to clipboard!"
   },
   "admin": {
+    "dashboard": {
+      "title": "Dashboard",
+      "welcome": "Welcome to the admin dashboard",
+      "totalUsers": "Total Users",
+      "activeProjects": "Active Projects",
+      "events": "Events",
+      "pendingRegistrations": "Pending Registrations",
+      "visitorStats": "Visitor Statistics",
+      "projectCategories": "Project Categories",
+      "visitors": "Visitors",
+      "projects": "Projects",
+      "recentUsers": "Recent Users",
+      "upcomingEvents": "Upcoming Events"
+    },
     "users": {
       "management": "User Management",
       "description": "View and manage user accounts",
@@ -631,6 +675,86 @@
       "statusUpdated": "User status updated",
       "deleted": "User deleted",
       "confirmDelete": "Are you sure you want to delete this user?"
-    }
+    },
+    "members": {
+      "title": "Member Management",
+      "description": "View and manage membership applications and current members",
+      "list": "Members List",
+      "searchPlaceholder": "Search by name or email...",
+      "allStatuses": "All Statuses",
+      "name": "Name",
+      "email": "Email",
+      "status": "Status",
+      "joinDate": "Join Date",
+      "actions": "Actions",
+      "view": "View",
+      "approve": "Approve Member",
+      "reject": "Reject Member",
+      "delete": "Delete Member",
+      "confirmDelete": "Are you sure you want to delete this member?",
+      "backToList": "Back to Members List",
+      "motivation": "Joining Motivation",
+      "noMotivation": "No motivation provided",
+      "details": "Additional Details",
+      "joinedOn": "Registration date",
+      "totalCount": "Total: {{count}} member",
+      "noMembers": "No members",
+      "noResults": "No matching results",
+      "empty": "No members yet",
+      "previous": "Previous",
+      "next": "Next",
+      "pagination": "Page {{current}} of {{total}}",
+      "clearFilters": "Clear Filters",
+      "loadError": "Error loading members",
+      "retry": "Try Again",
+      "approved": "Member approved successfully",
+      "rejected": "Member rejected successfully",
+      "deleted": "Member deleted successfully",
+      "updateError": "Failed to update member status",
+      "deleteError": "Failed to delete member",
+      "backToDashboard": "Back to Dashboard",
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      }
+    },
+    "events": {
+      "title": "Title",
+      "date": "Date",
+      "location": "Location",
+      "participants": "Participants",
+      "actions": "Actions"
+    },
+    "view": "View",
+    "edit": "Edit",
+    "viewAll": "View All"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "programs": "Programs",
+    "projects": "Projects",
+    "events": "Events",
+    "users": "Users",
+    "messages": "Messages",
+    "settings": "Settings",
+    "general": "General",
+    "appearance": "Appearance",
+    "logout": "Logout",
+    "toggle": "Toggle Sidebar"
+  },
+  "error": {
+    "title": "Sorry, an error occurred",
+    "description": "We apologize for the inconvenience. Our technical team is working to resolve this issue.",
+    "errorId": "Error ID",
+    "technicalDetails": "Technical Details",
+    "retry": "Try Again",
+    "goHome": "Go to Homepage",
+    "report": "Report Error",
+    "support": "If the problem persists, please contact our technical support team"
+  },
+  "notFound": {
+    "message": "Page not found",
+    "backHome": "Back to Home"
   }
 }

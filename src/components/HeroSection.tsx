@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Play } from 'lucide-react'
+import { ArrowRight, Play } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export default function HeroSection() {
@@ -109,9 +109,9 @@ export default function HeroSection() {
                 className="btn-primary group bg-secondary hover:bg-secondary-600 text-white font-tajawal font-bold px-8 py-4 rounded-xl shadow-lg transition-all duration-300 flex items-center gap-3 hover:shadow-xl hover:shadow-secondary/20"
               >
                 {t('hero.button')}
-                <ArrowLeft
-                  className={`w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1 ${
-                    isRTL ? 'rotate-180 group-hover:translate-x-1' : ''
+                <ArrowRight
+                  className={`w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 ${
+                    isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''
                   }`}
                 />
               </motion.button>

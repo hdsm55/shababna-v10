@@ -1,3 +1,4 @@
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Calendar, ArrowRight, Users, Globe, Award, Heart, Target, Shield } from 'lucide-react'

@@ -1,3 +1,4 @@
+import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
@@ -75,6 +76,7 @@ export default function ProjectDetails() {
         })
       }
     } catch (error) {
+      console.error('Error sharing project:', error);
       logger.error('Project share failed', {
         tags: ['projects', 'share', 'error'],
         metadata: { error, projectId: project?.id }
@@ -85,10 +87,13 @@ export default function ProjectDetails() {
   if (!project) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-600 to-primary-800">
-        <div className="text-center">
+        <div className="text-center p-8 max-w-md bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
           <h1 className="text-2xl font-tajawal font-bold text-white mb-4">
             {t('project.not_found')}
           </h1>
+          <p className="text-white/80 mb-6 font-almarai">
+            The project you're looking for could not be found or may have been removed.
+          </p>
           <button
             onClick={() => navigate('/projects')}
             className="bg-secondary-400 hover:bg-secondary-500 text-black px-6 py-3 rounded-xl font-almarai font-semibold transition-all duration-300"
@@ -374,7 +379,7 @@ export default function ProjectDetails() {
                 className="text-secondary-400 hover:text-secondary-300 font-almarai font-medium inline-flex items-center gap-2"
               >
                 {t('projects.viewAll')}
-                <ArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
+                <ArrowLeft className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
               </motion.button>
             </div>
           </motion.div>

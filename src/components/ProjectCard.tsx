@@ -1,101 +1,132 @@
-import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
-import { Calendar, ArrowRight, Tag, Clock, CheckCircle } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Calendar, Tag, CheckCircle, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { cn } from '../utils/cn';
 
 interface ProjectCardProps {
-  id: string
-  title: string
-  description: string
-  imageUrl?: string
-  year?: string
-  category?: string
-  status?: string
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  category?: string;
+  status?: string;
+  year?: string;
+  className?: string;
 }
 
-export default function ProjectCard({
+const ProjectCard: React.FC<ProjectCardProps> = ({
   id,
   title,
   description,
-  imageUrl = 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
-  year,
+  imageUrl,
   category,
-  status
-}: ProjectCardProps) {
-  const { i18n } = useTranslation()
-  const isRTL = i18n.dir() === 'rtl'
+  status,
+  year,
+  className
+}) => {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.dir() === 'rtl';
+
+  // Get status icon
+  const getStatusIcon = () => {
+    switch (status) {
+      case 'active':
+        return <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>;
+      case 'completed':
+        return <CheckCircle className="w-4 h-4 text-green-400" />;
+      case 'planning':
+        return <Clock className="w-4 h-4 text-yellow-400" />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <motion.div
-      whileHover={{ y: -5, transition: { duration: 0.2 } }}
-      className="h-full"
+      whileHover={{ y: -10, scale: 1.02 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+      className={cn("overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 h-full bg-white", className)}
     >
-      <div className="card card-hover h-full flex flex-col overflow-hidden">
-        {imageUrl && (
-          <div className="h-48 -mx-6 -mt-6 mb-4 overflow-hidden relative">
-            <img
-              src={imageUrl}
-              alt={title}
-              className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-              loading="lazy"
-              width="400"
-              height="300"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-            
-            {/* Status Badge */}
-            {status && (
-              <div className="absolute top-3 left-3">
-                <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-white/20 backdrop-blur-sm text-white border border-white/30">
-                  {status === 'active' && (
-                    <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse mr-1" />
-                  )}
-                  {status === 'completed' && (
-                    <CheckCircle className="w-3 h-3 text-green-400 mr-1" />
-                  )}
-                  {status === 'planning' && (
-                    <Clock className="w-3 h-3 text-yellow-400 mr-1" />
-                  )}
-                  <span className="font-almarai">{status}</span>
-                </div>
-              </div>
-            )}
-            
-            {/* Category Badge */}
-            {category && (
-              <div className="absolute top-3 right-3">
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-white/20 backdrop-blur-sm text-white border border-white/30">
-                  <Tag className="w-3 h-3 mr-1" />
-                  <span className="font-almarai">{category}</span>
+      <Link to={`/projects/${id}`} className="block h-full">
+        <div className="relative h-48 overflow-hidden">
+          <img
+            src={imageUrl || 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg'}
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          
+          {/* Status Badge */}
+          {status && (
+            <div className="absolute top-4 left-4">
+              <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/20 backdrop-blur-sm text-white border border-white/30">
+                {getStatusIcon()}
+                <span className="font-almarai">
+                  {t(`projects.statuses.${status}`)}
                 </span>
               </div>
-            )}
-          </div>
-        )}
-        
-        <div className="flex-1 px-1">
-          <h3 className="text-xl font-semibold text-primary mb-2 line-clamp-2 font-tajawal">{title}</h3>
-          
-          <p className="text-gray-600 mb-4 line-clamp-3 text-sm font-almarai">{description}</p>
-        </div>
-        
-        <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-100">
-          {year && (
-            <div className="flex items-center text-gray-500 text-sm font-almarai">
-              <Calendar className="w-4 h-4 mr-1" aria-hidden="true" />
-              <span>{year}</span>
             </div>
           )}
           
-          <Link
-            to={`/projects/${id}`}
-            className="inline-flex items-center text-accent hover:text-accent-hover font-medium transition-colors font-almarai group"
-          >
-            <span className="mr-1">اعرف المزيد</span>
-            <ArrowRight className={`w-4 h-4 transition-transform ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} aria-hidden="true" />
-          </Link>
+          {/* Category Badge */}
+          {category && (
+            <div className="absolute top-4 right-4">
+              <div className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/20 text-white border border-white/30 backdrop-blur-sm flex items-center gap-1">
+                <Tag className="w-3 h-3" />
+                <span className="font-almarai">
+                  {t(`projects.categories.${category}`)}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
+        
+        <div className="p-6">
+          <h3 className="text-xl font-semibold text-gray-900 mb-2 font-tajawal line-clamp-2">
+            {title}
+          </h3>
+          
+          <p className="text-gray-600 mb-4 font-almarai line-clamp-3">
+            {description}
+          </p>
+          
+          <div className="flex items-center justify-between">
+            {year && (
+              <div className="flex items-center gap-2 text-gray-500 text-sm font-almarai">
+                <Calendar className="w-4 h-4 text-primary" />
+                <span>{year}</span>
+              </div>
+            )}
+            
+            <div className="flex items-center gap-2 text-primary font-medium font-almarai">
+              {t('projects.learnMore')}
+              <motion.span
+                animate={{ x: isRTL ? [-3, 0, -3] : [0, 3, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                <svg
+                  className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </motion.span>
+            </div>
+          </div>
+        </div>
+      </Link>
     </motion.div>
   );
-}
+};
+
+export default ProjectCard;
